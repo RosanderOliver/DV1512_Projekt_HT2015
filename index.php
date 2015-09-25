@@ -1,8 +1,12 @@
 <html>
 <head>
-  <title>Startsida</title>
+  <title>Hejsan</title>
 </head>
 <body>
+
+  <p>
+    Lämna in examensarbetet genom att logga in.</br>
+  </p>
 
 <form action="#" method="post">
   Username: <input type="text" name="username"></br>
