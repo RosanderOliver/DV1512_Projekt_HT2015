@@ -15,7 +15,7 @@
   <input type="submit" value="Login">
 </form>
 
-<p>&copy; Projektgrupp X</p>
+<p>&copy; 2015 Projektgrupp X</p>
 
 </body>
 </html>
