@@ -10,8 +10,8 @@
   </p>
 
 <form action="#" method="post">
-  Username: <input type="text" name="username" value="Username"></br>
-  Password: <input type="password" name="psw" value="Password"></br>
+  Username: <input type="text" name="username"></br>
+  Password: <input type="password" name="psw"></br>
   <input type="submit" value="Login">
 </form>
 
