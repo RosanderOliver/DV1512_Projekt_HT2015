@@ -1,2 +1,8 @@
+<<<<<<< HEAD
 ändringar
 mer ändringar
+=======
+detta är en ny fil.
+
+Nej, det är en gammal.
+>>>>>>> 216534a81e430356205c34c74dee755c76f0d21c
