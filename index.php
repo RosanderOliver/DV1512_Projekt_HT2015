@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>StartsidaTEST</title>
+  <title>Startsida</title>
 </head>
 <link rel="stylesheet" href="css/stilmall.css" type="text/css" />
 <body>
@@ -15,7 +15,7 @@
   <input type="submit" value="Login">
 </form>
 
-<p>&copy; Projektgrupp X</p>
+<p>&copy; 2015 Projektgrupp X</p>
 
 </body>
 </html>
