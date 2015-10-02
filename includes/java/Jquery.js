@@ -1,0 +1,6 @@
+/*
+  Jquery file
+
+  Used for Jquery scripts
+
+*/
