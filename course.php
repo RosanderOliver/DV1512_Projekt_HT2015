@@ -40,7 +40,7 @@ $username = $_SESSION['username'];
               <td><b>Version</b></td>
               <td><b>File</b></td>
               <td><b>Grade</b></td>
-              <td><b>Comment</b></td>
+              <td><b>Comment</b></td> 
               <td><b>Deadline</b></td>
             </tr>
             <tr>
