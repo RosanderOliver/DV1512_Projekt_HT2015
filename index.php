@@ -9,8 +9,12 @@
     Submit your thesis here.</br>
   </p>
 
-<form action="#" method="post">
-  Username: <input type="text" name="username"></br>
+<form action="./overview.php" method="post">
+  Uername:
+  <select name="name">
+    <option value="admin">Admin</option>
+    <option value="user">User</option>
+  </select></br>
   Password: <input type="password" name="psw"></br>
   <input type="submit" value="Login">
 </form>
