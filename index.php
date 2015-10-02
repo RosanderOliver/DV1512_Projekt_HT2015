@@ -1,3 +1,14 @@
+<?php
+
+  // Index file
+  // Here we define variables used for database authentication
+
+  // Set site variable
+  define(IN_PR, TRUE);
+
+
+?>
+
 <html>
 <head>
   <title>Startsida</title>
