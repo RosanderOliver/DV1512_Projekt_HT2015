@@ -48,17 +48,31 @@ $username = $_SESSION['username'];
 
           <div style="float:left; width:100%; height:300px; border:2px solid; margin:10px 10px 10px 0px">
             <p>Course: BLABLA</p>
-            <table style="width:100%;">
+            <table style="width:100%; ">
               <tr>
-                <td>Course</td>
-                <td>Student</td>
-                <td>Reviewed</td>
-                <td>Other</td>
-                <td>Review</td>
+                <td><b>Course</b></td>
+                <td><b>Student</b></td>
+                <td><b>Reviewed</b></td>
+                <td><b>Other</b></td>
+                <td><b>Review</b></td>
+              </tr>
+              <tr style="background-color: rgba(0, 0, 0, 0.14);">
+                <td>Example Course</td>
+                <td>Example Student</td>
+                <td>No</td>
+                <td>Someting something..</td>
+                <td><a href="./review.php">Edit</a></td>
               </tr>
               <tr>
                 <td>Example Course</td>
-                <td>Example Student</td>
+                <td>Example Student x2</td>
+                <td>Yes</td>
+                <td>Someting something..</td>
+                <td><a href="./review.php">Edit</a></td>
+              </tr>
+              <tr style="background-color: rgba(0, 0, 0, 0.14);">
+                <td>Example Course</td>
+                <td>Example Student x3</td>
                 <td>No</td>
                 <td>Someting something..</td>
                 <td><a href="./review.php">Edit</a></td>
