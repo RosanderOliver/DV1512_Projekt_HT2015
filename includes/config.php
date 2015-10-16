@@ -65,7 +65,7 @@ define("COOKIE_SECRET_KEY", "lk@hfsd]786@9d3NJ9{80ssfJ9");
  *
  */
 define("EMAIL_USE_SMTP", false);
-define("EMAIL_SMTP_HOST", "yourhost");
+define("EMAIL_SMTP_HOST", "sendgrid.");
 define("EMAIL_SMTP_AUTH", true);
 define("EMAIL_SMTP_USERNAME", "yourusername");
 define("EMAIL_SMTP_PASSWORD", "yourpassword");
