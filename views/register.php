@@ -1,4 +1,3 @@
-<?php include('_header.php'); ?>
 
 <!-- show registration form, but only if we didn't submit already -->
 <?php if (!$registration->registration_successful && !$registration->verification_successful) { ?>
@@ -15,7 +14,7 @@
     <label for="user_password_repeat"><?php echo WORDING_REGISTRATION_PASSWORD_REPEAT; ?></label>
     <input id="user_password_repeat" type="password" name="user_password_repeat" pattern=".{6,}" required autocomplete="off" />
 
-    <img src="tools/showCaptcha.php" alt="captcha" />
+    <img src="includes/tools/showCaptcha.php" alt="captcha" />
 
     <label><?php echo WORDING_REGISTRATION_CAPTCHA; ?></label>
     <input type="text" name="captcha" required />
@@ -25,5 +24,3 @@
 <?php } ?>
 
     <a href="index.php"><?php echo WORDING_BACK_TO_LOGIN; ?></a>
-
-<?php include('_footer.php'); ?>

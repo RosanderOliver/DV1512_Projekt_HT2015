@@ -14,8 +14,8 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 // include the config
 require_once('includes/config.php');
 
-// include the to-be-used language, english by default. feel free to translate your project and include something else
-require_once('includes/translations/en.php');
+// include the to-be-used language, english by default
+include_once('includes/translations/en.php');
 
 // include the PHPMailer library
 require_once('includes/libraries/PHPMailer.php');
@@ -28,4 +28,4 @@ require_once('includes/classes/Registration.php');
 $registration = new Registration();
 
 // showing the register view (with the registration form, and messages/errors)
-include("content/register.php");
+include("views/register.php");
