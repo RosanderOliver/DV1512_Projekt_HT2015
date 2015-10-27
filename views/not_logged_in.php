@@ -1,3 +1,8 @@
+<?php
+
+  if (!defined("IN_EXM")) exit(1);
+
+?>
 
 <form method="post" action="index.php" name="loginform">
     <label for="user_name"><?php echo WORDING_USERNAME; ?></label>

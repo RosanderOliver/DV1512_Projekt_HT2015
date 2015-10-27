@@ -1,3 +1,11 @@
+<?php
+
+  if (!defined("IN_EXM")) exit(1);
+
+  if ($login->isUserLoggedIn() === false) exit(1);
+
+?>
+
 <!-- clean separation of HTML and PHP -->
 <h2><?php echo htmlspecialchars($_SESSION['user_name']); ?> <?php echo WORDING_EDIT_YOUR_CREDENTIALS; ?></h2>
 

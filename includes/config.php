@@ -1,7 +1,7 @@
 <?php
 
 // Don't access this script alone
-if (!defined('IN_PR')) exit;
+if (!defined('IN_EXM')) exit;
 
 /**
  * Configuration for: Database Connection

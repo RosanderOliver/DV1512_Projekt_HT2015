@@ -1,3 +1,10 @@
+<?php
+
+  if (!defined("IN_EXM")) exit(1);
+
+  if ($login->isUserLoggedIn() === false) exit(1);
+
+?>
 
 <?php
 // if you need the user's information, just put them into the $_SESSION variable and output them here

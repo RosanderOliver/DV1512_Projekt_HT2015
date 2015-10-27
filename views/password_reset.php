@@ -1,3 +1,8 @@
+<?php
+
+  if (!defined("IN_EXM")) exit(1);
+
+?>
 
 <?php if ($login->passwordResetLinkIsValid() == true) { ?>
 <form method="post" action="password_reset.php" name="new_password_form">

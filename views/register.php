@@ -1,3 +1,8 @@
+<?php
+
+  if (!defined("IN_EXM")) exit(1);
+
+?>
 
 <!-- show registration form, but only if we didn't submit already -->
 <?php if (!$registration->registration_successful && !$registration->verification_successful) { ?>
