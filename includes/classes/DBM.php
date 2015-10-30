@@ -82,5 +82,3 @@ class DBM {
     $this->con->select_db( $db );
   }
 }
-
- ?>
