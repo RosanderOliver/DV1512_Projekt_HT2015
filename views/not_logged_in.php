@@ -1,6 +1,6 @@
 <?php
 
-  if (!defined("IN_EXM")) exit(1);
+if (!defined("IN_EXM")) exit(1);
 
 ?>
 
