@@ -47,7 +47,7 @@ if ($login->isUserLoggedIn() === true) {
     exit;
 
 } else {
-print_r($_SESSION);
+
     // Include header
     include_once('includes/header.php');
 
@@ -55,12 +55,10 @@ print_r($_SESSION);
       include("views/login.php");
     else if (!in_array($_GET['view'], $views))
       include("views/login.php");
-    else if ($_GET['view'] === 'password_reset')
-      include("views/password_reset.php");
-    else if ($_GET['view'] === 'register') {
-      include("views/register.php");
-    }
+    else
+      include("views/$_GET[view].php");
 
     // Include footer
     include_once('includes/footer.php');
+    
 }

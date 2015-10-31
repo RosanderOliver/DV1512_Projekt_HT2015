@@ -32,7 +32,8 @@ $dbm->setDB(DB_NAME);
 $views = [
   'course',
   'overview',
-  'settings'
+  'settings',
+  'edit'
 ];
 
 /*
@@ -49,8 +50,8 @@ if ($login->isUserLoggedIn() === true) {
     include('views/overview.php');
   else if (!in_array($_GET['view'], $views))
     include('views/overview.php');
-  else if ($_GET['view'] === 'overview')
-    include('views/overview.php');
+  else
+    include("views/$_GET[view].php");
 
   // Include footer
   include_once('includes/footer.php');

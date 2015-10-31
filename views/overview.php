@@ -11,6 +11,6 @@ echo WORDING_PROFILE_PICTURE . '<br/>' . $login->user_gravatar_image_tag;
 ?>
 
 <div>
-    <a href="index.php?logout"><?php echo WORDING_LOGOUT; ?></a>
-    <a href="views/edit.php"><?php echo WORDING_EDIT_USER_DATA; ?></a>
+    <a href="?logout"><?php echo WORDING_LOGOUT; ?></a>
+    <a href="?view=edit"><?php echo WORDING_EDIT_USER_DATA; ?></a>
 </div>
