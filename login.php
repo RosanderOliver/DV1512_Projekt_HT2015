@@ -30,9 +30,9 @@ $dbm->setDB(DB_NAME);
 
 // Set views
 $views = [
-  'course',
-  'overview',
-  'settings'
+  'login',
+  'password_reset',
+  'register'
 ];
 
 /*
@@ -42,23 +42,25 @@ $views = [
 // Is the user logged in?
 if ($login->isUserLoggedIn() === true) {
 
-  // Include header
-  include_once('includes/header.php');
-
-  if(!isset($_GET['view']))
-    include('views/overview.php');
-  else if (!in_array($_GET['view'], $views))
-    include('views/overview.php');
-  else if ($_GET['view'] === 'overview')
-    include('views/overview.php');
-
-  // Include footer
-  include_once('includes/footer.php');
+    // Redirect to index
+    header('Location: index.php');
+    exit;
 
 } else {
+print_r($_SESSION);
+    // Include header
+    include_once('includes/header.php');
 
-  // Redirect to login page
-  header('Location: login.php');
-  exit;
+    if(!isset($_GET['view']))
+      include("views/login.php");
+    else if (!in_array($_GET['view'], $views))
+      include("views/login.php");
+    else if ($_GET['view'] === 'password_reset')
+      include("views/password_reset.php");
+    else if ($_GET['view'] === 'register') {
+      include("views/register.php");
+    }
 
+    // Include footer
+    include_once('includes/footer.php');
 }

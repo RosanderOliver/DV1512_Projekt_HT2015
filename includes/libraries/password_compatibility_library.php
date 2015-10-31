@@ -37,7 +37,7 @@ if (!defined('PASSWORD_DEFAULT')) {
         switch ($algo) {
             case PASSWORD_BCRYPT:
                 // Note that this is a C constant, but not exposed to PHP, so we don't define it here.
-                $cost = 10;
+                $cost = 8;
                 if (isset($options['cost'])) {
                     $cost = $options['cost'];
                     if ($cost < 4 || $cost > 31) {

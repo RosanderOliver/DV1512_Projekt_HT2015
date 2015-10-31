@@ -18,8 +18,8 @@ if (!defined('IN_EXM')) exit;
  */
 define("DB_HOST", "127.0.0.1");
 define("DB_NAME", "login");
-define("DB_USER", "root");
-define("DB_PASS", "zXcisco5");
+define("DB_USER", "exm");
+define("DB_PASS", "cisco12345");
 
 /**
  * Configuration for: Cookies
