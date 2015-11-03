@@ -33,5 +33,11 @@
     <input type="submit" name="register" value="<?php echo WORDING_REGISTER; ?>" />
 </form>
 <?php } ?>
-
-    <a href="index.php"><?php echo WORDING_BACK_TO_LOGIN; ?></a>
+<?php
+  if ($login->errors != Array())
+    foreach ($login->errors as $key => $value) {
+      echo $value;
+      echo "</br>";
+    }
+?>
+    <a href="?"><?php echo WORDING_BACK_TO_LOGIN; ?></a>
