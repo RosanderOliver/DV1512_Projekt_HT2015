@@ -14,9 +14,6 @@ require_once('includes/libraries/PHPMailer.php');
 // load the login class
 require_once('includes/classes/Login.php');
 
-// load the DBM class
-require_once('includes/classes/DBM.php');
-
 // Include translation
 include_once('includes/translations/en.php');
 
@@ -24,9 +21,16 @@ include_once('includes/translations/en.php');
 // so this single line handles the entire login process.
 $login = new Login();
 
-// Create new dbm
-$dbm = new DBM(DB_USER, DB_PASS, DB_HOST);
-$dbm->setDB(DB_NAME);
+// Create new database handle
+$dbh = null;
+try {
+    // Generate a database connection, using the PDO connector
+    $dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
+} catch (PDOException $e) {
+    // If shit hits the fan
+    echo MESSAGE_DATABASE_ERROR . $e->getMessage();
+    exit;
+}
 
 // Set views
 $views = [
@@ -58,8 +62,9 @@ if ($login->isUserLoggedIn() === true) {
 
 } else {
 
-  // Redirect to login page
-  header('Location: login.php');
+  // Redirect to login
+  //header('Location: login.php');
+  header('Location: /Shibboleth.sso/Login');
   exit;
 
 }
