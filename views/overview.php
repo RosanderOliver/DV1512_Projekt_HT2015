@@ -8,6 +8,11 @@ if ($login->isUserLoggedIn() === false) exit(1);
 echo WORDING_YOU_ARE_LOGGED_IN_AS . htmlspecialchars($_SESSION['user_name']) . "<br />";
 //echo WORDING_PROFILE_PICTURE . '<br/><img src="' . $login->user_gravatar_image_url . '" />;
 echo WORDING_PROFILE_PICTURE . '<br/>' . $login->user_gravatar_image_tag;
+
+$sth = $dbh->prepare("SELECT * FROM groups.student");
+$sth->execute();
+$result = $sth->fetch(PDO::FETCH_OBJ);
+print_r($result);
 ?>
 
 <div>

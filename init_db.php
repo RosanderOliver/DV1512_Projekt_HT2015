@@ -10,17 +10,32 @@
   require_once("includes/config.php");
   require_once("includes/classes/DBM.php");
 
-  // Create new dbm
-  $dbm = new DBM(DB_USER, DB_PASS, DB_HOST);
+  // Create new dbh
+  $dbh = null;
+  try {
+      // Generate a database connection, using the PDO connector
+      $dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
+  } catch (PDOException $e) {
+      // If shit hits the fan
+      echo MESSAGE_DATABASE_ERROR . $e->getMessage();
+      exit;
+  }
 
-  // Create database site
-  $dbm->query("CREATE DATABASE IF NOT EXISTS `site`;");
+  // Create database groups
+  $dbh->exec("CREATE DATABASE IF NOT EXISTS `groups`;")  or die(print_r($dbh->errorInfo(), true));
+
+  // Create table for student group
+  $dbh->exec("CREATE TABLE IF NOT EXISTS `groups`.`student` (
+      `id`                    INT       NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
+      `create_course`         TINYINT   NOT NULL DEFAULT 0 COMMENT 'can the user create new courses',
+      PRIMARY KEY (`id`)
+   ) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='student permissions';") or die(print_r($dbh->errorInfo(), true));
 
   // Create database login
-  $dbm->query("CREATE DATABASE IF NOT EXISTS `login`;");
+  $dbh->exec("CREATE DATABASE IF NOT EXISTS `login`;") or die(print_r($dbh->errorInfo(), true));
 
   // Create table users
-  $dbm->query("CREATE TABLE IF NOT EXISTS `login`.`users` (
+  $dbh->exec("CREATE TABLE IF NOT EXISTS `login`.`users` (
                `user_id`                      int(11) NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing user_id of each user, unique index',
                `user_name`                    varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s name, unique',
                `user_password_hash`           varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s password in salted and hashed format',
@@ -36,6 +51,7 @@
                `user_registration_ip`         varchar(39) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0.0.0.0', PRIMARY KEY (`user_id`),
                UNIQUE KEY `user_name` (`user_name`),
                UNIQUE KEY `user_email` (`user_email`)
-              ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data';");
+              ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data';") or die(print_r($dbh->errorInfo(), true));
 
-  $dbm->query("INSERT INTO `login`.`users` (`user_id`, `user_name`, `user_password_hash`, `user_email`, `user_active`) VALUES ('1', 'admin', '\$2y\$15\$cDNpzTbhPCVVESl6NrvR4eBZPuqZRg9VxoS8Y4qy1D2hHemnT4e8O', 'student@localhost', '1');");
+  $dbh->exec("INSERT INTO `login`.`users` (`user_id`, `user_name`, `user_password_hash`, `user_email`, `user_active`)
+    VALUES ('1', 'admin', '\$2y\$15\$cDNpzTbhPCVVESl6NrvR4eBZPuqZRg9VxoS8Y4qy1D2hHemnT4e8O', 'student@localhost', '1');") or die(print_r($dbh->errorInfo(), true));
