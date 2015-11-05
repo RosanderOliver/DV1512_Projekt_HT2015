@@ -4,7 +4,7 @@ body{
 }
 
 table{
-  width: 60%;
+  width: 80%;
   border-collapse: collapse;
   border: 1px solid #999;
   margin: auto;
@@ -12,6 +12,7 @@ table{
 
 th{
   font-style: italic;
+  border: 1px solid #000;
 }
 
 td{
