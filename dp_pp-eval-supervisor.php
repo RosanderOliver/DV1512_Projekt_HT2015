@@ -55,20 +55,20 @@
   </tr>
   <th>Evaluation</th><th>Value (-,0-5)</th><th>Specific short comments</th>
   <tr>
-    <td><b>Process:</b></td>
-    <td><select name="process1"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><b>Process</b></td>
+    <td><select name="process1"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td>Independence, initiative and creativity</td>
     <td colspan="3"><textarea type="text" name="processcomment1" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="process1"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="process2"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Critical thinking and attitude</td>
     <td colspan="3"><textarea type="text" name="processcomment2" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="process1"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="process3"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Openness to critique and supervision</td>
     <td colspan="3"><textarea type="text" name="processcomment3" rows="2"></textarea></td>
   </tr>
@@ -78,25 +78,25 @@
 
   <tr>
     <td><b>Content:</b></td>
-    <td><select name="process1"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="content1"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Problem identification and formulation</td>
     <td colspan="3"><textarea type="text" name="contentcomment1" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="process1"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="content2"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Evaluation</td>
     <td colspan="3"><textarea type="text" name="contentcomment2" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="process1"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="content3"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Method selection and application</td>
     <td colspan="3"><textarea type="text" name="contentcomment2" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="process1"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="content4"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Planning</td>
     <td colspan="3"><textarea type="text" name="contentcomment4" rows="2"></textarea></td>
   </tr>
@@ -106,31 +106,31 @@
 
   <tr>
     <td><b>Presentation:</b></td>
-    <td><select name="process1"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="presentation1"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Disposition</td>
     <td colspan="3"><textarea type="text" name="presentationcomment1" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="process1"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="presentation2"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Adherence to formal rules and templates</td>
     <td colspan="3"><textarea type="text" name="presentationcomment2" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="process1"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="presentation3"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Description of work</td>
     <td colspan="3"><textarea type="text" name="presentationcomment3" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="process1"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="presentation4"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Analysis and argumentation</td>
     <td colspan="3"><textarea type="text" name="presentationcomment4" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="process1"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="presentation5"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Language</td>
     <td colspan="3"><textarea type="text" name="presentationcomment5" rows="2"></textarea></td>
   </tr>

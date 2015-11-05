@@ -49,22 +49,22 @@
   <tr>
     <td><b>Process</b></td>
     <td>Independence, initiative and creativity</td>
-    <td><select name="process1"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="process1"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
   </tr>
   <tr>
     <td>0.1</td>
     <td> Critical thinking and attitude</td>
-    <td><select name="process2"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="process2"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
   </tr>
   <tr>
     <td></td>
     <td>Planning and execution</td>
-    <td><select name="process3"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="process3"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
   </tr>
   <tr>
     <td></td>
     <td>Openness to critique and</td>
-    <td><select name="process4"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="process4"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td><i> - </i></td>
   </tr>
   <tr>
@@ -74,60 +74,60 @@
   <tr>
     <td><b>Content</b></td>
     <td> Problem identification and formulation</td>
-    <td><select name="content1"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="content1"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
   </tr>
   <tr>
     <td>0.4</td>
     <td> Evaluation</td>
-    <td><select name="content2"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="content2"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
   </tr>
   <tr>
     <td></td>
     <td> Method selection and application</td>
-    <td><select name="content3"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="content3"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td><i> - </i></td>
   </tr>
 
   <tr>
     <td><b>Contribution</b></td>
     <td>Contribution to reasearch area (Master only)</td>
-    <td><select name="contribution1"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="contribution1"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
   </tr>
   <tr>
     <td>0.25</td>
     <td>Contribution to reasearch/development (MSE only)</td>
-    <td><select name="contribution2"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="contribution2"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
   </tr>
   <tr>
     <td></td>
     <td>Synthesis</td>
-    <td><select name="contribution3"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="contribution3"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td><i> - </i></td>
   </tr>
 
   <tr>
     <td><b>Presentation</b></td>
     <td> Disposition</td>
-    <td><select name="presentation1"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="presentation1"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
   </tr>
   <tr>
     <td>0.25</td>
     <td> Adherence to formal rules and templates</td>
-    <td><select name="presentation2"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="presentation2"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
   </tr>
   <tr>
     <td></td>
     <td> Description of work</td>
-    <td><select name="presentation3"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="presentation3"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
   </tr>
   <tr>
     <td></td>
     <td> Analysis and argumentation</td>
-    <td><select name="presentation4"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="presentation4"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
   <tr>
     <td></td>
     <td> Language</td>
-    <td><select name="presentation5"><option>-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="presentation5"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td><i> - </i></td>
     <td><i> - </i></td>
   </tr>
