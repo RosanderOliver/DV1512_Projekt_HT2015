@@ -1,8 +1,9 @@
 <html>
 <link href="css/stilmall.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="javascript/form.js"></script>
 <body>
 
-<form action="#" method="get">
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="get" name="pp">
 <table>
 
   <th>Student 1</th>
@@ -56,90 +57,90 @@
   <th>Evaluation</th><th>Value (-,0-5)</th><th>Specific short comments</th>
   <tr>
     <td><b>Process</b></td>
-    <td><select name="process1"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="process1" onchange="check(pp.process1.value, pp.process2.value, pp.process3.value)"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td>Independence, initiative and creativity</td>
     <td colspan="3"><textarea type="text" name="processcomment1" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="process2"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="process2" onchange="check(pp.process1.value, pp.process2.value, pp.process3.value)"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Critical thinking and attitude</td>
     <td colspan="3"><textarea type="text" name="processcomment2" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="process3"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="process3" onchange="check(pp.process1.value, pp.process2.value, pp.process3.value)"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Openness to critique and supervision</td>
     <td colspan="3"><textarea type="text" name="processcomment3" rows="2"></textarea></td>
   </tr>
   <tr>
-    <td></td><td>-</td>
+    <td></td><td><input type="text" name="s1" id="s1" value=""></td><td></td>
   </tr>
 
   <tr>
-    <td><b>Content:</b></td>
-    <td><select name="content1"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><b>Content</b></td>
+    <td><select name="content1" onchange="check(pp.content1.value, pp.content2.value, pp.content3.value, pp.content4.value)"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Problem identification and formulation</td>
     <td colspan="3"><textarea type="text" name="contentcomment1" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="content2"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="content2" onchange="check(pp.content1.value, pp.content2.value, pp.content3.value, pp.content4.value)"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Evaluation</td>
     <td colspan="3"><textarea type="text" name="contentcomment2" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="content3"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="content3" onchange="check(pp.content1.value, pp.content2.value, pp.content3.value, pp.content4.value)"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Method selection and application</td>
     <td colspan="3"><textarea type="text" name="contentcomment2" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="content4"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="content4" onchange="check(pp.content1.value, pp.content2.value, pp.content3.value, pp.content4.value)"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Planning</td>
     <td colspan="3"><textarea type="text" name="contentcomment4" rows="2"></textarea></td>
   </tr>
   <tr>
-    <td></td><td>-</td>
+    <td></td><td><input type="text" name="s2" id="s2" value=""></td><td></td>
   </tr>
 
   <tr>
-    <td><b>Presentation:</b></td>
-    <td><select name="presentation1"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><b>Presentation</b></td>
+    <td><select name="presentation1" onchange="check(pp.presentation1.value, pp.presentation2.value, pp.presentation3.value, pp.presentation4.value, pp.presentation5.value)"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Disposition</td>
     <td colspan="3"><textarea type="text" name="presentationcomment1" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="presentation2"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="presentation2" onchange="check(pp.presentation1.value, pp.presentation2.value, pp.presentation3.value, pp.presentation4.value, pp.presentation5.value)"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Adherence to formal rules and templates</td>
     <td colspan="3"><textarea type="text" name="presentationcomment2" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="presentation3"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="presentation3" onchange="check(pp.presentation1.value, pp.presentation2.value, pp.presentation3.value, pp.presentation4.value, pp.presentation5.value)"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Description of work</td>
     <td colspan="3"><textarea type="text" name="presentationcomment3" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="presentation4"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="presentation4" onchange="check(pp.presentation1.value, pp.presentation2.value, pp.presentation3.value, pp.presentation4.value, pp.presentation5.value)"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Analysis and argumentation</td>
     <td colspan="3"><textarea type="text" name="presentationcomment4" rows="2"></textarea></td>
   </tr>
   <tr>
     <td></td>
-    <td><select name="presentation5"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+    <td><select name="presentation5" onchange="check(pp.presentation1.value, pp.presentation2.value, pp.presentation3.value, pp.presentation4.value, pp.presentation5.value)"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td> Language</td>
     <td colspan="3"><textarea type="text" name="presentationcomment5" rows="2"></textarea></td>
   </tr>
   <tr>
-    <td></td><td>-</td>
+    <td></td><td><input type="text" name="s3" id="s3" value=""></td><td></td>
   </tr>
 
   <tr>
-    <td><b>Grade:</b></td><td> <i>(display grade)</i></td>
+    <td><b>Grade:</b></td><td><input type="text" name="s4" id="s4" value="" onclick="pass(pp.s1.value, pp.s2.value, pp.s3.value)"></td><td>(<-- click to refresh)</td>
   </tr>
 
   <th colspan="3">Overall comments and feedback</th>
