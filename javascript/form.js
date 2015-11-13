@@ -77,6 +77,10 @@ function tot(){
   }
 }
 
+$(input).change(function(){
+  alert("change");
+});
+
 function grade(){
   if (grade.arguments[0] == "-") {
     document.getElementById('s6').value = "F";

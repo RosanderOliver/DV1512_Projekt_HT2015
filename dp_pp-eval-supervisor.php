@@ -1,5 +1,6 @@
 <html>
 <link href="css/stilmall.css" type="text/css" rel="stylesheet" />
+<link href="css/style.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="javascript/form.js"></script>
 <body>
 
@@ -149,7 +150,7 @@
   </tr>
 
   <tr>
-    <td><input type="button" name="name" value="Submit evaluation"></td>
+    <td><input type="button" id="submit" name="name" value="Submit evaluation"></td>
   </tr>
 
 

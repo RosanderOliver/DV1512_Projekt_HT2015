@@ -1,5 +1,6 @@
 <html>
 <link href="css/stilmall.css" type="text/css" rel="stylesheet" />
+<link href="css/style.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="javascript/form.js"></script>
 <body>
 
@@ -24,9 +25,7 @@
     <td colspan="6"><input type="text" name="student2"></td>
   </tr>
   <tr>
-    <td>E-mail: </td>
-    <td colspan="3"><input type="text" name="s2email"></td>
-    <td>PNR: </td>
+    <td>E-mail:</td>
     <td colspan="2"><input type="text" name="pnr2"></td>
   </tr>
   <th>Project information</th>
@@ -144,13 +143,13 @@
     <td><input type="text" name="date" value="<?php echo date("d-m-Y"); ?>"></td>
   </tr>
 
-  <th colspan="3">Comments and feedback</th>
+  <th>Comments and feedback</th>
   <tr>
     <td colspan="7"><textarea name="feedback" rows="20"></textarea></td>
   </tr>
 
   <tr>
-    <td><input type="button" name="name" value="Submit evaluation"></td>
+    <td><input type="button" id="submit" name="name" value="Submit evaluation"></td>
   </tr>
 
 
