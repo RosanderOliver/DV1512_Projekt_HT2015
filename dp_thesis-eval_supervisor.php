@@ -4,7 +4,7 @@
 <script type="text/javascript" src="javascript/form.js"></script>
 <body>
 
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="get" name="thesis">
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="get" name="thesis"  onmouseover="tot(thesis.s1.value, thesis.s2.value, thesis.s3.value, thesis.s4.value)">
 <table>
 
   <th>Student 1</th>
@@ -126,11 +126,11 @@
     <td> Language</td>
     <td><select name="presentation5" onchange="average(thesis.presentation1.value, thesis.presentation2.value, thesis.presentation3.value, thesis.presentation4.value, thesis.presentation5.value)"><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
     <td><input type="text" name="s4" id="s4" value=""></td>
-    <td><input type="text" name="s5" id="s5" value="" onclick="tot(thesis.s1.value, thesis.s2.value, thesis.s3.value, thesis.s4.value)"></td><td>(<-- click to refresh)</td>
+    <td><input type="text" name="s5" id="s5" value=""></td><td>(<-- click to refresh)</td>
   </tr>
 
   <tr>
-    <td><b>Computded grade</b></td><td></td><td></td><td></td><td><input type="text" name="s6" id="s6" value="" onclick="grade(thesis.s5.value)"></td><td>(<-- click to refresh)</td>
+    <td><b>Computded grade</b></td><td></td><td></td><td></td><td><input type="text" name="s6" id="s6" value=""></td><td>(<-- click to refresh)</td>
   </tr>
   <tr>
     <td><b>Overall impression</b></td><td></td><td></td><td></td><td><textarea name="name" rows="1"></textarea></td>

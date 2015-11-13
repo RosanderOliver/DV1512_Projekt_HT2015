@@ -4,7 +4,7 @@
 <script type="text/javascript" src="javascript/form.js"></script>
 <body>
 
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="get" name="pp">
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="get" name="pp" onmouseover="pass(pp.s1.value, pp.s2.value, pp.s3.value)">
 <table>
 
   <th>Student 1</th>
@@ -141,7 +141,7 @@
   </tr>
 
   <tr>
-    <td><b>Grade:</b></td><td><input type="text" name="s4" id="s4" value="" onclick="pass(pp.s1.value, pp.s2.value, pp.s3.value)"></td><td>(<-- click to refresh)</td>
+    <td><b>Grade:</b></td><td><input type="text" name="s4" id="s4" value=""></td><td>(<-- click to refresh)</td>
   </tr>
 
   <th colspan="3">Overall comments and feedback</th>

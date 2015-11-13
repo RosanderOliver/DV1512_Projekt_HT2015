@@ -75,33 +75,28 @@ function tot(){
   }else {
     document.getElementById('s5').value = "-";
   }
-}
 
-$(input).change(function(){
-  alert("change");
-});
 
-function grade(){
-  if (grade.arguments[0] == "-") {
-    document.getElementById('s6').value = "F";
-  }
-  else if (Number(grade.arguments[0]) == 0) {
+  if (sum == 0) {
     document.getElementById('s6').value = "FX";
   }
-  else if (Number(grade.arguments[0]) >= 4.5) {
+  else if (sum >= 4.5) {
     document.getElementById('s6').value = "A";
   }
-  else if (Number(grade.arguments[0]) >= 3.5) {
+  else if (sum >= 3.5) {
     document.getElementById('s6').value = "B";
   }
-  else if (Number(grade.arguments[0]) >= 2.5) {
+  else if (sum >= 2.5) {
     document.getElementById('s6').value = "C";
   }
-  else if(Number(grade.arguments[0]) >= 1.5) {
+  else if(sum >= 1.5) {
     document.getElementById('s6').value = "D";
   }
-  else {
+  else if(sum  > 0) {
     document.getElementById('s6').value = "E";
+  }
+  else {
+    document.getElementById('s6').value = "F";
   }
 }
 
