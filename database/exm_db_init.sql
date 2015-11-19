@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS `site`;
 
 CREATE TABLE IF NOT EXISTS `site`.`users` (
-	`id`                    INT           NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id, unique',
+		`id`                    INT           NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id, unique',
     `eppn`                  VARCHAR(16)   NOT NULL UNIQUE COMMENT 'user''s identifier, unique',
     `user_email`            VARCHAR(64)   NOT NULL UNIQUE COMMENT 'user''s email, unique',
     `user_name`             VARCHAR(64)   NOT NULL COMMENT 'user''s real name',
@@ -28,11 +28,12 @@ CREATE TABLE IF NOT EXISTS `site`.`projects` (
     `managers`              VARCHAR(64)   NOT NULL DEFAULT 'a:0:{}' COMMENT 'managers linked to the project',
     `examinators`           VARCHAR(64)   NOT NULL COMMENT 'examinators linked to the project',
     `reviewers`             VARCHAR(64)   NOT NULL DEFAULT 'a:0:{}' COMMENT 'reviewers linked to the project',
+    `feasible_reviewers`    VARCHAR(64)   NOT NULL DEFAULT 'a:0:{}' COMMENT 'feasible reviewers who can be linked to the project',
     PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='data about all uploaded files';
 
 CREATE TABLE IF NOT EXISTS `site`.`files` (
-	`id`                    INT           NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
+		`id`                    INT           NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
     `name`                  VARCHAR(64)   NOT NULL COMMENT 'name of the file',
     `user`                  INT           NOT NULL COMMENT 'user id of the uploader',
     `date`                  DATETIME 	  NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'date and time of the upload',
@@ -40,8 +41,8 @@ CREATE TABLE IF NOT EXISTS `site`.`files` (
     `comments`              VARCHAR(128)  DEFAULT 'a:0:{}' COMMENT 'array with id''s of comments',
     `reviews`               VARCHAR(64)   DEFAULT 'a:0:{}' COMMENT 'array with written reviews for the file',
     `grade`                 INT           DEFAULT '-1' COMMENT 'grade of the file',
-	`virus_searched`		TINYINT		  DEFAULT 0 COMMENT 'has the file been virus searched?',
-	PRIMARY KEY (`id`)
+		`virus_searched`		TINYINT		  DEFAULT 0 COMMENT 'has the file been virus searched?',
+		PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='data about all uploaded files';
 
 CREATE TABLE IF NOT EXISTS `site`.`comments` (
