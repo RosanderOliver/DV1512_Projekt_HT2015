@@ -12,6 +12,17 @@ $sth = $dbh->prepare("SELECT * FROM groups.student");
 $sth->execute();
 $result = $sth->fetch(PDO::FETCH_OBJ);
 print_r($result);
+
+
+// Include the Shibboleth attributes you intend to test here
+$attributes = array('displayName', 'mail', 'eppn', 'givenName', 'sn', 'affiliation', 'unscoped-affiliation');
+foreach($attributes as $a){
+    print "<p>";
+    print "<strong>$a</strong> = ";
+    print isset($_SERVER[$a]) ? $_SERVER[$a] : "<em>Undefined</em>";
+    print "</p>";
+}
+
 ?>
 
 <div>
