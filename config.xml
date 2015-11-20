@@ -1,0 +1,5 @@
+<testsuites>
+    <testsuite name="www">
+        <directory>www</directory>
+    </testsuite>
+</testsuites>
