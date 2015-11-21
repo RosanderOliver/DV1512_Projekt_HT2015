@@ -281,7 +281,7 @@ class Login
                         . 'WHERE user_name = :user_name OR user_email = :user_name');
                 $sth->execute(array(':user_name' => $user_name, ':user_last_failed_login' => time()));
 
-                $this->errors[] = MESSAGE_PASSWORD_WRONG;
+                $this->errors[] = MESSAGE_LOGIN_FAILED;
             // has the user activated their account with the verification email
             } else if ($result_row->user_active != 1) {
                 $this->errors[] = MESSAGE_ACCOUNT_NOT_ACTIVATED;
