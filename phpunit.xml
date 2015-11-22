@@ -2,7 +2,7 @@
 <phpunit colors="true" bootstrap="tests/testAutoloader.php">
   <testsuites>
     <testsuite name="Application Test Suite">
-      <directory>tests/*Test.php files</directory>
+      <directory>tests/</directory>
       <exclude>tests/testAutoloader.php</exclude>
     </testsuite>
   </testsuites>

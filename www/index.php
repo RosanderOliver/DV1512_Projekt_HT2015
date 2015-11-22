@@ -6,6 +6,9 @@ if ( $_SERVER['HTTPS'] !== 'on' ) die('Site requires https!');
 // Set site variable
 define('IN_EXM', TRUE);
 
+// Activate output buffer
+ob_start('ob_gzhandler');
+
 require_once('includes/libraries/password_compatibility_library.php');
 
 // include the config
