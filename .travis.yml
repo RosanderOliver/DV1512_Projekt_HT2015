@@ -17,3 +17,6 @@ before_script:
   - mysql < database/exm_db_init.sql
 
 script: phpunit --configuration phpunit.xml
+
+notifications:
+  email: false
