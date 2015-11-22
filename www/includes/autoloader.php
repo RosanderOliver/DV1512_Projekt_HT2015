@@ -1,6 +1,7 @@
 <?php
   // Don't access this script alone
-  if (!defined('IN_EXM')) exit;
+  #if (!defined('IN_EXM')) exit; // This does not work with tests
+  define('IN_EXM', TRUE);
 
   // We need the defenitions
   require_once('includes/config.php');

@@ -1,5 +1,8 @@
-<testsuites>
-    <testsuite name="www">
-        <directory>www</directory>
-    </testsuite>
-</testsuites>
+<?xml version="1.0" encoding="UFT-8"?>
+<phpunit colors="true" bootstrap="www/includes/autoload.php">
+  <testsuites>
+      <testsuite name="Application Test Suite">
+          <directory>tests</directory>
+        </testsuite>
+  </testsuites>
+</phpunit>
