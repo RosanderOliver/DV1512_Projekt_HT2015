@@ -1,9 +1,9 @@
 <?php
-  // Don't access this script alone
-  if (!defined('IN_EXM')) exit;
+
+  define('IN_EXM', TRUE);
 
   // We need the defenitions
-  require_once('includes/config.php');
+  require_once('/www/includes/config.php');
 
   if (version_compare(phpversion(), '5.1.2', '<')) {
     die('Autoloader requires PHP > 5.1.2');
@@ -16,6 +16,6 @@
   }
   else {
     spl_autoload_register(function ($class){
-      include PATH_CLASS . $class . '.php';
+      include '/www/' . PATH_CLASS . $class . '.php';
     });
   }
