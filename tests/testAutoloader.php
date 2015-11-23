@@ -1,8 +1,14 @@
 <?php
 
-  define('IN_EXM', TRUE);
+  // Check if this file already has been loaded
+  if (defined('AUTOLOADER_LOADED')) exit;
+  // Else set it as loaded
+  define('AUTOLOADER_LOADED', true);
 
-  // We need the defenitions
+  // Needed to load config file
+  define('IN_EXM', true);
+
+  // We need the definitions
   require_once('www/includes/config.php');
 
   if (version_compare(phpversion(), '5.1.2', '<')) {

@@ -3,6 +3,11 @@
 // Don't access this script alone
 if (!defined('IN_EXM')) exit;
 
+// Check if this file already has been loaded
+if (defined('CONFIG_LOADED')) exit;
+// Else set it as loaded
+define('CONFIG_LOADED', true);
+
 /**
  * Configuration for: Site General Information
  * General information about the site is defined here
