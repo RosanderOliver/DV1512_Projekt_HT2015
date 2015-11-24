@@ -2,8 +2,8 @@
 
 echo "pp eval</br>";
  if($_POST){
-   require 'includes/class/Pp.php';
-   require 'includes/functions.php';
+   require_once '/includes/classes/Pp.php';
+   require_once '/includes/functions.php';
    echo "Done.</br>";
 
    $form = new pp_eval();
@@ -56,11 +56,20 @@ echo "pp eval</br>";
    $form->s4 = test_input(test_grade($_POST["s4"]));
    $form->feedback = test_input($_POST["feedback"]);
 
-   echo serialize($form) ;
+   if($dbh != null){
+    $ssth = $dbh->prepare("INSERT INTO site.reviews(user, date, last_modified, data) VALUES(:user,:date,:last_modified,:data)");
+    $ssth->bindParam(':user', 1); //1 testvärde
+    $ssth->bindParam(':date', date("Y-m-d H:i:s"));
+    $ssth->bindParam(':last_modified', date("Y-m-d H:i:s"));
+    $ssth->bindParam(':data', serialize($form));
+    $ssth->execute();
+   }
+   else{
+     echo "Connection failed. Try to login again.</br>";
+   }
+
 
  }
  else{
-   echo "No submission.";
+   include '/includes/content/dp_pp-eval-supervisor.php';
  }
-
- ?>

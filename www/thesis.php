@@ -3,8 +3,8 @@
 echo "Thesis eval</br>";
 
 if($_POST){
-  require 'includes/class/Thesis.php';
-  require 'includes/functions.php';
+  require_once 'includes/classes/Thesis.php';
+  require_once 'includes/functions.php';
 
   echo "Done.</br>";
 
@@ -56,13 +56,20 @@ if($_POST){
   $form->date = test_input($_POST["date"]);
   $form->feedback = test_input($_POST["feedback"]);
 
-  echo serialize($form);
+
+     if($dbh != null){
+      $ssth = $dbh->prepare("INSERT INTO site.reviews(user, date, last_modified, data) VALUES(:user,:date,:last_modified,:data)");
+      $ssth->bindParam(':user', 1); //1 testvärde
+      $ssth->bindParam(':date', date("Y-m-d H:i:s"));
+      $ssth->bindParam(':last_modified', date("Y-m-d H:i:s"));
+      $ssth->bindParam(':data', serialize($form));
+      $ssth->execute();
+     }
+     else{
+       echo "Connection failed. Try to login again.</br>";
+     }
 
 }
 else{
-  echo "No submissions.</br>";
+  include '/includes/content/dp_thesis-eval_supervisor.php';
 }
-
-
-
- ?>

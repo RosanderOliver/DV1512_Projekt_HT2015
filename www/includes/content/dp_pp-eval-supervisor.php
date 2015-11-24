@@ -1,10 +1,10 @@
 <html>
 <link href="includes/css/stylesheet.css" type="text/css" rel="stylesheet" />
 <link href="includes/css/style.css" type="text/css" rel="stylesheet" />
-<script type="text/javascript" src="javascript/form.js"></script>
+<script type="text/javascript" src="includes/java/Form.js"></script>
 <body>
 
-<form action="preview_pp.php" method="post" name="pp" onmouseover="pass(pp.s1.value, pp.s2.value, pp.s3.value)">
+<form action="pp.php" method="post" name="pp" onmouseover="pass(pp.s1.value, pp.s2.value, pp.s3.value)">
 <table class="form_table">
 
   <th>Student 1</th>

@@ -1,10 +1,10 @@
 <html>
 <link href="includes/css/stylesheet.css" type="text/css" rel="stylesheet" />
 <link href="includes/css/style.css" type="text/css" rel="stylesheet" />
-<script type="text/javascript" src="javascript/form.js"></script>
+<script type="text/javascript" src="includes/java/Form.js"></script>
 <body>
 
-<form action="preview_thesis.php" method="post" name="thesis"  onmouseover="tot(thesis.s1.value, thesis.s2.value, thesis.s3.value, thesis.s4.value)">
+<form action="thesis.php" method="post" name="thesis"  onmouseover="tot(thesis.s1.value, thesis.s2.value, thesis.s3.value, thesis.s4.value)">
 <table class="form_table">
 
   <th>Student 1</th>
