@@ -1,0 +1,239 @@
+<html>
+
+<head>
+
+<title>Examinator Final Grade</title>
+
+	<link rel="icon" type="image/gif" href="./images/favicon.gif" />
+
+	<link type="text/css" rel="stylesheet" href="css/style.css" media="screen" />
+
+
+
+
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+}
+</style>
+
+
+
+
+
+</head>
+
+<body style="margin: 0px; padding: 0px; font-family: 'Trebuchet MS',verdana;">
+
+
+<table width="100%" style="height: 100%;" cellpadding="10" cellspacing="0" border="0">
+
+
+
+
+<!-- ============ HEADER SECTION ============== -->
+
+<td colspan="3" style="height: 100px;"><center><a href="examinator_overview.html"><img src="./images/EXM_SMALL.png"></a></center></td></tr>
+
+
+
+<!-- ============ NAVIGATION BAR SECTION ============== -->
+
+<td colspan="3" height="30" bgcolor="#999" style="padding-top: 0px; padding-bottom: 0px;">
+
+ <header>
+
+    <div class="nav">
+
+      <ul>
+        <li class="overview"><a href="examinator_overview.html">Overview</a></li>
+        <li class="about"><a href="#">Profile</a></li>
+        <li class="news"><a href="#">Settings</a></li>
+        <li class="contact"><a href="index.html">Sign Out</a></li>
+      </ul>
+
+    </div>
+
+  </header>
+
+</td>
+
+
+
+<tr>
+
+<!-- ============ LEFT COLUMN (COURSES) ============== -->
+<td width="20%" valign="top">
+<h2>Courses</h2>
+<a href="reviewer_course.html">SL3000</a><br><br>
+</td>
+
+
+<!-- ============ MIDDLE COLUMN (OVERVIEW) ============== -->
+<td width="55%" valign="top" bgcolor="#FAFAFA">
+
+<h2>Final Grade - Examinator</h2>
+<br>
+
+
+<h3><font color="darkblue">EX-Job: Flying Cars | Version 1.0 | <font color="darkred">Deadline: 2015-08-20</font></font></h3>
+
+Uploaded File: <font color="purple">flyingcars_danton.pdf</font> 
+
+<br>
+<br>
+<table style="width:100%">
+  <tr>
+    <th>Reviewer</th>
+    <th>Subject</th>		
+    <th>Quality</th>
+    <th>Stuff</th>
+    <th>Limits</th>
+    <th>On</th>
+    <th>Off</th>
+    <th>Final Grade</th>
+  </tr>
+  <tr>
+    <td>Alice</td>
+    <td>34</td>
+    <td>34</td>
+    <td>51</td>
+    <td>24</td>
+    <td>14</td>	
+    <td>50</td>
+    <td>A</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>34</td>
+    <td>4</td>
+    <td>24</td>
+    <td>14</td>
+    <td>1</td>	
+    <td>35</td>
+    <td>C</td>
+  </tr>
+  <tr>
+    <td>Chris</td>
+    <td>34</td>
+    <td>34</td>
+    <td>22</td>
+    <td>74</td>
+    <td>3</td>	
+    <td>62</td>
+    <td>B</td>
+  </tr>
+</table>
+
+<br><br><br>
+
+
+
+
+Reviewer 1: <font color="#000000"><b>Alice</b></font>
+<br>
+Grade: <font color="darkgreen">G</font>
+<br>
+Comment: <font color="red">This was actually not so bad.</font>
+<br><br>
+<form action="#">
+    <input type="submit" value="Invidual Report">
+</form>
+
+<hr>
+
+<br>
+Reviewer 2: <font color="#000000"><b>Bob</b></font>
+<br>
+Grade: <font color="darkgreen">G</font>
+<br>
+Comment: <font color="red">Great!</font>
+<br><br>
+<form action="#">
+    <input type="submit" value="Invidual Report">
+</form>
+
+<hr>
+
+
+<br>
+Reviewer 3: <font color="#000000"><b>Chris</b></font>
+<br>
+Grade: <font color="darkgreen">U/X</font>
+<br>
+Comment: <font color="red">I don't know...</font>
+<br><br>
+<form action="#">
+    <input type="submit" value="Invidual Report">
+</form>
+
+<hr>
+
+<font color="#000000"><b>Final Grade Form</b></font>
+
+
+
+
+
+
+<form method='post'>
+
+<br>
+
+  <select name="grades">
+    <option value="a">A</option>
+    <option value="b">B</option>
+    <option value="c">C</option>
+    <option value="d">D</option>
+    <option value="e">E</option>
+    <option value="f">F</option>
+
+  </select>
+  <br><br>
+
+  Comment:<br />
+  <textarea name='comment' id='comment'></textarea><br />
+
+  <input type='hidden' name='articleid' id='articleid' value='<? echo $_GET["id"]; ?>' />
+
+<br>
+  <input type='submit' value='Submit' />  
+</form>
+
+
+</td>
+
+
+
+
+<td width="25%" valign="top">
+
+<h2>Tasks</h2>
+
+TASKTASKTATSK
+
+<br><br>
+
+TASKTASKTATSK
+
+<br><br>
+TASKTASKTATSK
+
+<br><br>
+
+
+</tr>
+
+<!-- ============ FOOTER SECTION ============== -->
+<tr><td colspan="3" align="center" height="20" bgcolor="#999"><font color="white">Copyright &copy; 2015 - EXM</td></tr>
+</table>
+</body>
+
+<html>
+
+
+
