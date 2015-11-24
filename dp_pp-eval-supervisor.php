@@ -4,19 +4,19 @@
 <script type="text/javascript" src="javascript/form.js"></script>
 <body>
 
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="get" name="pp" onmouseover="pass(pp.s1.value, pp.s2.value, pp.s3.value)">
+<form action="preview_pp.php" method="post" name="pp" onmouseover="pass(pp.s1.value, pp.s2.value, pp.s3.value)">
 <table>
 
   <th>Student 1</th>
   <tr>
     <td>Full name</td>
-    <td colspan="6"><input type="text" name="student1"></td>
+    <td colspan="6"><input type="text" name="student1"></td> <!-- required -->
   </tr>
   <tr>
     <td>E-mail</td>
-    <td colspan="3"><input type="text" name="s1email"></td>
+    <td colspan="3"><input type="text" name="s1email"></td> <!-- required -->
     <td >Social sec nr: </td>
-    <td colspan="2"><input type="text" name="s1socialsecnr"></td>
+    <td colspan="2"><input type="text" name="pnr1"></td> <!-- required -->
   </tr>
 
   <th>Student 2 (if applicable)</th>
@@ -28,24 +28,24 @@
     <td>E-mail</td>
     <td colspan="3"><input type="text" name="s2email"></td>
     <td>Social sec nr: </td>
-    <td colspan="2"><input type="text" name="s2socialsecnr"></td>
+    <td colspan="2"><input type="text" name="pnr2"></td>
   </tr>
   <th>Project information</th>
   <tr>
     <td>Title </td>
-    <td colspan="6"><input type="text" name="title"></td>
+    <td colspan="6"><input type="text" name="title"></td> <!-- required -->
   </tr>
   <tr>
     <td>Course</td>
-    <td colspan="6"><input type="text" name="course"></td>
+    <td colspan="6"><input type="text" name="course"></td> <!-- required -->
   </tr>
   <tr>
     <td>Supervisor</td>
-    <td><input type="text" name="supervisor"></td>
+    <td><input type="text" name="supervisor"></td> <!-- required -->
     <td>Term (e.g. vt14): </td>
-    <td><input type="text" name="term"></td>
+    <td><input type="text" name="term"></td> <!-- required -->
     <td>Type:</td>
-    <td><input type="number" name"type" min="1" max="4"></td>
+    <td><input type="number" name"type" min="1" max="4"></td> <!-- required -->
     <td rowspan="3">
       <ol>
         <li>Bacelor of Science</li>
@@ -141,16 +141,16 @@
   </tr>
 
   <tr>
-    <td><b>Grade:</b></td><td><input type="text" name="s4" id="s4" value=""></td><td>(<-- click to refresh)</td>
+    <td><b>Grade:</b></td><td><input type="text" name="s4" id="s4" value=""></td>
   </tr>
 
   <th colspan="3">Overall comments and feedback</th>
   <tr>
-    <td colspan="7"><textarea name="feedback" rows="20"></textarea></td>
+    <td colspan="7"><textarea name="feedback" rows="20" ></textarea></td> <!-- required -->
   </tr>
 
   <tr>
-    <td><input type="button" id="submit" name="name" value="Submit evaluation"></td>
+    <td><input type="submit" id="submit" name="submit" value="Submit evaluation"></td>
   </tr>
 
 

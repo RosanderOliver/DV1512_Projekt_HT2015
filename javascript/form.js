@@ -63,7 +63,7 @@ function tot(){
   var sum = 0;
   var ok = 1;
   for(var i = 0; i < tot.arguments.length; i ++){
-    if(tot.arguments[i] == "-"){
+    if(String(tot.arguments[i]) == "-"){
       ok = 0;
     }
   }
