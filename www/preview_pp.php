@@ -2,8 +2,8 @@
 
 echo "pp eval</br>";
  if($_POST){
-   require 'class_pp.php';
-   require 'functions.php';
+   require 'includes/class/Pp.php';
+   require 'includes/functions.php';
    echo "Done.</br>";
 
    $form = new pp_eval();

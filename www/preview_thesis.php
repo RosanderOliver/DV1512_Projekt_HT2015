@@ -3,8 +3,8 @@
 echo "Thesis eval</br>";
 
 if($_POST){
-  require 'class_thesis.php';
-  require 'functions.php';
+  require 'includes/class/Thesis.php';
+  require 'includes/functions.php';
 
   echo "Done.</br>";
 
