@@ -23,6 +23,8 @@
    {
      // Include SQL.php- It's needed for the User class!
      include_once("www/includes/SQL.php");
+     // Include translations
+     include_once("www/includes/translations/en.php");
    }
 
    /**
