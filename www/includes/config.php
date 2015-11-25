@@ -3,12 +3,24 @@
 // Don't access this script alone
 if (!defined('IN_EXM')) exit;
 
+// Check if this file already has been loaded
+if (defined('CONFIG_LOADED')) exit;
+// Else set it as loaded
+define('CONFIG_LOADED', true);
+
+/**
+ * Configuration for: Site General Information
+ * General information about the site is defined here
+ *
+ * SITE_DOMAIN: domain name of the site
+ * SITE_NAME: name of the site/project/organization etc
+ */
+define("SITE_DOMAIN", "xmanager.me");
+define("SITE_NAME", "Exam Manager");
+
 /**
  * Configuration for: Database Connection
- * This is the place where your database login constants are saved
- *
- * For more info about constants please @see http://php.net/manual/en/function.define.php
- * If you want to know why we use "define" instead of "const" @see http://stackoverflow.com/q/2447791/1114320
+ * This is the place where database login constants are saved
  *
  * DB_HOST: database host, usually it's "127.0.0.1" or "localhost", some servers also need port info
  * DB_NAME: name of the database. please note: database and database table are not the same thing
@@ -37,7 +49,7 @@ define("DB_PASS", "cisco12345");
  * COOKIE_SECRET_KEY: Put a random value here to make your app more secure. When changed, all cookies are reset.
  */
 define("COOKIE_RUNTIME", 1209600);
-define("COOKIE_DOMAIN", ".127.0.0.1");
+define("COOKIE_DOMAIN", ".".SITE_DOMAIN);
 define("COOKIE_SECRET_KEY", "lk@hfsd]786@9d3NJ9{80ssfJ9");
 
 /**
@@ -76,20 +88,20 @@ define("EMAIL_SMTP_ENCRYPTION", "ssl");
  * Configuration for: password reset email data
  * Set the absolute URL to password_reset.php, necessary for email password reset links
  */
-define("EMAIL_PASSWORDRESET_URL", "http://127.0.0.1/php-login-advanced/password_reset.php");
-define("EMAIL_PASSWORDRESET_FROM", "no-reply@example.com");
-define("EMAIL_PASSWORDRESET_FROM_NAME", "My Project");
-define("EMAIL_PASSWORDRESET_SUBJECT", "Password reset for PROJECT XY");
+define("EMAIL_PASSWORDRESET_URL", "https://".SITE_DOMAIN."/login.php?view=password_reset");
+define("EMAIL_PASSWORDRESET_FROM", "no-reply@".SITE_DOMAIN);
+define("EMAIL_PASSWORDRESET_FROM_NAME", SITE_NAME);
+define("EMAIL_PASSWORDRESET_SUBJECT", "Password reset for ".SITE_NAME);
 define("EMAIL_PASSWORDRESET_CONTENT", "Please click on this link to reset your password:");
 
 /**
  * Configuration for: verification email data
  * Set the absolute URL to register.php, necessary for email verification links
  */
-define("EMAIL_VERIFICATION_URL", "http://127.0.0.1/php-login-advanced/register.php");
-define("EMAIL_VERIFICATION_FROM", "no-reply@example.com");
-define("EMAIL_VERIFICATION_FROM_NAME", "My Project");
-define("EMAIL_VERIFICATION_SUBJECT", "Account activation for PROJECT XY");
+define("EMAIL_VERIFICATION_URL", "https://".SITE_DOMAIN."/login.php?view=register");
+define("EMAIL_VERIFICATION_FROM", "no-reply@".SITE_DOMAIN);
+define("EMAIL_VERIFICATION_FROM_NAME", SITE_NAME);
+define("EMAIL_VERIFICATION_SUBJECT", "Account activation for ".SITE_NAME);
 define("EMAIL_VERIFICATION_CONTENT", "Please click on this link to activate your account:");
 
 /**
@@ -100,7 +112,7 @@ define("EMAIL_VERIFICATION_CONTENT", "Please click on this link to activate your
  * come with a clever so called COST FACTOR. This number defines the base-2 logarithm of the rounds of hashing,
  * something like 2^12 if your cost factor is 12. By the way, 2^12 would be 4096 rounds of hashing, doubling the
  * round with each increase of the cost factor and therefore doubling the CPU power it needs.
- * Currently, in 2013, the developers of this functions have chosen a cost factor of 10, which fits most standard
+ * In 2013, the developers of this functions have chosen a cost factor of 10, which fits most standard
  * server setups. When time goes by and server power becomes much more powerful, it might be useful to increase
  * the cost factor, to make the password hashing one step more secure. Have a look here
  * (@see https://github.com/panique/php-login/wiki/Which-hashing-&-salting-algorithm-should-be-used-%3F)
@@ -115,4 +127,12 @@ define("EMAIL_VERIFICATION_CONTENT", "Please click on this link to activate your
  *
  * This constant will be used in the login and the registration class.
  */
-define("HASH_COST_FACTOR", "15");
+define("HASH_COST_FACTOR", "12");
+
+/**
+ * Configuration for: Paths
+ * Defines paths to important parts of the application
+ *
+ * PATH_CLASS: path to folder contatning all classes
+ */
+ define("PATH_CLASS", "includes/classes/");
