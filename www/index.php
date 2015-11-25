@@ -6,6 +6,9 @@ if ( $_SERVER['HTTPS'] !== 'on' ) die('Site requires https!');
 // Set site variable
 define('IN_EXM', TRUE);
 
+// Activate output buffer
+ob_start('ob_gzhandler');
+
 require_once('includes/libraries/password_compatibility_library.php');
 
 // include the config
@@ -17,11 +20,11 @@ require_once('includes/SQL.php');
 // include the PHPMailer library
 require_once('includes/libraries/PHPMailer.php');
 
-// load the login class
-require_once('includes/classes/Login.php');
-
 // Include translation
 include_once('includes/translations/en.php');
+
+// includehe class autoloader
+require_once('includes/autoloader.php');
 
 // create a login object. when this object is created, it will do all login/logout stuff automatically
 // so this single line handles the entire login process.
