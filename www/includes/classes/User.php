@@ -4,6 +4,7 @@
 // TODO: Create set functions to change user variables in user database
 // TODO: Create settings database and settings class directly liked to from this class
 // TODO: Create course class to directly link to course data
+// TODO: Be able to create object for any requested user ( if permitted )
 
 /**
  *  User object to handle user data
