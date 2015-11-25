@@ -1,7 +1,7 @@
 <?php
 
 // Require https
-if ( $_SERVER['HTTPS'] !== 'on' ) die('Site requires https!');
+//if ( $_SERVER['HTTPS'] !== 'on' ) die('Site requires https!');
 
 // Set site variable
 define('IN_EXM', TRUE);
