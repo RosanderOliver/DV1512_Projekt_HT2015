@@ -30,8 +30,15 @@ require_once('includes/autoloader.php');
 // so this single line handles the entire login process.
 $login = new Login();
 
-// Create a user object
-$user = new User();
+ // Create a user object
+ $user = null;
+ try {
+   $user = new User();
+ } catch (Exception $e) {
+   echo $e->getMessage();
+   exit;
+ }
+
 
 // Create new database handle
 $dbh = null;

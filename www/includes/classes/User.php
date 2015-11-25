@@ -1,7 +1,6 @@
 <?php
 
-// TODO: Get user from the session variable directly
-// TODO: Create user if no user was found
+// TODO: Check if session data is correct befor adding it to database
 // TODO: Create set functions to change user variables in user database
 // TODO: Create settings database and settings class directly liked to from this class
 // TODO: Create course class to directly link to course data
@@ -54,14 +53,25 @@ class User
 
     // Get user data
     // Prepare the statement
-    $sth = $this->dbh->prepare(SQL_SELECT_USER_WHERE_EPPN);
+    $sth_get = $this->dbh->prepare(SQL_SELECT_USER_WHERE_EPPN);
     // Bind parameters
-    $eppn = 'admin';
-    $sth->bindParam(':eppn', $eppn, PDO::PARAM_STR);
+    $sth_get->bindParam(':eppn', $_SESSION['user_name'], PDO::PARAM_STR);
     // Execute the statement
-    $sth->execute();
+    $sth_get->execute();
     // Fetch the data
-    $result = $sth->fetch(PDO::FETCH_OBJ);
+    $result = $sth_get->fetch(PDO::FETCH_OBJ);
+    // Check if result is empty then add the user
+    if(!$result)
+    {
+      $sth_ins = $this->dbh->prepare(SQL_INSERT_USER);
+      $sth_ins->bindParam(':eppn', $_SESSION['user_name'], PDO::PARAM_STR);
+      $sth_ins->bindParam(':email', $_SESSION['user_email'], PDO::PARAM_STR);
+      $sth_ins->execute();
+      // Try get the data agin
+      $sth_get->execute();
+      $result = $sth_get->fetch(PDO::FETCH_OBJ);
+      if(!$result) throw new Exception("Unable to add user!");
+    }
     // Print it for tests
     print_r($result);
   }
