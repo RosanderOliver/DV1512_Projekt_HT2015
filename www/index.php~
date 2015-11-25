@@ -41,7 +41,7 @@ $views = [
   'overview',
   'settings',
   'edit',
-  'examinatorgrading'
+  'examinatorgradig'
 ];
 
 /*
