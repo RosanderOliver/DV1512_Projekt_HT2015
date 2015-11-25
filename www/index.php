@@ -26,9 +26,12 @@ include_once('includes/translations/en.php');
 // includehe class autoloader
 require_once('includes/autoloader.php');
 
-// create a login object. when this object is created, it will do all login/logout stuff automatically
+// Create a login object. when this object is created, it will do all login/logout stuff automatically
 // so this single line handles the entire login process.
 $login = new Login();
+
+// Create a user object
+$user = new User();
 
 // Create new database handle
 $dbh = null;

@@ -1,6 +1,6 @@
 <?php
 
-// TODO: Setup database connection and get user data
+// TODO: Get user from the session variable directly
 // TODO: Create user if no user was found
 // TODO: Create set functions to change user variables in user database
 // TODO: Create settings database and settings class directly liked to from this class
@@ -42,6 +42,27 @@ class User
    */
   public function __construct()
   {
-    
+    // Setup database handle
+    try {
+        // Generate a database connection, using the PDO connector
+        $this->dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
+    } catch (PDOException $e) {
+        // If shit hits the fan
+        echo MESSAGE_DATABASE_ERROR . $e->getMessage();
+        exit;
+    }
+
+    // Get user data
+    // Prepare the statement
+    $sth = $this->dbh->prepare(SQL_SELECT_USER_WHERE_EPPN);
+    // Bind parameters
+    $eppn = 'admin';
+    $sth->bindParam(':eppn', $eppn, PDO::PARAM_STR);
+    // Execute the statement
+    $sth->execute();
+    // Fetch the data
+    $result = $sth->fetch(PDO::FETCH_OBJ);
+    // Print it for tests
+    print_r($result);
   }
 }

@@ -3,9 +3,9 @@ CREATE DATABASE IF NOT EXISTS `site`;
 CREATE TABLE IF NOT EXISTS `site`.`users` (
 		`id`                    INT           NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id, unique',
     `eppn`                  VARCHAR(16)   NOT NULL UNIQUE COMMENT 'user''s identifier, unique',
-    `email`            VARCHAR(64)   NOT NULL UNIQUE COMMENT 'user''s email, unique',
-    `given_name`             VARCHAR(64)   NOT NULL COMMENT 'user''s real name',
-    `courses`               VARCHAR(32)   NOT NULL DEFAULT 'a:0:{}' COMMENT 'serialized array with user''s enlisted courses',
+    `email`            			VARCHAR(64)   NOT NULL UNIQUE COMMENT 'user''s email, unique',
+    `given_name`            VARCHAR(64)   NOT NULL COMMENT 'user''s real name',
+    `courses`               VARCHAR(32)   DEFAULT 'a:0:{}' COMMENT 'serialized array with user''s enlisted courses',
     PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user specific data like email and unique identifier';
 
