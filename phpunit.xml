@@ -1,5 +1,9 @@
-<testsuites>
-    <testsuite name="www">
-        <directory>www</directory>
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true" bootstrap="tests/testAutoloader.php">
+  <testsuites>
+    <testsuite name="Application Test Suite">
+      <directory>tests/</directory>
+      <exclude>tests/testAutoloader.php</exclude>
     </testsuite>
-</testsuites>
+  </testsuites>
+</phpunit>
