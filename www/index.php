@@ -76,6 +76,8 @@ if ($login->isUserLoggedIn() === true) {
   // Include footer
   include_once('includes/footer.php');
 
+
+
 } else {
 
   // Redirect to login

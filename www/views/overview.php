@@ -29,3 +29,4 @@ foreach($attributes as $a){
     <a href="?logout"><?php echo WORDING_LOGOUT; ?></a>
     <a href="?view=edit"><?php echo WORDING_EDIT_USER_DATA; ?></a>
 </div>
+<form action="index.php?view=pp" method="post"><input type="submit" name="review_id" value="Review"></form>
