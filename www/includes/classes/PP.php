@@ -1,5 +1,5 @@
 <?php
-class pp_eval{
+class PP{
 
   public $student1;
   public $s1email;

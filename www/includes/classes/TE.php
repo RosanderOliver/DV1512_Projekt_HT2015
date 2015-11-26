@@ -4,7 +4,7 @@
 Holds all parameters in the form.
 
 */
-class TE{
+class Thesis_eval{
 
   //properties
   public $student1;

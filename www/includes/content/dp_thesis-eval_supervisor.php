@@ -1,10 +1,10 @@
 <html>
-<link href="includes/css/stylesheet.css" type="text/css" rel="stylesheet" />
-<link href="includes/css/style.css" type="text/css" rel="stylesheet" />
+<link href="../css/stylesheet.css" type="text/css" rel="stylesheet" />
+<link href="../css/style.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="includes/java/Form.js"></script>
 <body>
 
-<form action="thesis.php" method="post" name="thesis"  onmouseover="tot(thesis.s1.value, thesis.s2.value, thesis.s3.value, thesis.s4.value)">
+<form action="index.php?view=thesis" method="post" name="thesis"  onmouseover="tot(thesis.s1.value, thesis.s2.value, thesis.s3.value, thesis.s4.value)">
 <table class="form_table">
 
   <th>Student 1</th>
@@ -149,7 +149,7 @@
   </tr>
 
   <tr>
-    <td><input type="submit" id="submit" name="submit" value="Submit evaluation"></td>
+    <td><input type="submit" name="submit" value="Submit evaluation"></td>
   </tr>
 
 

@@ -4,7 +4,8 @@
   // Here we define functions used in the project
 
   // Don't access this script alone
-  if (!defined('IN_PR')) exit;
+
+  //if (!defined('IN_EXN')) exit;
 
 
   /*Test of grade
@@ -58,5 +59,3 @@
     $data = htmlspecialchars($data);
     return $data;
   }
-
-?>

@@ -1,3 +1,9 @@
+<?php
+
+  // Don't access this script alone
+  if (!defined('IN_EXM')) exit;
+
+?>
 
     <div id="footer">
       <?php echo date("F j, Y, g:i a"); ?> | &copy; <?php echo date("Y"); ?> Exam Manager

@@ -1,12 +1,9 @@
 <?php
 
-echo "pp eval</br>";
- if($_POST){
-   require_once '/includes/classes/Pp.php';
-   require_once '/includes/functions.php';
-   echo "Done.</br>";
+ if(isset($_POST['submit'])){
 
-   $form = new pp_eval();
+   echo "submit";
+   $form = new PP();
    $form->student1 = test_input($_POST["student1"]);
    $form->s1email = test_input($_POST["s1email"]);
    $form->pnr1 = test_input($_POST["pnr1"]);
@@ -19,7 +16,7 @@ echo "pp eval</br>";
    $form->course = test_input($_POST["course"]);
    $form->supervisor = test_input($_POST["supervisor"]);
    $form->term  = test_input($_POST["term"]);
-   $form->type = test_input($_POST["type"]);
+   //$form->type = test_input($_POST["type"]);
 
    $form->process1 = test_input(test_num($_POST["process1"]));
    $form->processcomment1 = test_input($_POST["processcomment1"]);
@@ -27,7 +24,7 @@ echo "pp eval</br>";
    $form->processcomment2 = test_input($_POST["processcomment2"]);
    $form->process3 = test_input(test_num($_POST["process3"]));
    $form->processcomment3 = test_input($_POST["processcomment3"]);
-   $form->process4 = test_input(test_num($_POST["process4"]));
+   //$form->process4 = test_input(test_num($_POST["process4"]));
    $form->processcomment4 = test_input($_POST["processcomment4"]);
 
    $form->s1 = test_input(test_num($_POST["s1"]));
@@ -56,20 +53,28 @@ echo "pp eval</br>";
    $form->s4 = test_input(test_grade($_POST["s4"]));
    $form->feedback = test_input($_POST["feedback"]);
 
+   echo "add to db</br>";
    if($dbh != null){
     $ssth = $dbh->prepare("INSERT INTO site.reviews(user, date, last_modified, data) VALUES(:user,:date,:last_modified,:data)");
-    $ssth->bindParam(':user', 1); //1 testvärde
+    $ssth->bindValue(':user', 1, PDO::PARAM_INT); //1 testvärde
     $ssth->bindParam(':date', date("Y-m-d H:i:s"));
     $ssth->bindParam(':last_modified', date("Y-m-d H:i:s"));
     $ssth->bindParam(':data', serialize($form));
     $ssth->execute();
-   }
-   else{
-     echo "Connection failed. Try to login again.</br>";
+
+    echo "Your form has been saved.</br>";
    }
 
+   else{
+     echo "Connection failed. Try to log in again.</br>";
+   }
+
+   echo "end </br>";
 
  }
  else{
-   include '/includes/content/dp_pp-eval-supervisor.php';
+
+   include('includes/content/dp_pp-eval-supervisor.php');
+
+
  }

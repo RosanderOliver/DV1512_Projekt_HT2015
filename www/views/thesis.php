@@ -1,14 +1,9 @@
 <?php
 
-echo "Thesis eval</br>";
+if(isset($_POST['submit'])){
 
-if($_POST){
-  require 'includes/class/Thesis.php';
-  require 'includes/functions.php';
-
-  echo "Done.</br>";
-
-  $form = new thesis_eval();
+  echo "submit";
+  $form = new TE();
 
   $form->student1 = test_input($_POST["student1"]);
   $form->s1email = test_input($_POST["s1email"]);
@@ -37,7 +32,7 @@ if($_POST){
 
   $form->contribution1 = test_input(test_num($_POST["contribution1"]));
   $form->contribution2 = test_input(test_num($_POST["contribution2"]));
-  $form->contribution3 = test_input(test_num($_POST["contribution3"]));
+  $form->contribution3 =  test_input(test_num($_POST["contribution3"]));
 
   $form->s3 = test_input(test_num($_POST["s3"]));
 
@@ -56,13 +51,25 @@ if($_POST){
   $form->date = test_input($_POST["date"]);
   $form->feedback = test_input($_POST["feedback"]);
 
-  echo serialize($form);
+  echo "db";
+  if($dbh != null){
+   $ssth = $dbh->prepare("INSERT INTO site.reviews(user, date, last_modified, data) VALUES(:user,:date,:last_modified,:data)");
+   $ssth->bindParam(':user', 1); //1 testvärde
+   $ssth->bindParam(':date', date("Y-m-d H:i:s"));
+   $ssth->bindParam(':last_modified', date("Y-m-d H:i:s"));
+   $ssth->bindParam(':data', serialize($form));
+   $ssth->execute();
 
-  //add to db
+   echo "Your form has been saved.</br>";
+  }
 
+  else{
+    echo "Connection failed. Try to login again.</br>";
+  }
+  echo "end";
 }
 else{
-  echo "No submissions.</br>";
+  include('includes/content/dp_thesis-eval_supervisor.php');
 }
 
 
