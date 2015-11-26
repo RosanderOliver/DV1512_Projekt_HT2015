@@ -16,7 +16,7 @@
    $form->course = test_input($_POST["course"]);
    $form->supervisor = test_input($_POST["supervisor"]);
    $form->term  = test_input($_POST["term"]);
-   //$form->type = test_input($_POST["type"]);
+   $form->type = test_input($_POST["type"]);
 
    $form->process1 = test_input(test_num($_POST["process1"]));
    $form->processcomment1 = test_input($_POST["processcomment1"]);
@@ -24,7 +24,7 @@
    $form->processcomment2 = test_input($_POST["processcomment2"]);
    $form->process3 = test_input(test_num($_POST["process3"]));
    $form->processcomment3 = test_input($_POST["processcomment3"]);
-   //$form->process4 = test_input(test_num($_POST["process4"]));
+   $form->process4 = test_input(test_num($_POST["process4"]));
    $form->processcomment4 = test_input($_POST["processcomment4"]);
 
    $form->s1 = test_input(test_num($_POST["s1"]));
@@ -56,7 +56,8 @@
    echo "add to db</br>";
    if($dbh != null){
     $ssth = $dbh->prepare("INSERT INTO site.reviews(user, date, last_modified, data) VALUES(:user,:date,:last_modified,:data)");
-    $ssth->bindValue(':user', 1, PDO::PARAM_INT); //1 testvärde
+    $ssth->bindValue(':user', $_SESSION['user_id'], PDO::PARAM_INT); //1 testvärde
+    echo "ID: " . $_SESSION['user_id'];
     $ssth->bindParam(':date', date("Y-m-d H:i:s"));
     $ssth->bindParam(':last_modified', date("Y-m-d H:i:s"));
     $ssth->bindParam(':data', serialize($form));

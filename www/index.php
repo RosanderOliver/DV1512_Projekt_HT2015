@@ -14,13 +14,12 @@ require_once('includes/libraries/password_compatibility_library.php');
 // include the config
 require_once('includes/config.php');
 
-<<<<<<< HEAD
 // include functions
 require_once('includes/functions.php');
-=======
+
 // include the SQL-file
 require_once('includes/SQL.php');
->>>>>>> 5f4341812e19ac37835565aaa915065fb7d4584a
+
 
 // include the PHPMailer library
 require_once('includes/libraries/PHPMailer.php');
