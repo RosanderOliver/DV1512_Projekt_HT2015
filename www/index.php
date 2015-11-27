@@ -81,7 +81,7 @@ if ($login->isUserLoggedIn() === true) {
 } else {
 
   // Redirect to login
-  //header('Location: login.php');
+  header('Location: login.php');
   //header('Location: /Shibboleth.sso/Login');
   //print("<pre>".print_r($_SERVER,true)."</pre>");
   exit;
