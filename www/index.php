@@ -6,23 +6,32 @@
 // Set site variable
 define('IN_EXM', TRUE);
 
+// Activate output buffer
+ob_start('ob_gzhandler');
+
 require_once('includes/libraries/password_compatibility_library.php');
 
 // include the config
 require_once('includes/config.php');
 
+// include the SQL-file
+require_once('includes/SQL.php');
+
 // include the PHPMailer library
 require_once('includes/libraries/PHPMailer.php');
-
-// load the login class
-require_once('includes/classes/Login.php');
 
 // Include translation
 include_once('includes/translations/en.php');
 
-// create a login object. when this object is created, it will do all login/logout stuff automatically
+// includehe class autoloader
+require_once('includes/autoloader.php');
+
+// Create a login object. when this object is created, it will do all login/logout stuff automatically
 // so this single line handles the entire login process.
 $login = new Login();
+
+// Create a user object
+$user = new User();
 
 // Create new database handle
 $dbh = null;
@@ -67,8 +76,9 @@ if ($login->isUserLoggedIn() === true) {
 } else {
 
   // Redirect to login
-  //header('Location: login.php');
-  header('Location: /Shibboleth.sso/Login');
+  header('Location: login.php');
+  //header('Location: /Shibboleth.sso/Login');
+  //print("<pre>".print_r($_SERVER,true)."</pre>");
   exit;
 
 }

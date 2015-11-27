@@ -55,13 +55,18 @@ class Login
     public $messages = array();
 
     /**
-     * the function "__construct()" automatically starts whenever an object of this class is created,
-     * you know, when you do "$login = new Login();"
+     * Constructor
      */
     public function __construct()
     {
         // create/read session
-        session_start();
+        if (version_compare(phpversion(), '5.4.0', '>')) {
+          if (session_status() == PHP_SESSION_NONE)
+            session_start();
+        } else {
+          if (session_id() == '')
+            session_start();
+        }
 
         // TODO: organize this stuff better and make the constructor very small
         // TODO: unite Login and Registration classes ?
@@ -281,7 +286,7 @@ class Login
                         . 'WHERE user_name = :user_name OR user_email = :user_name');
                 $sth->execute(array(':user_name' => $user_name, ':user_last_failed_login' => time()));
 
-                $this->errors[] = MESSAGE_PASSWORD_WRONG;
+                $this->errors[] = MESSAGE_LOGIN_FAILED;
             // has the user activated their account with the verification email
             } else if ($result_row->user_active != 1) {
                 $this->errors[] = MESSAGE_ACCOUNT_NOT_ACTIVATED;

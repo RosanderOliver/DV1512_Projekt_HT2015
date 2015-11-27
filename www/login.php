@@ -11,11 +11,11 @@ require_once('includes/config.php');
 // include the PHPMailer library
 require_once('includes/libraries/PHPMailer.php');
 
-// load the login class
-require_once('includes/classes/Login.php');
-
 // Include translation
 include_once('includes/translations/en.php');
+
+// includehe class autoloader
+require_once('includes/autoloader.php');
 
 // Create a login object.
 $login = new Login();
