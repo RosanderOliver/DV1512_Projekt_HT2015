@@ -35,6 +35,8 @@
    $form->contentcomment2 = test_input($_POST["contentcomment2"]);
    $form->content3 = test_input(test_num($_POST["content3"]));
    $form->contentcomment3 = test_input($_POST["contentcomment3"]);
+   $form->content4 = test_input(test_num($_POST["content4"]));
+   $form->contentcomment4 = test_input($_POST["contentcomment4"]);
 
    $form->s2 = test_input(test_num($_POST["s2"]));
 
@@ -56,11 +58,12 @@
    echo "add to db</br>";
    if($dbh != null){
     $ssth = $dbh->prepare("INSERT INTO site.reviews(user, date, last_modified, data) VALUES(:user,:date,:last_modified,:data)");
-    $ssth->bindValue(':user', $_SESSION['user_id'], PDO::PARAM_INT); //1 testvärde
+    $uid = $_SESSION['user_id'];
+    $ssth->bindParam(':user', $uid, PDO::PARAM_INT); //1 testvärde
     echo "ID: " . $_SESSION['user_id'];
-    $ssth->bindParam(':date', date("Y-m-d H:i:s"));
-    $ssth->bindParam(':last_modified', date("Y-m-d H:i:s"));
-    $ssth->bindParam(':data', serialize($form));
+    $ssth->bindParam(':date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
+    $ssth->bindParam(':last_modified', date("Y-m-d H:i:s"), PDO::PARAM_STR);
+    $ssth->bindParam(':data', serialize($form), PDO::PARAM_STR);
     $ssth->execute();
 
     echo "Your form has been saved.</br>";
@@ -80,8 +83,9 @@
      if($dbh != null){
        $ssth = $dbh->prepare("SELECT * FROM site.reviews WHERE id = $rid");
        $ssth->execute();
-       $tmp = $ssth->fetchColumn(4);
-       $data = unserialize($data);
+       $tmp = $ssth->fetchObject();
+       $data = unserialize($tmp->data);
+       echo $data->s1 . "</br>";
      }
    }
 
