@@ -2,7 +2,6 @@
 
  if(isset($_POST['submit'])){
 
-   echo "submit";
    $form = new PP();
    $form->student1 = test_input($_POST["student1"]);
    $form->s1email = test_input($_POST["s1email"]);
@@ -55,12 +54,10 @@
    $form->s4 = test_input(test_grade($_POST["s4"]));
    $form->feedback = test_input($_POST["feedback"]);
 
-   echo "add to db</br>";
    if($dbh != null){
-    $ssth = $dbh->prepare("INSERT INTO site.reviews(user, date, last_modified, data) VALUES(:user,:date,:last_modified,:data)");
+    $ssth = $dbh->prepare(SQL_INSERT_REVIEW);
     $uid = $_SESSION['user_id'];
-    $ssth->bindParam(':user', $uid, PDO::PARAM_INT); //1 testvärde
-    echo "ID: " . $_SESSION['user_id'];
+    $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
     $ssth->bindParam(':date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
     $ssth->bindParam(':last_modified', date("Y-m-d H:i:s"), PDO::PARAM_STR);
     $ssth->bindParam(':data', serialize($form), PDO::PARAM_STR);
@@ -81,11 +78,11 @@
    if(isset($_POST['review_id'])){
      $rid = $_POST["rid"];
      if($dbh != null){
-       $ssth = $dbh->prepare("SELECT * FROM site.reviews WHERE id = $rid");
+       $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID);
+       $ssth->bindParam(':rid', $rid, PDO::PARAM_INT);
        $ssth->execute();
        $tmp = $ssth->fetchObject();
        $data = unserialize($tmp->data);
-       echo $data->s1 . "</br>";
      }
    }
 
