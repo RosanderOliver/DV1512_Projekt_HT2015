@@ -3,9 +3,9 @@ CREATE DATABASE IF NOT EXISTS `site`;
 CREATE TABLE IF NOT EXISTS `site`.`users` (
 		`id`                    INT           NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id, unique',
     `eppn`                  VARCHAR(16)   NOT NULL UNIQUE COMMENT 'user''s identifier, unique',
-    `email`            			VARCHAR(64)   NOT NULL UNIQUE COMMENT 'user''s email, unique',
-    `given_name`            VARCHAR(64)   NOT NULL COMMENT 'user''s real name',
-    `courses`               VARCHAR(32)   DEFAULT 'a:0:{}' COMMENT 'serialized array with user''s enlisted courses',
+    `user_email`            VARCHAR(64)   NOT NULL UNIQUE COMMENT 'user''s email, unique',
+    `user_name`             VARCHAR(64)   NOT NULL COMMENT 'user''s real name',
+    `courses`               VARCHAR(32)   NOT NULL DEFAULT 'a:0:{}' COMMENT 'serialized array with user''s enlisted courses',
     PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user specific data like email and unique identifier';
 
@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS `site`.`courses` (
 CREATE TABLE IF NOT EXISTS `site`.`projects` (
     `id`                    INT           NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
     `subject`               VARCHAR(64)   NOT NULL COMMENT 'subject of the project',
+		`fileid`              	VARCHAR(128)   NOT NULL COMMENT 'String with fileid',
     `stage`                 INT           NOT NULL DEFAULT '0' COMMENT 'stage of project ex start and finished',
     `grade`                 INT           NOT NULL DEFAULT '-1' COMMENT 'grade of the file',
     `comments`              VARCHAR(128)  NOT NULL DEFAULT 'a:0:{}' COMMENT 'array with id''s of comments',

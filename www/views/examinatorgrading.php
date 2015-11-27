@@ -14,7 +14,15 @@
 	$ssth->bindParam(":id", $id, PDO::PARAM_INT);
 	$ssth->execute();
 	$project=$ssth->fetchObject();
-	$project->
+
+	$ssth = $dbh->prepare(SQL_SELECT_FILES_WHERE_ID);
+	$ssth->bindParam(":id", $project->fileid, PDO::PARAM_INT);		//is it just one fileid, otherwise handle it
+	$ssth->execute();
+	$files = $ssth->fetchObject();
+
+	print_r($project);
+	echo "\n\n";
+	print_r($files);
 
 	if($_POST){
 		$grade = intval($_POST["grades"]);
@@ -23,13 +31,26 @@
 		if( $grade < 11 || $grade > 0 ) { 	//test grades
 			$dataSent=1;
 
-			if ($dbh != null){
-				$id=1;
-				$ssth = $dbh->prepare("UPDATE `site`.`files` SET comments=:comments, grade=:grade WHERE id=:id");
+			if ($dbh != null && ($project->stage == 2)){
+				$id=1;																											//getid
+				$ssth = $dbh->prepare(SQL_UPDATE_FILES_COMMENTGRADE_WHERE_ID);
 				$ssth->bindParam(":comments", $comment, PDO::PARAM_STR);
 				$ssth->bindParam(":grade", $grade, PDO::PARAM_INT);
 				$ssth->bindParam(":id", $id, PDO::PARAM_INT);
 				$ssth->execute();
+
+				if ($grade == 3){
+					$id=1;
+					$project->stage = $project->stage+1;
+					$ssth = $dbh->prepare(SQL_UPDATE_PROJECT_STAGE_WHERE_ID);
+					$ssth->bindParam(":stage", $project->stage, PDO::PARAM_INT);
+					$ssth->bindParam(":id", $id, PDO::PARAM_INT);
+					$ssth->execute();
+				}
+			} elseif ($dbh != null && $project->stage == 3){
+
+				//TODO
+
 			}
 
 		} else {
@@ -50,9 +71,19 @@
 <br>
 
 
-<h3><font color="darkblue">EX-Job: Flying Cars | Version 1.0 | <font color="darkred">Deadline: 2015-08-20</font></font></h3>
+<h3><font color="darkblue">
+<?php echo $project->subject;
+			if($project->stage == 2){
+				echo " | Project plan |";
+			} elseif ($project->stage == 3) {
+				echo " | Project report |";
+			}
 
-Uploaded File: <font color="purple">flyingcars_danton.pdf</font>
+
+?>
+ <font color="darkred"><?php echo "Deadline "; echo $project->deadline; ?></font></font></h3>
+
+Uploaded File: <font color="purple"><?php echo $files->name; ?></font>
 
 <br>
 <br>
@@ -132,7 +163,7 @@ Uploaded File: <font color="purple">flyingcars_danton.pdf</font>
 			<br>
 			Comment:<br />
 	<form action="?view=examinatorgrading">
-		<?php if($decideFormula) : ?>
+		<?php if($project->stage == 3) : ?>
 			<select name="grades">
 		    <option value="4">A</option>
 		    <option value="5">B</option>
@@ -142,7 +173,7 @@ Uploaded File: <font color="purple">flyingcars_danton.pdf</font>
 				<option value="9">Fx</option>
 		    <option value="10">F</option>
 		  </select>
-		<?php else: ?>
+		<?php elseif($project->stage == 2): ?>
 			<select name="grades">
 				<option value="3">G</option>
 				<option value="2">Ux</option>
