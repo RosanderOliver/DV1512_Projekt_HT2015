@@ -1,9 +1,41 @@
 <?php
-	$dataSent = false;
+
+	//if() : //Skicka in argument som bestämmer betygsättningen
+	//Need file.id!!!
+	//Need projects.id!!!
+
+	$decideFormula=false;	//True är examensarbetet false är projektplan
+	$dataSent = 0;
+	$correctgrade=false;
+
+
+	$id=1;																							//USED TO IDENTYFT THE project
+	$ssth = $dbh->prepare(SQL_SELECT_PROJECT_WHERE_ID);
+	$ssth->bindParam(":id", $id, PDO::PARAM_INT);
+	$ssth->execute();
+	$project=$ssth->fetchObject();
+	$project->
+
 	if($_POST){
-		$dataSent=true;
-		$grade = $_POST["grades"];
+		$grade = intval($_POST["grades"]);
 		$comment = $_POST["comment"];
+
+		if( $grade < 11 || $grade > 0 ) { 	//test grades
+			$dataSent=1;
+
+			if ($dbh != null){
+				$id=1;
+				$ssth = $dbh->prepare("UPDATE `site`.`files` SET comments=:comments, grade=:grade WHERE id=:id");
+				$ssth->bindParam(":comments", $comment, PDO::PARAM_STR);
+				$ssth->bindParam(":grade", $grade, PDO::PARAM_INT);
+				$ssth->bindParam(":id", $id, PDO::PARAM_INT);
+				$ssth->execute();
+			}
+
+		} else {
+			$dataSent=0;
+		}
+
 	}
 
 
@@ -60,9 +92,7 @@ Uploaded File: <font color="purple">flyingcars_danton.pdf</font>
     <td>34</td>
     <td>34</td>
     <td>22</td>
-    <td>74</td>
-    <td>3</td>
-    <td>62</td>
+    <td>74</td>E
     <td>B</td>
   </tr>
 </table>
@@ -71,7 +101,7 @@ Uploaded File: <font color="purple">flyingcars_danton.pdf</font>
 
 <?php
 
-  for($x=1; $x<2; $x++){  //Hämtar antalet reviwers
+  for($x=1; $x<4; $x++){  //Hämtar antalet reviwers
     echo "<br>";
     echo "Reviwer $x <br>"; //Hämta namnen på reviewers
     echo "";
@@ -81,6 +111,7 @@ Uploaded File: <font color="purple">flyingcars_danton.pdf</font>
     <input type="submit" value="Open formulary"></form>'; //Öppnar Submit_button.php
   }
 
+
 ?>
 
 <hr>
@@ -88,32 +119,37 @@ Uploaded File: <font color="purple">flyingcars_danton.pdf</font>
 <font color="#000000"><b>Final Grade Form</b></font>
 
 <form method='post'>
+	<?php  if ($dataSent == 1) : ?>
+		<p> Data Sent </p>
+		<?php
+		echo "Grade: $grade <br>";
+		echo "Comment: $comment";
+		?>
+	<?php elseif ($dataSent == 2) : ?>
+		<p> Wrong input!!! </p>
+		<?php echo $grade; ?>
+	<?php  else : ?>
+			<br>
+			Comment:<br />
+	<form action="?view=examinatorgrading">
+		<?php if($decideFormula) : ?>
+			<select name="grades">
+		    <option value="4">A</option>
+		    <option value="5">B</option>
+		    <option value="6">C</option>($grade =='A' || $grade == 'B' || $grade == 'C' || $grade == 'D' || $grade == 'E' || $grade == 'F' )
+		    <option value="7">D</option>
+		    <option value="8">E</option>
+				<option value="9">Fx</option>
+		    <option value="10">F</option>
+		  </select>
+		<?php else: ?>
+			<select name="grades">
+				<option value="3">G</option>
+				<option value="2">Ux</option>
+				<option value="1">U</option>
+			</select>
+		<?php endif; ?>
 
-
-
-
-<?php  if($dataSent) : ?>
-	<p> Data Sent </p>
-
-	<?php
-	echo "Grade: $grade <br>";
-	echo "Comment: $comment";
-
-	?>
-<?php  else : ?>
-		<br>
-		Comment:<br />
-
-<form action="?view=examinatorgrading">
-	<select name="grades">
-    <option value="A">A</option>
-    <option value="B">B</option>
-    <option value="C">C</option>
-    <option value="D">D</option>
-    <option value="E">E</option>
-    <option value="F">F</option>
-
-  </select>
 	<br>
 	<br>
 	<textarea name='comment' id='comment'></textarea><br /><br><br>
