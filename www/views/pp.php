@@ -23,7 +23,7 @@
    $form->process2 = test_input(test_num($_POST["process2"]));
    $form->processcomment2 = test_input($_POST["processcomment2"]);
    $form->process3 = test_input(test_num($_POST["process3"]));
-   $form->processcomment3 = reviewstest_input($_POST["processcomment3"]);
+   $form->processcomment3 = test_input($_POST["processcomment3"]);
    $form->process4 = test_input(test_num($_POST["process4"]));
    $form->processcomment4 = test_input($_POST["processcomment4"]);
 
@@ -74,14 +74,17 @@
 
  }
  else{
+
    if(isset($_POST['review_id'])){
-     echo "funkar";
-     $rid = $_POST["review_id"];
+     $rid = $_POST["rid"];
      if($dbh != null){
        $ssth = $dbh->prepare("SELECT * FROM site.reviews WHERE id = $rid");
+       $ssth->execute();
+       $tmp = $ssth->fetchColumn(4);
+       $data = unserialize($data);
      }
    }
-   include('includes/content/dp_pp-eval-supervisor.php');
 
+   include('includes/content/dp_pp-eval-supervisor.php');
 
  }
