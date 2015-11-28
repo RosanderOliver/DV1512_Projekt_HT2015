@@ -51,3 +51,50 @@
   function prettyPrint($var) {
     print '<pre>'; print_r($var); print '</pre>';
   }
+
+  /**
+  * Set data in database with currentdate and time
+  * @author Oliver Rosander
+  * @param int $user, string $comment, string $subcomment, PDO $dbh
+  * @return int Id of inserted row, -1 if fail
+  */
+
+  function setComment($user, $comment, $subcomment, $dbh) {
+    //PREPARE STATEMENT
+    $date = date("Y-m-d H:i:s");
+    $ssth = $dbh->prepare(SQL_INSERT_COMMENTS);
+    $ssth->bindParam(":user", $user, PDO::PARAM_INT);
+    $ssth->bindParam(':date', $date, PDO::PARAM_STR);
+    $ssth->bindParam(":data", $comment, PDO::PARAM_STR);
+    $ssth->bindParam(":subcomments", $subcomment, PDO::PARAM_STR);
+    $ssth->execute();
+    return $dbh->lastInsertId();
+  }
+
+
+  /**
+  * createComment that uses setComment to insert into database.
+  * @author Oliver Rosander
+  * @param PDO $dbh, string|null $lbl Post index default "comment"
+  * @return int Id of last inserted row -1 if fail
+  */
+    function createComment($dbh, $lbl = null) {
+
+      if ($lbl == null) {
+        $comment = $_POST["comment"];
+      } else {
+        $comment = $lbl;
+      }
+
+      if ($comment != null && strlen($comment) < 256){
+        $comment = strip_tags($comment);
+        $ret=setComment(0, $comment, "subcomment", $dbh);
+        if ($ret != -1){    //MISSING USER AND SUBCOMMENT
+          return $ret;
+        } else {
+          return -1;
+        }
+      } else{
+        return -1;
+      }
+    }
