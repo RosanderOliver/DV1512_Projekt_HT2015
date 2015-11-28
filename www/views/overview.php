@@ -22,10 +22,3 @@ foreach($attributes as $a){
     print isset($_SERVER[$a]) ? $_SERVER[$a] : "<em>Undefined</em>";
     print "</p>";
 }
-
-?>
-
-<div>
-    <a href="?logout"><?php echo WORDING_LOGOUT; ?></a>
-    <a href="?view=edit"><?php echo WORDING_EDIT_USER_DATA; ?></a>
-</div>

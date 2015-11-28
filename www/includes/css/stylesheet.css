@@ -1,3 +1,4 @@
+
 body, html{
     margin: 0;
     padding: 0;
@@ -22,6 +23,54 @@ a, a:hover, a:visited {
   color: rgba(0, 0, 0, 0.87);
   border-top: 1px solid rgba(0, 0, 0, 0.21);
   font-size: 0.8em;
+}
+
+/* Menu */
+#menu {
+   width:100%;
+   background:#fff;
+   border-bottom:4px solid #000;
+   overflow:hidden;
+   position:relative;
+}
+#menu ul {
+   clear:left;
+   float:left;
+   list-style:none;
+   margin:0;
+   padding:0;
+   position:relative;
+   left:50%;
+   text-align:center;
+}
+
+#menu ul li {
+   display:block;
+   float:left;
+   list-style:none;
+   margin:0;
+   padding:0;
+   position:relative;
+   right:50%;
+}
+#menu ul li a {
+   display:block;
+   margin:0 0 0 1px;
+   padding:3px 10px;
+   background:#ddd;
+   color:#000;
+   text-decoration:none;
+   line-height:1.3em;
+}
+#menu ul li a:hover {
+   background:#369;
+   color:#fff;
+}
+#menu ul li a.active,
+#menu ul li a.active:hover {
+   color:#fff;
+   background:#000;
+   font-weight:bold;
 }
 
 /* Login page */
