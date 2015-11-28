@@ -15,3 +15,4 @@
     <link rel="stylesheet" href="/includes/css/stylesheet.css">
 </head>
 <body>
+  <?php include_once("includes/menu.php");
