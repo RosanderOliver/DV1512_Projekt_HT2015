@@ -9,9 +9,9 @@
 	$correctgrade=false;
 
 
-	$id=1;																							//USED TO IDENTYFT THE project
+	$projectId=$_GET["id"];																												//CHECK IF USER IS ALLOWED TO VIEW THIS ID
 	$ssth = $dbh->prepare(SQL_SELECT_PROJECT_WHERE_ID);
-	$ssth->bindParam(":id", $id, PDO::PARAM_INT);
+	$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
 	$ssth->execute();
 	$project=$ssth->fetchObject();
 
@@ -24,42 +24,33 @@
 	echo "\n\n";
 	print_r($files);
 
+	$submissions = unserialize($project->submissions);
+	$lastSubmission = count($submissions) - 1;
+
+
 	if($_POST){
 		$grade = intval($_POST["grades"]);
 		$comment = $_POST["comment"];
 
 		if( $grade < 11 || $grade > 0 ) { 	//test grades
 			$dataSent=1;
+			$ssth = $dbh->prepare(SQL_UPDATE_SUBMISSION_COMMENTGRADE_WHERE_ID);
+			$ssth->bindParam(":comments", $comment, PDO::PARAM_STR);
+			$ssth->bindParam(":grade", $grade, PDO::PARAM_INT);
+			$ssth->bindParam(":id", $lastSubmission, PDO::PARAM_INT);
+			$ssth->execute();
 
-			if ($dbh != null && ($project->stage == 2)){
-				$id=1;																											//getid
-				$ssth = $dbh->prepare(SQL_UPDATE_FILES_COMMENTGRADE_WHERE_ID);
-				$ssth->bindParam(":comments", $comment, PDO::PARAM_STR);
-				$ssth->bindParam(":grade", $grade, PDO::PARAM_INT);
-				$ssth->bindParam(":id", $id, PDO::PARAM_INT);
+			if ($grade == 3){
+				$project->stage = $project->stage+1;
+				$ssth = $dbh->prepare(SQL_UPDATE_PROJECT_STAGE_WHERE_ID);
+				$ssth->bindParam(":stage", $project->stage, PDO::PARAM_INT);
+				$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
 				$ssth->execute();
-
-				if ($grade == 3){
-					$id=1;
-					$project->stage = $project->stage+1;
-					$ssth = $dbh->prepare(SQL_UPDATE_PROJECT_STAGE_WHERE_ID);
-					$ssth->bindParam(":stage", $project->stage, PDO::PARAM_INT);
-					$ssth->bindParam(":id", $id, PDO::PARAM_INT);
-					$ssth->execute();
-				}
-			} elseif ($dbh != null && $project->stage == 3){
-
-				//TODO
-
 			}
-
 		} else {
 			$dataSent=0;
 		}
-
 	}
-
-
  ?>
 
 
