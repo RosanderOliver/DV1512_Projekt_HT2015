@@ -54,7 +54,8 @@ $views = [
   'course',
   'overview',
   'settings',
-  'edit'
+  'edit',
+  'projectoverview'
 ];
 
 /*
