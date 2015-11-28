@@ -3,8 +3,6 @@
 	$correctgrade=false;
 	$projectId=$_GET["id"];																												//CHECK IF USER IS ALLOWED TO VIEW THIS ID
 
-	prettyPrint($_GET);
-
 	$ssth = $dbh->prepare(SQL_SELECT_PROJECT_WHERE_ID);
 	$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
 	$ssth->execute();
@@ -24,16 +22,15 @@
 	$submission = $ssth->fetchObject();
 
 	prettyPrint($project);
-	prettyPrint($files);
 	prettyPrint($submission);
+	prettyPrint($_GET);
 
 	if($_POST){
 		$grade = intval($_POST["grades"]);
 		$comment = $_POST["comment"];
 
 		if( $grade < 11 || $grade > 0 ) { 	//test grades
-			$commentId=createComment($dbh);																							//Inserts comment to database!
-			echo $commentId;
+			$commentId=createComment($dbh);																						//Inserts comment to database!
 
 			if ($commentId != -1){
 				$dataSent=1;
@@ -47,7 +44,7 @@
 				}
 
 				$ssth = $dbh->prepare(SQL_UPDATE_SUBMISSION_COMMENTGRADE_WHERE_ID);
-				$ssth->bindParam(":comments", $submission->comments, PDO::PARAM_STR);									//SHOULD BE A SERIALIZED ARR
+				$ssth->bindParam(":comments", $submission->comments, PDO::PARAM_STR);		//SHOULD BE A SERIALIZED ARR
 				$ssth->bindParam(":grade", $grade, PDO::PARAM_INT);
 				$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);
 				$ssth->execute();
@@ -65,8 +62,6 @@
 		}
 	}
  ?>
-
-
 
 <!-- ============ MIDDLE COLUMN (OVERVIEW) ============== -->
 <td width="55%" valign="top" bgcolor="#FAFAFA">
@@ -89,50 +84,6 @@
 
 Uploaded File: <font color="purple"><?php echo $files->name; ?></font>
 
-<br>
-<br>
-<table style="width:100%">
-  <tr>
-    <th>Reviewer</th>
-    <th>Subject</th>
-    <th>Quality</th>
-    <th>Stuff</th>
-    <th>Limits</th>$_POST
-    <th>On</th>
-    <th>Off</th>
-    <th>Final Grade</th>
-  </tr>
-  <tr>
-    <td>Alice</td>
-    <td>34</td>
-    <td>34</td>
-    <td>51</td>
-    <td>24</td>
-    <td>14</td>
-    <td>50</td>
-    <td>A</td>
-  </tr>
-  <tr>
-    <td>Bob</td>
-    <td>34</td>
-    <td>4</td>
-    <td>24</td>
-    <td>14</td>
-    <td>1</td>
-    <td>35</td>
-    <td>C</td>
-  </tr>
-  <tr>
-    <td>Chris</td>
-    <td>34</td>
-    <td>34</td>
-    <td>22</td>
-    <td>74</td>E
-    <td>B</td>
-  </tr>
-</table>
-
-<br><br><br>
 
 <?php
 
