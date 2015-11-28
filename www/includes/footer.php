@@ -6,7 +6,7 @@
 ?>
 
     <div id="footer">
-      <?php echo date("F j, Y, g:i a"); ?> | &copy; <?php echo date("Y"); ?> Exam Manager
+      <?php echo date("F j, Y, g:i a"); ?> | &copy; <?php echo date("Y"); SITE_NAME ?>
     </div>
   </body>
 </html>
