@@ -98,3 +98,31 @@
         return -1;
       }
     }
+
+/**
+ * getComment Retrives comments given a submission id
+ * @author Oliver Rosander
+ * @param PDO $dbh, int $subId
+ * @return array -1 if fail or an array containing the comments
+ */
+ function getComment($dbh, $subId) {
+   $commentIdArr = array();
+   $commentArr = array();
+
+   $ssth = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
+ 	 $ssth->bindParam(":id", $subId, PDO::PARAM_INT);								//is it just one fileid, otherwise handle it
+   $ssth->execute();
+   $submission = $ssth->fetchObject();
+   $submission->comments = unserialize($submission->comments);
+   $commentIdArr = explode(" ", $submission->comments);
+
+   for ($x=0; $x<sizeof($commentIdArr); $x++){
+
+     $ssth = $dbh->prepare(SQL_SELECT_COMMENTS_WHERE_ID);
+     $ssth->bindParam(":id", $commentIdArr[$x], PDO::PARAM_INT);
+     $ssth->execute();
+     $comments = $ssth->fetchObject();
+     $commentArr[$x] = $comments->data;
+  }
+  return $commentArr;
+ }

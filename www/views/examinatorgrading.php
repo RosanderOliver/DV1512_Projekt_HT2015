@@ -2,6 +2,7 @@
 	$dataSent = 0;
 	$correctgrade=false;
 	$projectId=$_GET["id"];																												//CHECK IF USER IS ALLOWED TO VIEW THIS ID
+	$commentArr = array();
 
 	$ssth = $dbh->prepare(SQL_SELECT_PROJECT_WHERE_ID);
 	$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
@@ -82,21 +83,19 @@
 ?>
  <font color="darkred"><?php echo "Deadline "; echo $project->deadline; ?></font></font></h3>
 
-Uploaded File: <font color="purple"><?php echo $files->name; ?></font>
-
 
 <?php
+	$commentArr = getComment($dbh, $lastSubmissionIndex);
+	echo "Student comment: ".$commentArr[0];
 
-  for($x=1; $x<4; $x++){  //Hämtar antalet reviwers
-    echo "<br>";
-    echo "Reviwer $x <br>"; //Hämta namnen på reviewers
-    echo "";
-    echo "Grade: G <br>";  //Hämta deras slutbetyg
-    echo "Comment: Really really good!";  //Hämta slukommenteraren
-    echo '<form action="./PHP_Code/Subm Data Sent it_button.php" target="YO">
-    <input type="submit" value="Open formulary"></form>'; //Öppnar Submit_button.php
-  }
 
+	for($x=0; $x < 1; $x++) {																											//Shall loop over reviews
+		echo "<br>Uploaded file: ";																									//Name of uploaded files regarding this submission
+		echo "<br>Reviewer: ";																											//Reviewername
+		echo "<br>Comment: ";																												//Final comment from formulaty
+		echo '<br><a href="Link to formulary">Link to formulary</a>';								//Link to formulary
+		echo "<br>";
+	}
 
 ?>
 
