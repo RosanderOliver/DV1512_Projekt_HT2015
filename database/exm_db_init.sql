@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `site`.`projects` (
     `id`                    INT           NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
     `subject`               VARCHAR(64)   NOT NULL COMMENT 'subject of the project',
     `stage`                 INT           DEFAULT '0' COMMENT 'stage of project ex start and finished',
-    `grade`                 INT           DEFAULT '-1' COMMENT 'grade of the file',
+    `grade`                 INT           DEFAULT '0' COMMENT 'grade of the file',
     `files`             	 	VARCHAR(64)   DEFAULT 'a:0:{}' COMMENT 'managers linked to the project',
     `comments`              VARCHAR(128)  DEFAULT 'a:0:{}' COMMENT 'array with id''s of comments',
     `deadline`              DATETIME      NOT NULL COMMENT 'next deadline for the project',
@@ -33,16 +33,25 @@ CREATE TABLE IF NOT EXISTS `site`.`projects` (
     PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='data about all uploaded files';
 
+CREATE TABLE IF NOT EXISTS `site`.`submissions` (
+		`id`                    INT           NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
+    `user`                  INT           NOT NULL COMMENT 'user id of the uploader',
+    `date`                  DATETIME 	  	DEFAULT '0000-00-00 00:00:00' COMMENT 'date and time of the upload',
+    `files`               	VARCHAR(64)   DEFAULT 'a:0:{}' COMMENT 'array with files associated with the submission',
+    `reviews`               VARCHAR(64)   DEFAULT 'a:0:{}' COMMENT 'array with written reviews for the file',
+    `comments`              VARCHAR(128)  DEFAULT 'a:0:{}' COMMENT 'array with id''s of comments',
+    `grade`                 INT           DEFAULT '0' COMMENT 'grade of the submission',
+		PRIMARY KEY (`id`)
+) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='data about each submission and it''s files';
+
 CREATE TABLE IF NOT EXISTS `site`.`files` (
 		`id`                    INT           NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
     `name`                  VARCHAR(64)   NOT NULL COMMENT 'name of the file',
     `user`                  INT           NOT NULL COMMENT 'user id of the uploader',
     `date`                  DATETIME 	  	DEFAULT '0000-00-00 00:00:00' COMMENT 'date and time of the upload',
     `path`                  VARCHAR(64)   NOT NULL COMMENT 'relative path to the file',
-    `comments`              VARCHAR(128)  DEFAULT 'a:0:{}' COMMENT 'array with id''s of comments',
-    `reviews`               VARCHAR(64)   DEFAULT 'a:0:{}' COMMENT 'array with written reviews for the file',
-    `grade`                 INT           DEFAULT '-1' COMMENT 'grade of the file',
-		`virus_searched`				TINYINT		  	DEFAULT 0 COMMENT 'has the file been virus searched?',
+    `can_read`              VARCHAR(64)   DEFAULT 'a:0:{}' COMMENT 'array with users that have read permission',
+		`virus_searched`				TINYINT		  	DEFAULT '0' COMMENT 'has the file been virus searched?',
 		PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='data about all uploaded files';
 
