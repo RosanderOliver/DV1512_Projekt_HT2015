@@ -36,12 +36,11 @@ require_once('includes/autoloader.php');
 $login = new Login();
 
  // Create a user object
- $user = null;
+ $user;
  try {
    $user = new User();
  } catch (Exception $e) {
    echo $e->getMessage();
-   exit;
  }
 
 
