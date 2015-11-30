@@ -62,6 +62,8 @@
     $ssth->bindParam(':last_modified', date("Y-m-d H:i:s"), PDO::PARAM_STR);
     $ssth->bindParam(':data', serialize($form), PDO::PARAM_STR);
     $ssth->execute();
+    $lastInsertId = $dbh->lastInsertId();
+    insertReviewIdToSubmission($dbh, 26, $lastInsertId);
 
     echo "Your form has been saved.</br>";
    }
@@ -77,7 +79,7 @@
 
 
 
-     if(isset($_GET["rid"])){
+   if(isset($_GET["rid"])){
      $rid = intval($_GET["rid"]);
      if($dbh != null && $rid != 0){
        $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID);

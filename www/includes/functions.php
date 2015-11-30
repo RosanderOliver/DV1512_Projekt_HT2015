@@ -172,3 +172,33 @@
     $data = htmlspecialchars($data);
     return $data;
   }
+
+  /** Insert review id into submissions
+   * @author Oliver Rosander
+   * @param PDO $dbh, int $submissionsId, int $lastInsertId
+   * @return -1 if fail otherwise lastInsertId
+   */
+   function insertReviewIdToSubmission($dbh, $submissionsId, $lastInsertId) {
+
+     $ssth = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
+   	 $ssth->bindParam(":id", $submissionsId, PDO::PARAM_INT);
+     $ssth->execute();
+     $submission = $ssth->fetchObject();
+
+     prettyPrint($submission);
+
+     if ($submission->reviews == null) {
+       $submission->reviews = serialize($lastInsertId);
+     } else{
+       $reviewIdArr = unserialize($submission->reviews);
+       $reviewIdArr .=" ".$lastInsertId;
+       $submission->reviews = serialize($reviewIdArr);
+     }
+
+     prettyPrint($submission->reviews);
+     $ssth = $dbh->prepare(SQL_UPDATE_SUBMISSION_REVIEWS_WHERE_ID);
+     $ssth->bindParam(":reviews", $submission->reviews, PDO::PARAM_STR);        //TODO Skriver null till fältet!
+     $ssth->bindParam(":id", $submissionsId, PDO::PARAM_INT);
+     $ssth->execute();
+
+   }

@@ -60,8 +60,10 @@ if(isset($_POST['submit'])){
    $ssth->bindParam(':last_modified', date("Y-m-d H:i:s"), PDO::PARAM_STR);
    $ssth->bindParam(':data', serialize($form));
    $ssth->execute();
+   $lastInsertId = $dbh->lastInsertId();
+   insertReviewIdToSubmission($dbh, 26, $lastInsertId);
 
-   echo "Your form has been saved.</br>";
+   echo "Your form has been saved.</br>";                                       //TODO Check that data has been sent.
   }
 
   else{
@@ -71,9 +73,9 @@ if(isset($_POST['submit'])){
 }
 else{
 
-  if(isset($_POST['review_id'])){
-    $rid = $_POST["rid"];
-    if($dbh != null){
+  if(isset($_GET["rid"])){
+    $rid = intval($_GET["rid"]);
+    if($dbh != null && $rid != 0){
       $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID);
       $ssth->bindParam(':rid', $rid, PDO::PARAM_INT);
       $ssth->execute();
