@@ -1,7 +1,6 @@
 <?php
 $submissionArray = array();
 $commentArray = array();
-$grades = ['U', 'Ux', 'G', 'A', 'B', 'C', 'D', 'E', 'Fx', 'F'];
 $projectId=$_GET["id"];
 
 $ssth = $dbh->prepare(SQL_SELECT_PROJECT_WHERE_ID);
@@ -40,13 +39,13 @@ for($x = 0; $x < sizeof($submissionID); $x++ ) {                                
     echo "Files: ".$submissionArray[$x]->files;                                 //should be serialized and linked to files.
     echo "<br>Student comment: ".$commentArray[0];
     echo "<br>Examinator comment: ".$commentArray[1];
-    echo "<br>Grade: ".$grades[$submissionArray[$x]->grade-1];                  //Transforms grade using $grade array defined in the begging of the file.
+    echo "<br>Grade: ".$grades[$submissionArray[$x]->grade];                    //Transforms grade using $grade array defined in the begging of the file.
 
-  } elseif ($submissionArray[$x]->grade-1){
+  } elseif ($submissionArray[$x]->grade > 3 && $submissionArray[$x]->grade < 11){                                       //Fel test?
     echo "<h2> Project report ".($x+1)." </h2>";
     echo "Files: ".$submissionArray[$x]->files;
     echo "<br>Studentv comment: ".$commentArray[0];                             //should be serialized and linked to files.
-    echo "<br>Grade: ".$grades[$submissionArray[$x]->grade-1];                  //Transforms grade using $grade array defined in the begging of the file.
+    echo "<br>Grade: ".$grades[$submissionArray[$x]->grade];                    //Transforms grade using $grade array defined in the begging of the file.
   }
 
   }

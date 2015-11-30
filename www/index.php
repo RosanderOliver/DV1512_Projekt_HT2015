@@ -9,6 +9,9 @@ define('IN_EXM', TRUE);
 // Activate output buffer
 ob_start('ob_gzhandler');
 
+// Array for grades
+$grades = [1=>'U', 2=>'Ux', 3=>'G', 4=>'A', 5=>'B', 6=>'C', 7=>'D', 8=>'E', 9=>'Fx', 10=>'F'];
+
 // include the config
 require_once('includes/functions.php');
 
