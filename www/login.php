@@ -3,13 +3,24 @@
 // Set site variable
 define('IN_EXM', TRUE);
 
-require_once('includes/libraries/password_compatibility_library.php');
+// Activate output buffer
+ob_start('ob_gzhandler');
+
+// include the config
+require_once('includes/functions.php');
 
 // include the config
 require_once('includes/config.php');
 
+// include the SQL-file
+require_once('includes/SQL.php');
+
 // include the PHPMailer library
 require_once('includes/libraries/PHPMailer.php');
+
+// include the Password library
+if (version_compare(phpversion(), '5.5.0', '<'))
+    require_once('includes/libraries/password_compatibility_library.php');
 
 // Include translation
 include_once('includes/translations/en.php');
