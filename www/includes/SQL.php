@@ -25,3 +25,7 @@ define("SQL_UPDATE_SUBMISSION_COMMENTGRADE_WHERE_ID", "UPDATE `site`.`submission
 //Comments
 define("SQL_SELECT_COMMENTS_WHERE_ID", "SELECT * FROM `site`.`comments` WHERE `id`=:id");
 define("SQL_INSERT_COMMENTS", "INSERT INTO `site`.`comments` (`user`, `date`, `data`, `subcomments`) VALUES (:user, :date, :data, :subcomments)");
+
+//reviewer
+define("SQL_INSERT_REVIEW","INSERT INTO `site`.`reviews`(`user`, `date`, `last_modified`, `data`) VALUES(:user,:date,:last_modified,:data)");
+define("SQL_SELECT_REVIEW_WHERE_ID","SELECT * FROM `site`.`reviews` WHERE `id` = :rid");
