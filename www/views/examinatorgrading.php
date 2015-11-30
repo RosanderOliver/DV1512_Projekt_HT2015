@@ -46,7 +46,7 @@
 				$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);
 				$ssth->execute();
 
-				if ($grade == 3){
+				if ($grade > 2 && $grade < 9){
 					$project->stage = $project->stage+1;
 					$ssth = $dbh->prepare(SQL_UPDATE_PROJECT_STAGE_WHERE_ID);
 					$ssth->bindParam(":stage", $project->stage, PDO::PARAM_INT);

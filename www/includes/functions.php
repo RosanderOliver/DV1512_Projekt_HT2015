@@ -114,7 +114,7 @@
    $commentArr = array();
 
    $ssth = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
- 	 $ssth->bindParam(":id", $subId, PDO::PARAM_INT);								//is it just one fileid, otherwise handle it
+ 	 $ssth->bindParam(":id", $subId, PDO::PARAM_INT);								              //TODO is it just one fileid, otherwise handle it
    $ssth->execute();
    $submission = $ssth->fetchObject();
    $submission->comments = unserialize($submission->comments);
