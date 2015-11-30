@@ -35,7 +35,7 @@ class User
   /**
    * @var array $courses The user's courses
    */
-  public $courses = null;
+  public $courses = Array();
 
   /**
    * Constructor
@@ -73,7 +73,23 @@ class User
       $result = $sth_get->fetch(PDO::FETCH_OBJ);
       if(!$result) throw new Exception("Unable to add user!");
     }
+
+    // Add data to parameters
+    $this->id = intval($result->id);
+    $this->eppn = $result->eppn;
+    $this->given_name = $result->given_name;
+    $this->email = $result->email;
+    $courseIDs = unserialize($result->courses);
+
+    // Add course class for each courses
+    foreach ($courseIDs as $key => $value) {
+      $sth = $this->dbh->prepare(SQL_SELECT_COURSE_WHERE_ID);
+      $sth->bindParam(':id', $value, PDO::PARAM_INT);
+      $sth->execute();
+      $this->courses[] = $sth->fetch(PDO::FETCH_OBJ);
+    }
+
     // Print it for tests
-    print_r($result);
+    prettyPrint($this);
   }
 }
