@@ -1,7 +1,7 @@
 <?php
 	$dataSent = 0;
 	$correctgrade=false;
-	$projectId=$_GET["id"];																												//CHECK IF USER IS ALLOWED TO VIEW THIS ID
+	$projectId=$_GET["id"];																												//TODO CHECK IF USER IS ALLOWED TO VIEW THIS ID
 	$commentArr = array();
 
 	$ssth = $dbh->prepare(SQL_SELECT_PROJECT_WHERE_ID);
@@ -13,25 +13,21 @@
 	$lastSubmissionIndex = $submissionsIndex[count($submissionsIndex) - 1];
 
 	$ssth = $dbh->prepare(SQL_SELECT_FILES_WHERE_ID);
-	$ssth->bindParam(":id", $project->fileid, PDO::PARAM_INT);										//is it just one fileid, otherwise handle it
+	$ssth->bindParam(":id", $project->fileid, PDO::PARAM_INT);										//TODO is it just one fileid, otherwise handle it
 	$ssth->execute();
 	$files = $ssth->fetchObject();
 
 	$ssth = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
-	$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);								//is it just one fileid, otherwise handle it
+	$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);								//TODO is it just one fileid, otherwise handle it
 	$ssth->execute();
 	$submission = $ssth->fetchObject();
-
-	prettyPrint($project);
-	prettyPrint($submission);
-	prettyPrint($_GET);
 
 	if($_POST){
 		$grade = intval($_POST["grades"]);
 		$comment = $_POST["comment"];
 
 		if( $grade < 11 || $grade > 0 ) { 	//test grades
-			$commentId=createComment($dbh);																						//Inserts comment to database!
+			$commentId=createComment($dbh);																						//TODO Inserts comment to database!
 
 			if ($commentId != -1){
 				$dataSent=1;
@@ -45,7 +41,7 @@
 				}
 
 				$ssth = $dbh->prepare(SQL_UPDATE_SUBMISSION_COMMENTGRADE_WHERE_ID);
-				$ssth->bindParam(":comments", $submission->comments, PDO::PARAM_STR);		//SHOULD BE A SERIALIZED ARR
+				$ssth->bindParam(":comments", $submission->comments, PDO::PARAM_STR);		//TODO SHOULD BE A SERIALIZED ARR
 				$ssth->bindParam(":grade", $grade, PDO::PARAM_INT);
 				$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);
 				$ssth->execute();
@@ -89,11 +85,11 @@
 	echo "Student comment: ".$commentArr[0];
 
 
-	for($x=0; $x < 1; $x++) {																											//Shall loop over reviews
-		echo "<br>Uploaded file: ";																									//Name of uploaded files regarding this submission
-		echo "<br>Reviewer: ";																											//Reviewername
-		echo "<br>Comment: ";																												//Final comment from formulaty
-		echo '<br><a href="Link to formulary">Link to formulary:</a>';								//Link to formulary
+	for($x=0; $x < 1; $x++) {																											//TODO Shall loop over reviews
+		echo "<br>Uploaded file: ";																									//TODO Name of uploaded files regarding this submission
+		echo "<br>Reviewer: ";																											//TODO Reviewername
+		echo "<br>Comment: ";																												//TODO Final comment from formulaty
+		echo '<br><a href="Link to formulary">Link to formulary:</a>';							//TODO Link to formulary
 		echo "<br>";
 	}
 
@@ -122,7 +118,7 @@
 		    <option value="4">A</option>
 		    <option value="5">B</option>
 		    <option value="6">C</option>
-		    <option value="7">D</option>
+		    <option value="7">D</option>//MISSING USER AND SUBCOMMENT
 		    <option value="8">E</option>
 				<option value="9">Fx</option>
 		    <option value="10">F</option>

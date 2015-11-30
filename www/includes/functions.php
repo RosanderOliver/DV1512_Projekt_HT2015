@@ -80,16 +80,20 @@
   */
     function createComment($dbh, $lbl = null) {
 
-      if ($lbl == null) {
+
+      if ($lbl == null && isset($_POST["comment"])) {
         $comment = $_POST["comment"];
-      } else {
-        $comment = $lbl;
+      } elseif (isset($_POST[$lbl])) {
+        $comment = $_POST[$lbl];
+      }
+      else {
+        return -1;
       }
 
       if ($comment != null && strlen($comment) < 256){
         $comment = strip_tags($comment);
-        $ret=setComment(0, $comment, "subcomment", $dbh);
-        if ($ret != -1){    //MISSING USER AND SUBCOMMENT
+        $ret=setComment(0, $comment, "subcomment", $dbh);                       //TODO MISSING USER AND SUBCOMMENT
+        if ($ret != -1){
           return $ret;
         } else {
           return -1;
