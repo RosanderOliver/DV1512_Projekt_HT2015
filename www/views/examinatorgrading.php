@@ -93,7 +93,7 @@
 		echo "<br>Uploaded file: ";																									//Name of uploaded files regarding this submission
 		echo "<br>Reviewer: ";																											//Reviewername
 		echo "<br>Comment: ";																												//Final comment from formulaty
-		echo '<br><a href="Link to formulary">Link to formulary</a>';								//Link to formulary
+		echo '<br><a href="Link to formulary">Link to formulary:</a>';								//Link to formulary
 		echo "<br>";
 	}
 
@@ -121,7 +121,7 @@
 			<select name="grades">
 		    <option value="4">A</option>
 		    <option value="5">B</option>
-		    <option value="6">C</option>($grade =='A' || $grade == 'B' || $grade == 'C' || $grade == 'D' || $grade == 'E' || $grade == 'F' )
+		    <option value="6">C</option>
 		    <option value="7">D</option>
 		    <option value="8">E</option>
 				<option value="9">Fx</option>
