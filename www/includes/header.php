@@ -13,5 +13,8 @@
     <meta name="description" content="Management of exam submission, reviewing and grading have never been easier.">
     <title>Exam Manger</title>
     <link rel="stylesheet" href="/includes/css/stylesheet.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="includes/java/Jquery.js"></script>
 </head>
 <body>
+  <?php include_once("includes/menu.php");
