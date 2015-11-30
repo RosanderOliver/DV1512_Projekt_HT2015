@@ -75,9 +75,11 @@
  }
  else{
 
-   if(isset($_POST['review_id'])){
-     $rid = $_POST["rid"];
-     if($dbh != null){
+
+
+     if(isset($_GET["rid"])){
+     $rid = intval($_GET["rid"]);
+     if($dbh != null && $rid != 0){
        $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID);
        $ssth->bindParam(':rid', $rid, PDO::PARAM_INT);
        $ssth->execute();
@@ -85,6 +87,7 @@
        $data = unserialize($tmp->data);
      }
    }
+
 
    include('includes/content/dp_pp-eval-supervisor.php');
 
