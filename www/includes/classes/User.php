@@ -62,7 +62,5 @@ class User
     $sth->execute();
     // Fetch the data
     $result = $sth->fetch(PDO::FETCH_OBJ);
-    // Print it for tests
-    print_r($result);
   }
 }
