@@ -33,15 +33,22 @@ class Registration
 
     public function __construct()
     {
-        session_start();
+      // create/read session
+      if (version_compare(phpversion(), '5.4.0', '>')) {
+        if (session_status() == PHP_SESSION_NONE)
+          session_start();
+      } else {
+        if (session_id() == '')
+          session_start();
+      }
 
-        // if we have such a POST request, call the registerNewUser() method
-        if (isset($_POST["register"])) {
-            $this->registerNewUser($_POST['user_name'], $_POST['user_email'], $_POST['user_password_new'], $_POST['user_password_repeat'], $_POST["captcha"]);
-        // if we have such a GET request, call the verifyNewUser() method
-        } else if (isset($_GET["id"]) && isset($_GET["verification_code"])) {
-            $this->verifyNewUser($_GET["id"], $_GET["verification_code"]);
-        }
+      // if we have such a POST request, call the registerNewUser() method
+      if (isset($_POST["register"])) {
+          $this->registerNewUser($_POST['user_name'], $_POST['user_email'], $_POST['user_password_new'], $_POST['user_password_repeat'], $_POST["captcha"]);
+      // if we have such a GET request, call the verifyNewUser() method
+      } else if (isset($_GET["id"]) && isset($_GET["verification_code"])) {
+          $this->verifyNewUser($_GET["id"], $_GET["verification_code"]);
+      }
     }
 
     /**
@@ -147,7 +154,6 @@ class Registration
                 if ($query_new_user_insert) {
                     // send a verification email
                     if ($this->sendVerificationEmail($user_id, $user_email, $user_activation_hash)) {
-                    //if (true) {
                         // when mail has been send successfully
                         $this->messages[] = MESSAGE_VERIFICATION_MAIL_SENT;
                         $this->registration_successful = true;

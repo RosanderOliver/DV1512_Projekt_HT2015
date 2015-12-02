@@ -28,10 +28,18 @@
   </div>
 <?php
   endif;
-  if ($login->errors != Array())
+  if ($registration->errors != Array()) {
     foreach ($login->errors as $key => $value) {
       echo $value;
       echo "</br>";
     }
+  }
+  if ($registration->messages != Array()) {
+    foreach ($login->messages as $key => $value) {
+      echo $value;
+      echo "</br>";
+    }
+  }
+
 ?>
     <a href="?"><?php echo WORDING_BACK_TO_LOGIN; ?></a>
