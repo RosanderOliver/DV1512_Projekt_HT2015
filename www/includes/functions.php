@@ -45,9 +45,11 @@
   function prettyPrint($var) {
     print '<pre>'; print_r($var); print '</pre>';
   }
-  /**Test of grade
+
+  /**
   * @author Annika Hansson
-  * @var string, $data, sting that
+  * @param string, $data, raw data from form
+  * @return string, returned as a valid grade
   */
   function test_grade($data){
     if($data == "G" || $data == "UX" || $data == "U"){
@@ -62,15 +64,14 @@
     }
   }
 
-  /*Test of number
-
-  Tests if $data is in the range of 1-5 or "-", else it returns 0.
-
-  @author Annika Hansson
-  @returnvalue   returns $data as valid number
+  /**
+  * @author Annika Hansson
+  * @var
+  * @param int, $data, raw data from form
+  * @return int, returned as valid number
   */
   function test_num($data){
-    if($data < 0 || $data > 5 || $data == "-"){
+    if(($data < 0 && $data > 6) || $data == "-"){
       $data = "-";
       return $data;
     }
@@ -79,12 +80,11 @@
     }
   }
 
-  /* Test of input
-
-  Tests and strips the data if attempts to hack are made.
-
-  @author Annika Hansson
-  @reurnvalue   returns the $data with no extra characters
+  /**
+  * @author Annika Hansson
+  * @var
+  * @param string, $data, raw data from form
+  * @return string, returned without specialcharacters and backslashes
   */
   function test_input($data)
   {
