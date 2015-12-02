@@ -22,6 +22,9 @@ if (version_compare(phpversion(), '5.5.0', '<'))
 // Include translation
 include_once('includes/translations/en.php');
 
+// include composer autoloader
+require_once('includes/vendor/autoload.php');
+
 // includehe class autoloader
 require_once('includes/autoloader.php');
 
