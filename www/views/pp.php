@@ -1,10 +1,10 @@
 <?php
+  if(isset($_GET['id'])){
+    $submissionsId = $_GET['id'];
+  }
+  prettyPrint($submissionsId);
 
  if(isset($_POST['submit'])){
-
-   $submissionId = intval($_GET['id']);
-
-   prettyPrint($submissionId);
 
    $form = new PP();
    $form->student1 = test_input($_POST["student1"]);
@@ -67,7 +67,7 @@
     $ssth->bindParam(':data', serialize($form), PDO::PARAM_STR);
     $ssth->execute();
     $lastInsertId = $dbh->lastInsertId();
-    insertReviewIdToSubmission($dbh, 26, $lastInsertId);                        //TODO Hardcoded submissionsId
+    insertReviewIdToSubmission($dbh, $submissionsId, $lastInsertId);                        //TODO Hardcoded submissionsId
 
     echo "Your form has been saved.</br>";
    }
@@ -79,8 +79,6 @@
 
  }
  else{
-
-
 
    if(isset($_GET["rid"])){
      $rid = intval($_GET["rid"]);
