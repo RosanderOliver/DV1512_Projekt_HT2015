@@ -1,4 +1,8 @@
 <?php
+  if(isset($_GET['id'])){
+    $submissionsId = $_GET['id'];
+  }
+  prettyPrint($submissionsId);
 
  if(isset($_POST['submit'])){
 
@@ -62,10 +66,11 @@
     $ssth->bindParam(':last_modified', date("Y-m-d H:i:s"), PDO::PARAM_STR);
     $ssth->bindParam(':data', serialize($form), PDO::PARAM_STR);
     $ssth->execute();
+    $lastInsertId = $dbh->lastInsertId();
+    insertReviewIdToSubmission($dbh, $submissionsId, $lastInsertId);                        //TODO Hardcoded submissionsId
 
     echo "Your form has been saved.</br>";
    }
-
    else{
      echo "Connection failed. Try to log in again.</br>";
    }
@@ -85,7 +90,15 @@
        $sub->bindParam(':id', $id, PDO::PARAM_INT);
        $sub->execute();
        $tmp = $sub->fetchObject();
-       $rid
+       $tmp = unserialize($tmp->reviews);
+
+       if($tmp != null){
+         $rIdArray = array($tmp.length);
+         for($x = 1; $x < $rid.length; $x++){
+           $rIdArray[$x] = $tmp[$x];
+         }
+      }
+
 
        $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID);
        $ssth->bindParam(':rid', $rid, PDO::PARAM_INT);

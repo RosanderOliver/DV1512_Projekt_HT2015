@@ -46,7 +46,8 @@
     print '<pre>'; print_r($var); print '</pre>';
   }
 
-  /**
+  
+  /**Test of grade
   * @author Annika Hansson
   * @param string, $data, raw data from form
   * @return string, returned as a valid grade
@@ -93,3 +94,30 @@
     $data = htmlspecialchars($data);
     return $data;
   }
+
+  /** Insert review id into submissions
+   * @author Oliver Rosander
+   * @param PDO $dbh, int $submissionsId, int $lastInsertId
+   * @return -1 if fail otherwise lastInsertId
+   */
+   function insertReviewIdToSubmission($dbh, $submissionsId, $lastInsertId) {
+
+     $ssth = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
+   	 $ssth->bindParam(":id", $submissionsId, PDO::PARAM_INT);
+     $ssth->execute();
+     $submission = $ssth->fetchObject();
+
+     if ($submission->reviews == null) {
+       $submission->reviews = serialize($lastInsertId);
+     } else{
+       $reviewIdArr = unserialize($submission->reviews);
+       $reviewIdArr .=" ".$lastInsertId;
+       $submission->reviews = serialize($reviewIdArr);
+     }
+
+     $ssth = $dbh->prepare(SQL_UPDATE_SUBMISSION_REVIEWS_WHERE_ID);
+     $ssth->bindParam(":reviews", $submission->reviews, PDO::PARAM_STR);
+     $ssth->bindParam(":id", $submissionsId, PDO::PARAM_INT);
+     $ssth->execute();
+
+   }

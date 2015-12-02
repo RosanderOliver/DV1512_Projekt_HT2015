@@ -2,7 +2,7 @@
 
 if(isset($_POST['submit'])){
 
-  echo "submit";
+  
   $form = new TE();
 
   $form->student1 = test_input($_POST["student1"]);
@@ -53,6 +53,7 @@ if(isset($_POST['submit'])){
 
   echo "db";
   if($dbh != null){
+   $submissionsId = $_POST["id"];
    $ssth = $dbh->prepare(SQL_INSERT_REVIEW);
    $uid = $_SESSION['user_id'];
    $ssth->bindParam(':user', $uid, PDO::PARAM_INT); //1 testvärde
@@ -60,6 +61,9 @@ if(isset($_POST['submit'])){
    $ssth->bindParam(':last_modified', date("Y-m-d H:i:s"), PDO::PARAM_STR);
    $ssth->bindParam(':data', serialize($form));
    $ssth->execute();
+   $lastInsertId = $dbh->lastInsertId();
+
+   insertReviewIdToSubmission($dbh, $submissionsId, $lastInsertId);                         //TODO Hardcoded submissionsId
 
    echo "Your form has been saved.</br>";
   }
