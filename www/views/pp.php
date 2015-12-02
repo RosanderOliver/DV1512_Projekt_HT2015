@@ -74,12 +74,19 @@
 
  }
  else{
+   //request
+     if(isset($_GET["id"])){
+       //valid id
+     $id = intval($_GET["id"]);
+     //have db connection
+     if($dbh != null && $id != 0){
+       //fin review from submission
+       $sub = $dbh->prepare(SQL_SELECT_SUBBMISSION_WHERE_ID);
+       $sub->bindParam(':id', $id, PDO::PARAM_INT);
+       $sub->execute();
+       $tmp = $sub->fetchObject();
+       $rid
 
-
-
-     if(isset($_GET["rid"])){
-     $rid = intval($_GET["rid"]);
-     if($dbh != null && $rid != 0){
        $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID);
        $ssth->bindParam(':rid', $rid, PDO::PARAM_INT);
        $ssth->execute();
