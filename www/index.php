@@ -3,6 +3,9 @@
 // Require https
 //if ( $_SERVER['HTTPS'] !== 'on' ) die('Site requires https!');
 
+// PHP 5.3 or higher is required
+if (version_compare(phpversion(), '5.3.0', '<')) exit('PHP Version 5.3 or higher is required');
+
 // Set site variable
 define('IN_EXM', TRUE);
 
@@ -17,9 +20,6 @@ require_once('includes/config.php');
 
 // include the SQL-file
 require_once('includes/SQL.php');
-
-// include the PHPMailer library
-require_once('includes/libraries/PHPMailer.php');
 
 // include the Password library
 if (version_compare(phpversion(), '5.5.0', '<'))
@@ -64,6 +64,21 @@ $views = [
 // Is the user logged in?
 if ($login->isUserLoggedIn() === true) {
 
+  // TEST MAIL
+  $sendgrid_apikey = EMAIL_SG_API_KEY;
+  $sendgrid = new SendGrid($sendgrid_apikey);
+  $email = new SendGrid\Email();
+  $name = array('Jim');
+  $email
+      ->addTo('jiah13@student.bth.se')
+      ->setFrom('admin@xmanager.me')
+      ->setSubject('Testing the PHP Library')
+      ->setText('I\'m text!')
+      ->setHtml('<strong>I\'m HTML!</strong>')
+      ->addSubstitution(":name", $name)
+  ;
+  $sendgrid->send($email);
+  
   // Include header
   include_once('includes/header.php');
 
