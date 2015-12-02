@@ -46,7 +46,7 @@
     print '<pre>'; print_r($var); print '</pre>';
   }
 
-  
+
   /**Test of grade
   * @author Annika Hansson
   * @param string, $data, raw data from form
@@ -106,6 +106,8 @@
    	 $ssth->bindParam(":id", $submissionsId, PDO::PARAM_INT);
      $ssth->execute();
      $submission = $ssth->fetchObject();
+
+     prettyPrint($submission);
 
      if ($submission->reviews == null) {
        $submission->reviews = serialize($lastInsertId);

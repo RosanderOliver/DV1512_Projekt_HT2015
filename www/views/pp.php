@@ -67,7 +67,7 @@
     $ssth->bindParam(':data', serialize($form), PDO::PARAM_STR);
     $ssth->execute();
     $lastInsertId = $dbh->lastInsertId();
-    insertReviewIdToSubmission($dbh, $submissionsId, $lastInsertId);                        //TODO Hardcoded submissionsId
+    insertReviewIdToSubmission($dbh, $submissionsId, $lastInsertId);
 
     echo "Your form has been saved.</br>";
    }

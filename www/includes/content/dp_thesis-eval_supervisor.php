@@ -4,7 +4,7 @@
 <script type="text/javascript" src="includes/java/Form.js"></script>
 <body>
 
-<form action="index.php?view=thesis" method="post" name="thesis"  onmouseover="tot(thesis.s1.value, thesis.s2.value, thesis.s3.value, thesis.s4.value)">
+<form action="index.php?view=thesis&id=<?php echo $submissionsId?>" method="post" name="thesis"  onmouseover="tot(thesis.s1.value, thesis.s2.value, thesis.s3.value, thesis.s4.value)">
 <table class="form_table">
 
   <th>Student 1</th>
