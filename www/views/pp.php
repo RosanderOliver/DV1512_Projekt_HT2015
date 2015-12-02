@@ -83,32 +83,48 @@
      //have db connection
      if($dbh != null && $submissionsId != 0){
        //fin review from submission
-       $sub = $dbh->prepare(SQL_SELECT_SUBBMISSION_WHERE_ID);
+       $sub = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
        $sub->bindParam(':id', $submissionsId, PDO::PARAM_INT);
        $sub->execute();
-       $tmp = $sub->fetchObject();
-       $tmp = unserialize($tmp->reviews);
+       $temp = $sub->fetchObject();
 
-       if($tmp != null){
-         $rIdArray = explode(" ",$tmp->reviews);
+       $rIdArray;
+
+       if($temp != null){
+         $rIdArray = explode(" ",unserialize($temp->reviews));
+
        }
 
+       $data = null;
        $uid = $_SESSION['user_id'];
        $date = null;
-       for($i = 0; $i < $rIdArray.length; $i++){
-         $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
-         $ssth->bindParam(':rid', $rid, PDO::PARAM_INT);
-         $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
-         $ssth->execute();
+       if(sizeof($rIdArray) > 1){
+         for($i = 0; $i < sizeof($rIdArray); $i++){
+           $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
+           $ssth->bindParam(':rid', $rIdArray[$i], PDO::PARAM_INT);
+           $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
+           $ssth->execute();
+           $tmp = $ssth->fetchObject();
+           if(strtotime($date) == strtotime($tmp->date) || $date == null){
+             $date = $tmp->date;
+             $data = unserialize($tmp->data);
+           }
 
-         $tmp = $ssth->fetchObject();
-
-         if($date->diff($tmp->date) || $date == null){
-           $date = $tmp->date;
-           $data = unserialize($tmp->data);
          }
 
-       }
+      }
+      else{
+        $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
+        $ssth->bindParam(':rid', $rIdArray[0], PDO::PARAM_INT);
+        $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
+        $ssth->execute();
+        $tmp = $ssth->fetchObject();
+        if($tmp != null){
+          echo "test";
+          $data = unserialize($tmp->data);
+        }
+        //echo "data: " . $data->studen1;
+      }
 
 
      }
