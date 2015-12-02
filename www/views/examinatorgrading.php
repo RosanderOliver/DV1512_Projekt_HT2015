@@ -3,31 +3,37 @@
 	$correctgrade=false;
 	$projectId=$_GET["id"];																												//TODO CHECK IF USER IS ALLOWED TO VIEW THIS ID
 	$commentArr = array();
+	$reviewIdArr = array();
+	$reviewArr = array();
 
 	$ssth = $dbh->prepare(SQL_SELECT_PROJECT_WHERE_ID);
 	$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
 	$ssth->execute();
 	$project=$ssth->fetchObject();
-
 	$submissionsIndex = unserialize($project->submissions);
 	$lastSubmissionIndex = $submissionsIndex[count($submissionsIndex) - 1];
 
-	$ssth = $dbh->prepare(SQL_SELECT_FILES_WHERE_ID);
-	$ssth->bindParam(":id", $project->fileid, PDO::PARAM_INT);										//TODO is it just one fileid, otherwise handle it
-	$ssth->execute();
-	$files = $ssth->fetchObject();
-
 	$ssth = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
-	$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);								//TODO is it just one fileid, otherwise handle it
+	$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);
 	$ssth->execute();
 	$submission = $ssth->fetchObject();
+	$reviewIds = unserialize($submission->reviews);
+	$reviewIdArr = explode(" ", $reviewIds);
+
+	for($x = 0; $x < sizeof($reviewIdArr); $x++) {
+		$ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID);
+		$ssth->bindParam(":rid", $reviewIdArr[$x], PDO::PARAM_INT);
+		$ssth->execute();
+		$reviewArr[$x] = $ssth->fetchObject();
+	}
+
 
 	if($_POST){
 		$grade = intval($_POST["grades"]);
 		$comment = $_POST["comment"];
 
 		if( $grade < 11 || $grade > 0 ) { 	//test grades
-			$commentId=createComment($dbh);																						//TODO Inserts comment to database!
+			$commentId=createComment($dbh);
 
 			if ($commentId != -1){
 				$dataSent=1;
@@ -54,7 +60,7 @@
 					$ssth->execute();
 				}
 			}
-		} else {
+		} else {																					//TODO Final comment from formulaty
 			$dataSent=0;
 		}
 	}
@@ -82,15 +88,16 @@
 
 <?php
 	$commentArr = getComment($dbh, $lastSubmissionIndex);
-	echo "Student comment: ".$commentArr[0];
 
+	for($x=0; $x < sizeof($reviewArr); $x++) {
+		$getcomment = unserialize($reviewArr[$x]->data);
 
-	for($x=0; $x < 1; $x++) {																											//TODO Shall loop over reviews
+		echo "Student comment: ".$commentArr[0];																		//TODO retrive correct student Comment
 		echo "<br>Uploaded file: ";																									//TODO Name of uploaded files regarding this submission
 		echo "<br>Reviewer: ";																											//TODO Reviewername
-		echo "<br>Comment: ";																												//TODO Final comment from formulaty
+		echo "<br>Overall comments and feedback: ".$getcomment->feedback;
 		echo '<br><a href="Link to formulary">Link to formulary:</a>';							//TODO Link to formulary
-		echo "<br>";
+		echo "<br><br>";
 	}
 
 ?>
