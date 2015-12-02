@@ -61,6 +61,7 @@ $views = [
       Build the view
 */
 
+$test = new SendGrid\Email();
 // Is the user logged in?
 if ($login->isUserLoggedIn() === true) {
 
@@ -78,7 +79,7 @@ if ($login->isUserLoggedIn() === true) {
       ->addSubstitution(":name", $name)
   ;
   $sendgrid->send($email);
-  
+
   // Include header
   include_once('includes/header.php');
 
