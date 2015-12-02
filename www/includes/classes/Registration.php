@@ -184,7 +184,7 @@ class Registration
 
         // Set data to be sent
         $name = array(EMAIL_VERIFICATION_FROM_NAME);
-        $link = EMAIL_VERIFICATION_URL.'?id='.urlencode($user_id).'&verification_code='.urlencode($user_activation_hash);
+        $link = EMAIL_VERIFICATION_URL.'&id='.urlencode($user_id).'&verification_code='.urlencode($user_activation_hash);
 
         // Create new mail
         $email = new SendGrid\Email();
