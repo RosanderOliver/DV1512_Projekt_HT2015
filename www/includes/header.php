@@ -2,7 +2,7 @@
 
   // Don't access this script alone
   if (!defined('IN_EXM')) exit;
-
+  echo '<div id="menu_logo"><a href="overview_v2.html"><img src="assets/images/EXM_SMALL.png"></a></div>'
 ?>
 
 <!DOCTYPE html>
