@@ -194,10 +194,9 @@
        $reviewIdArr .=" ".$lastInsertId;
        $submission->reviews = serialize($reviewIdArr);
      }
-
-     prettyPrint($submission->reviews);
+     
      $ssth = $dbh->prepare(SQL_UPDATE_SUBMISSION_REVIEWS_WHERE_ID);
-     $ssth->bindParam(":reviews", $submission->reviews, PDO::PARAM_STR);        //TODO Skriver null till fältet!
+     $ssth->bindParam(":reviews", $submission->reviews, PDO::PARAM_STR);
      $ssth->bindParam(":id", $submissionsId, PDO::PARAM_INT);
      $ssth->execute();
 
