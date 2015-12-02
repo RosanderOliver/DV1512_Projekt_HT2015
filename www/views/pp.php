@@ -79,34 +79,39 @@
 
  }
  else{
-   //request
-     if(isset($_GET["id"])){
-       //valid id
-     $id = intval($_GET["id"]);
+
      //have db connection
-     if($dbh != null && $id != 0){
+     if($dbh != null && $submissionsId != 0){
        //fin review from submission
        $sub = $dbh->prepare(SQL_SELECT_SUBBMISSION_WHERE_ID);
-       $sub->bindParam(':id', $id, PDO::PARAM_INT);
+       $sub->bindParam(':id', $submissionsId, PDO::PARAM_INT);
        $sub->execute();
        $tmp = $sub->fetchObject();
        $tmp = unserialize($tmp->reviews);
 
        if($tmp != null){
-         $rIdArray = array($tmp.length);
-         for($x = 1; $x < $rid.length; $x++){
-           $rIdArray[$x] = $tmp[$x];
+         $rIdArray = explode(" ",$tmp->reviews);
+       }
+
+       $uid = $_SESSION['user_id'];
+       $date = null;
+       for($i = 0; $i < $rIdArray.length; $i++){
+         $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
+         $ssth->bindParam(':rid', $rid, PDO::PARAM_INT);
+         $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
+         $ssth->execute();
+
+         $tmp = $ssth->fetchObject();
+
+         if($date->diff($tmp->date) || $date == null){
+           $date = $tmp->date;
+           $data = unserialize($tmp->data);
          }
-      }
+
+       }
 
 
-       $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID);
-       $ssth->bindParam(':rid', $rid, PDO::PARAM_INT);
-       $ssth->execute();
-       $tmp = $ssth->fetchObject();
-       $data = unserialize($tmp->data);
      }
-   }
 
 
    include('includes/content/dp_pp-eval-supervisor.php');
