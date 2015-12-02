@@ -28,7 +28,10 @@ if (version_compare(phpversion(), '5.5.0', '<'))
 // Include translation
 include_once('includes/translations/en.php');
 
-// includehe class autoloader
+// include composer autoloader
+require_once('includes/vendor/autoload.php');
+
+// include the class autoloader
 require_once('includes/autoloader.php');
 
 // Create a login object. when this object is created, it will do all login/logout stuff automatically
@@ -61,24 +64,8 @@ $views = [
       Build the view
 */
 
-$test = new SendGrid\Email();
 // Is the user logged in?
 if ($login->isUserLoggedIn() === true) {
-
-  // TEST MAIL
-  $sendgrid_apikey = EMAIL_SG_API_KEY;
-  $sendgrid = new SendGrid($sendgrid_apikey);
-  $email = new SendGrid\Email();
-  $name = array('Jim');
-  $email
-      ->addTo('jiah13@student.bth.se')
-      ->setFrom('admin@xmanager.me')
-      ->setSubject('Testing the PHP Library')
-      ->setText('I\'m text!')
-      ->setHtml('<strong>I\'m HTML!</strong>')
-      ->addSubstitution(":name", $name)
-  ;
-  $sendgrid->send($email);
 
   // Include header
   include_once('includes/header.php');
