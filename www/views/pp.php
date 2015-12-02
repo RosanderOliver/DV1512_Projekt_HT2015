@@ -1,7 +1,11 @@
 <?php
 
  if(isset($_POST['submit'])){
-   
+
+   $submissionId = intval($_GET['id']);
+
+   prettyPrint($submissionId);
+
    $form = new PP();
    $form->student1 = test_input($_POST["student1"]);
    $form->s1email = test_input($_POST["s1email"]);
