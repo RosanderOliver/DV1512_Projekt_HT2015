@@ -30,10 +30,7 @@ class Registration
      */
     public  $messages                 = array();
 
-    /**
-     * the function "__construct()" automatically starts whenever an object of this class is created,
-     * you know, when you do "$login = new Login();"
-     */
+
     public function __construct()
     {
         session_start();
@@ -175,46 +172,31 @@ class Registration
      */
     public function sendVerificationEmail($user_id, $user_email, $user_activation_hash)
     {
-        $mail = new PHPMailer;
-
         // please look into the config/config.php for much more info on how to use this!
-        // use SMTP or use mail()
-        if (EMAIL_USE_SMTP) {
-            // Set mailer to use SMTP
-            $mail->IsSMTP();
-            //useful for debugging, shows full SMTP errors
-            //$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
-            // Enable SMTP authentication
-            $mail->SMTPAuth = EMAIL_SMTP_AUTH;
-            // Enable encryption, usually SSL/TLS
-            if (defined(EMAIL_SMTP_ENCRYPTION)) {
-                $mail->SMTPSecure = EMAIL_SMTP_ENCRYPTION;
-            }
-            // Specify host server
-            $mail->Host = EMAIL_SMTP_HOST;
-            $mail->Username = EMAIL_SMTP_USERNAME;
-            $mail->Password = EMAIL_SMTP_PASSWORD;
-            $mail->Port = EMAIL_SMTP_PORT;
-        } else {
-            $mail->IsMail();
-        }
+        // Make new mailer
+        $sendgrid = new SendGrid(EMAIL_SG_API_KEY);
 
-        $mail->From = EMAIL_VERIFICATION_FROM;
-        $mail->FromName = EMAIL_VERIFICATION_FROM_NAME;
-        $mail->AddAddress($user_email);
-        $mail->Subject = EMAIL_VERIFICATION_SUBJECT;
-
+        // Set data to be sent
+        $name = array(EMAIL_VERIFICATION_FROM_NAME);
         $link = EMAIL_VERIFICATION_URL.'?id='.urlencode($user_id).'&verification_code='.urlencode($user_activation_hash);
 
-        // the link to your register.php, please set this value in config/email_verification.php
-        $mail->Body = EMAIL_VERIFICATION_CONTENT.' '.$link;
+        // Create new mail
+        $email = new SendGrid\Email();
+        $email
+            ->addTo($user_email)
+            ->setFrom(EMAIL_VERIFICATION_FROM)
+            ->setSubject(EMAIL_VERIFICATION_SUBJECT)
+            ->setText(EMAIL_VERIFICATION_CONTENT . ' ' . $link)
+            ->addSubstitution(":name", $name)
+        ;
 
-        if(!$mail->Send()) {
-            $this->errors[] = MESSAGE_VERIFICATION_MAIL_NOT_SENT . $mail->ErrorInfo;
+        try {
+            $sendgrid->send($email);
+        } catch(\SendGrid\Exception $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
