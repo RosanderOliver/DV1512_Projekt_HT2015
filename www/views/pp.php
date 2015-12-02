@@ -1,7 +1,7 @@
 <?php
 
  if(isset($_POST['submit'])){
-
+   
    $form = new PP();
    $form->student1 = test_input($_POST["student1"]);
    $form->s1email = test_input($_POST["s1email"]);
@@ -62,10 +62,11 @@
     $ssth->bindParam(':last_modified', date("Y-m-d H:i:s"), PDO::PARAM_STR);
     $ssth->bindParam(':data', serialize($form), PDO::PARAM_STR);
     $ssth->execute();
+    $lastInsertId = $dbh->lastInsertId();
+    insertReviewIdToSubmission($dbh, 26, $lastInsertId);                        //TODO Hardcoded submissionsId
 
     echo "Your form has been saved.</br>";
    }
-
    else{
      echo "Connection failed. Try to log in again.</br>";
    }
@@ -77,7 +78,7 @@
 
 
 
-     if(isset($_GET["rid"])){
+   if(isset($_GET["rid"])){
      $rid = intval($_GET["rid"]);
      if($dbh != null && $rid != 0){
        $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID);
