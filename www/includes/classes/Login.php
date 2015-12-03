@@ -18,6 +18,10 @@ class Login
      */
     private $user_id = null;
     /**
+     * @var string $user_real_name The user's real name
+     */
+    private $user_real_name = "";
+    /**
      * @var string $user_name The user's name
      */
     private $user_name = "";
@@ -293,6 +297,7 @@ class Login
             } else {
                 // write user data into PHP SESSION [a file on your server]
                 $_SESSION['user_id'] = $result_row->user_id;
+                $_SESSION['user_real_name'] = $result_row->user_real_name;
                 $_SESSION['user_name'] = $result_row->user_name;
                 $_SESSION['user_email'] = $result_row->user_email;
                 $_SESSION['user_logged_in'] = 1;

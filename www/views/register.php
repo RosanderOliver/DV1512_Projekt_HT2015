@@ -41,6 +41,5 @@
       echo "</br>";
     }
   }
-
 ?>
     <a href="?"><?php echo WORDING_BACK_TO_LOGIN; ?></a>

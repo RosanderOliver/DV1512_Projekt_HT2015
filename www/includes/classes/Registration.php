@@ -82,11 +82,12 @@ class Registration
      * handles the entire registration process. checks all error possibilities, and creates a new user in the database if
      * everything is fine
      */
-    private function registerNewUser($user_name, $user_email, $user_password, $user_password_repeat, $captcha)
+    private function registerNewUser($user_real_name, $user_name, $user_email, $user_password, $user_password_repeat, $captcha)
     {
-        // we just remove extra space on username and email
-        $user_name  = trim($user_name);
-        $user_email = trim($user_email);
+        // we just remove extra space and set html special chars
+        $user_real_name   = htmlspecialchars(trim($user_real_name));
+        $user_name        = htmlspecialchars(trim($user_name));
+        $user_email       = htmlspecialchars(trim($user_email));
 
         // check provided data validity
         // TODO: check for "return true" case early, so put this first
@@ -100,11 +101,11 @@ class Registration
             $this->errors[] = MESSAGE_PASSWORD_BAD_CONFIRM;
         } elseif (strlen($user_password) < 6) {
             $this->errors[] = MESSAGE_PASSWORD_TOO_SHORT;
-        } elseif (strlen($real_name) > 64 || strlen($real_name) < 2) {
+        } elseif (strlen($user_real_name) > 64 || strlen($user_real_name) < 2) {
             $this->errors[] = MESSAGE_REALNAME_BAD_LENGTH;
         } elseif (strlen($user_name) > 64 || strlen($user_name) < 2) {
             $this->errors[] = MESSAGE_USERNAME_BAD_LENGTH;
-        } elseif (!preg_match('/^[\p{L} ]{2,64}$/i', $real_name)) {
+        } elseif (!preg_match('/^[\p{L} ]{2,64}$/i', $user_real_name)) {
             $this->errors[] = MESSAGE_REALNAME_INVALID;
         } elseif (!preg_match('/^[a-z\d]{2,64}$/i', $user_name)) {
             $this->errors[] = MESSAGE_USERNAME_INVALID;
@@ -144,7 +145,8 @@ class Registration
                 $user_activation_hash = sha1(uniqid(mt_rand(), true));
 
                 // write new users data into database
-                $query_new_user_insert = $this->db_connection->prepare('INSERT INTO users (user_name, user_password_hash, user_email, user_activation_hash, user_registration_ip, user_registration_datetime) VALUES(:user_name, :user_password_hash, :user_email, :user_activation_hash, :user_registration_ip, now())');
+                $query_new_user_insert = $this->db_connection->prepare('INSERT INTO users (user_real_name, user_name, user_password_hash, user_email, user_activation_hash, user_registration_ip, user_registration_datetime) VALUES(:user_real_name, :user_name, :user_password_hash, :user_email, :user_activation_hash, :user_registration_ip, now())');
+                $query_new_user_insert->bindValue(':user_real_name', $user_real_name, PDO::PARAM_STR);
                 $query_new_user_insert->bindValue(':user_name', $user_name, PDO::PARAM_STR);
                 $query_new_user_insert->bindValue(':user_password_hash', $user_password_hash, PDO::PARAM_STR);
                 $query_new_user_insert->bindValue(':user_email', $user_email, PDO::PARAM_STR);
@@ -216,18 +218,19 @@ class Registration
     {
         // if database connection opened
         if ($this->databaseConnection()) {
-            // try to update user with specified information
-            $query_update_user = $this->db_connection->prepare('UPDATE users SET user_active = 1, user_activation_hash = NULL WHERE user_id = :user_id AND user_activation_hash = :user_activation_hash');
-            $query_update_user->bindValue(':user_id', intval(trim($user_id)), PDO::PARAM_INT);
-            $query_update_user->bindValue(':user_activation_hash', $user_activation_hash, PDO::PARAM_STR);
-            $query_update_user->execute();
+          // try to update user with specified information
+          $query_update_user = $this->db_connection->prepare('UPDATE users SET user_active = 1, user_activation_hash = NULL WHERE user_id = :user_id AND user_activation_hash = :user_activation_hash');
+          $query_update_user->bindValue(':user_id', intval(trim($user_id)), PDO::PARAM_INT);
+          $query_update_user->bindValue(':user_activation_hash', $user_activation_hash, PDO::PARAM_STR);
+          $query_update_user->execute();
 
-            if ($query_update_user->rowCount() > 0) {
-                $this->verification_successful = true;
-                $this->messages[] = MESSAGE_REGISTRATION_ACTIVATION_SUCCESSFUL;
-            } else {
-                $this->errors[] = MESSAGE_REGISTRATION_ACTIVATION_NOT_SUCCESSFUL;
-            }
+          if ($query_update_user->rowCount() > 0) {
+            $this->verification_successful = true;
+            $this->messages[] = MESSAGE_REGISTRATION_ACTIVATION_SUCCESSFUL;
+          } else {
+            // This error is suppressed
+            //$this->errors[] = MESSAGE_REGISTRATION_ACTIVATION_NOT_SUCCESSFUL;
+          }
         }
     }
 }
