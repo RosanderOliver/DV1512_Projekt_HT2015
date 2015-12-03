@@ -752,7 +752,7 @@ class Login
      */
     public function getGravatarImageUrl($email, $s = 80, $d = 'mm', $r = 'g', $atts = array() )
     {
-        $url = 'http://www.gravatar.com/avatar/';
+        $url = 'https://www.gravatar.com/avatar/';
         $url .= md5(strtolower(trim($email)));
         $url .= "?s=$s&d=$d&r=$r";
 
