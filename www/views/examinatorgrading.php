@@ -47,7 +47,7 @@
 				}
 
 				$ssth = $dbh->prepare(SQL_UPDATE_SUBMISSION_COMMENTGRADE_WHERE_ID);
-				$ssth->bindParam(":comments", $submission->comments, PDO::PARAM_STR);		//TODO SHOULD BE A SERIALIZED ARR
+				$ssth->bindParam(":comments", $submission->comments, PDO::PARAM_STR);
 				$ssth->bindParam(":grade", $grade, PDO::PARAM_INT);
 				$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);
 				$ssth->execute();
@@ -60,7 +60,7 @@
 					$ssth->execute();
 				}
 			}
-		} else {																					//TODO Final comment from formulaty
+		} else {
 			$dataSent=0;
 		}
 	}
@@ -75,7 +75,7 @@
 
 <h3><font color="darkblue">
 <?php echo $project->subject;
-			if($project->stage == 2){
+			if($project->stage == 2) {
 				echo " | Project plan |";
 			} elseif ($project->stage == 3) {
 				echo " | Project report |";
@@ -84,19 +84,48 @@
 
 ?>
  <font color="darkred"><?php echo "Deadline "; echo $project->deadline; ?></font></font></h3>
-
-
 <?php
+	if (sizeof($reviewArr) > 0 ) {
+		$reviewArrData = unserialize($reviewArr[0]->data);
+		if (get_class($reviewArrData) == "TE") {
+			echo "&nbsp&nbspReviewer"."&nbsp&nbsp&nbsp"." Process"."&nbsp&nbsp"."Content"."&nbsp&nbsp"."Contribution"."&nbsp&nbsp"."Presentation"."&nbsp&nbsp"."Grade<br>";
+		} elseif (get_class($reviewArrData) == "PP"){
+			echo "&nbsp&nbspReviewer"."&nbsp&nbsp&nbsp"." Process"."&nbsp&nbsp"."Content"."&nbsp&nbsp"."&nbsp&nbsp"."&nbsp&nbsp"."Grade<br>";
+		}
+		for($x=0; $x<sizeof($reviewArr); $x++){
+			$reviewArrData = unserialize($reviewArr[$x]->data);
+			if (get_class($reviewArrData) == "TE") {
+				echo "&nbsp&nbsp&nbsp".$reviewArr[$x]->user."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";									//TODO Get reviewer name from correct table
+				echo $reviewArrData->s1."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+				echo $reviewArrData->s2."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+				echo $reviewArrData->s3."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+				echo $reviewArrData->s4."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+				echo $reviewArrData->s6."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+				echo "";
+				echo "<br><br>";
+			} elseif (get_class($reviewArrData) == "PP") {
+				echo "&nbsp&nbsp&nbsp".$reviewArr[$x]->user."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";									//TODO Get reviewer name from correct table
+				echo $reviewArrData->s1."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+				echo $reviewArrData->s2."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+				echo $reviewArrData->s3."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+				echo $reviewArrData->s4."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+				echo "<br><br>";
+			}
+		}
+}
+
+
 	$commentArr = getComment($dbh, $lastSubmissionIndex);
+	echo "Student comment: ".$commentArr[0];																		//TODO retrive correct student Comment
+	echo "<br>Uploaded file: <br><br>";																									//TODO Name of uploaded files regarding this submission
 
 	for($x=0; $x < sizeof($reviewArr); $x++) {
 		$getcomment = unserialize($reviewArr[$x]->data);
 
-		echo "Student comment: ".$commentArr[0];																		//TODO retrive correct student Comment
-		echo "<br>Uploaded file: ";																									//TODO Name of uploaded files regarding this submission
+
 		echo "<br>Reviewer: ";																											//TODO Reviewername
 		echo "<br>Overall comments and feedback: ".$getcomment->feedback;
-		echo '<br><a href="Link to formulary">Link to formulary:</a>';							//TODO Link to formulary
+		echo '<br><a href="Link to formulary">Link to formulary:</a>';							//TODO Link to formulary should be the name of the reviewer
 		echo "<br><br>";
 	}
 
