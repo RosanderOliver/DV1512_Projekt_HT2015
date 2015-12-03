@@ -44,7 +44,7 @@ class Registration
 
       // if we have such a POST request, call the registerNewUser() method
       if (isset($_POST["register"])) {
-          $this->registerNewUser($_POST['user_name'], $_POST['user_email'], $_POST['user_password_new'], $_POST['user_password_repeat'], $_POST["captcha"]);
+          $this->registerNewUser($_POST['real_name'], $_POST['user_name'], $_POST['user_email'], $_POST['user_password_new'], $_POST['user_password_repeat'], $_POST["captcha"]);
       // if we have such a GET request, call the verifyNewUser() method
       } else if (isset($_GET["id"]) && isset($_GET["verification_code"])) {
           $this->verifyNewUser($_GET["id"], $_GET["verification_code"]);
@@ -100,8 +100,12 @@ class Registration
             $this->errors[] = MESSAGE_PASSWORD_BAD_CONFIRM;
         } elseif (strlen($user_password) < 6) {
             $this->errors[] = MESSAGE_PASSWORD_TOO_SHORT;
+        } elseif (strlen($real_name) > 64 || strlen($real_name) < 2) {
+            $this->errors[] = MESSAGE_REALNAME_BAD_LENGTH;
         } elseif (strlen($user_name) > 64 || strlen($user_name) < 2) {
             $this->errors[] = MESSAGE_USERNAME_BAD_LENGTH;
+        } elseif (!preg_match('/^[\p{L} ]{2,64}$/i', $real_name)) {
+            $this->errors[] = MESSAGE_REALNAME_INVALID;
         } elseif (!preg_match('/^[a-z\d]{2,64}$/i', $user_name)) {
             $this->errors[] = MESSAGE_USERNAME_INVALID;
         } elseif (empty($user_email)) {
