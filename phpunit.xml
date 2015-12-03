@@ -3,7 +3,6 @@
   <testsuites>
     <testsuite name="Application Test Suite">
       <directory>tests/</directory>
-      <file phpVersion="5.4.0" phpVersionOperator=">=">tests/Registration.php</file>
       <exclude>tests/testAutoloader.php</exclude>
     </testsuite>
   </testsuites>
