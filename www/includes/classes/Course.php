@@ -22,11 +22,15 @@ class Course
   */
   public $role_table = null;
   /**
+  * @var string $name Name of the course
+  */
+  public $name = "";
+  /**
   * @var int $deadlines Array of the course's deadlines
   */
   public $deadlines = Array();
   /**
-  * @var int $projects projects assosiated with the course
+  * @var int $projects Projects assosiated with the course
   */
   public $projects = Array();
 
@@ -73,7 +77,15 @@ class Course
 
     $this->id = $result->id;
     $this->role_table = $result->role_table;
+    $this->name = $result->name;
     $this->deadlines = unserialize($result->deadlines);
-    $this->projects = unserialize($result->projects);
+    // Fetch projects
+    $projects = unserialize($result->projects);
+    foreach ($projects as $key => $value) {
+      $sth = $this->dbh->prepare(SQL_SELECT_PROJECT_WHERE_ID);
+      $sth->bindParam(':id', $value, PDO::PARAM_INT);
+      $sth->execute();
+      $this->projects[] = $sth->fetch(PDO::FETCH_OBJ);
+    }
   }
 }

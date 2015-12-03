@@ -112,6 +112,6 @@ class User
     }
 
     // Print it for tests
-    prettyPrint($this);
+    //prettyPrint($this);
   }
 }

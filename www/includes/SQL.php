@@ -12,3 +12,6 @@ define("SQL_INSERT_USER", "INSERT INTO `site`.`users` (`eppn`, `email`) VALUES (
 
 // Courses
 define("SQL_SELECT_COURSE_WHERE_ID", "SELECT * FROM `site`.`courses` WHERE `id`= :id");
+
+// Projects
+define("SQL_SELECT_PROJECT_WHERE_ID", "SELECT * FROM `site`.`projects` WHERE `id`= :id");

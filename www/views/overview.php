@@ -13,7 +13,15 @@ if ($login->isUserLoggedIn() === false) exit(1);
 <!-- ============ LEFT COLUMN (COURSES) ============== -->
 <td width="20%" valign="top">
 <h2>Active Courses</h2>
-<a href="student_course.html">SL3000</a>
+<?php
+  echo '<ul>';
+  foreach ($user->courses as $key => $value) {
+    echo '<li>';
+    echo '<a href="?view=course&id='.$value->id.'">'.$value->name."</a>";
+    echo '</li>';
+  }
+  echo '</ul>';
+?>
 </td>
 
 <!-- ============ MIDDLE COLUMN (OVERVIEW) ============== -->
