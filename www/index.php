@@ -3,6 +3,9 @@
 // Require https
 //if ( $_SERVER['HTTPS'] !== 'on' ) die('Site requires https!');
 
+// PHP 5.3 or higher is required
+if (version_compare(phpversion(), '5.3.0', '<')) exit('PHP Version 5.3 or higher is required');
+
 // Set site variable
 define('IN_EXM', TRUE);
 
@@ -18,9 +21,6 @@ require_once('includes/config.php');
 // include the SQL-file
 require_once('includes/SQL.php');
 
-// include the PHPMailer library
-require_once('includes/libraries/PHPMailer.php');
-
 // include the Password library
 if (version_compare(phpversion(), '5.5.0', '<'))
     require_once('includes/libraries/password_compatibility_library.php');
@@ -28,7 +28,10 @@ if (version_compare(phpversion(), '5.5.0', '<'))
 // Include translation
 include_once('includes/translations/en.php');
 
-// includehe class autoloader
+// include composer autoloader
+require_once('includes/vendor/autoload.php');
+
+// include the class autoloader
 require_once('includes/autoloader.php');
 
 // Create a login object. when this object is created, it will do all login/logout stuff automatically

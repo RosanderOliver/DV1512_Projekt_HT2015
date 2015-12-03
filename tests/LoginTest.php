@@ -3,7 +3,8 @@
 
   /**
    * Tests Login Class
-   * How tu use PHPUnit: https://phpunit.de/manual/current/en/
+   * How to use PHPUnit:
+   * @see https://phpunit.de/manual/current/en/
    */
 
   /**

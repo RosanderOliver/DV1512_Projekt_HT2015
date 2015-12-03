@@ -115,7 +115,8 @@ a, a:hover, a:visited {
     color: #252525;
 }
 .login-box input[type="text"],
-.login-box input[type="password"] {
+.login-box input[type="password"],
+.login-box input[type="email"] {
     font-family: Arial, sans-serif;
     color: #252525;
     background-color: #ffffff;
