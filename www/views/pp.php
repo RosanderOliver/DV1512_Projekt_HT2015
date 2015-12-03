@@ -69,6 +69,7 @@
     $lastInsertId = $dbh->lastInsertId();
     insertReviewIdToSubmission($dbh, $submissionsId, $lastInsertId);
 
+
     echo "Your form has been saved.</br>";
    }
    else{
@@ -88,7 +89,7 @@
        $sub->execute();
        $temp = $sub->fetchObject();
 
-       $rIdArray;
+       $rIdArray = array();
 
        if($temp != null){
          $rIdArray = explode(" ",unserialize($temp->reviews));
@@ -96,7 +97,7 @@
        }
 
        $data = null;
-       $uid = $_SESSION['user_id'];
+       $uid = $_GET["uid"];
        $date = null;
        if(sizeof($rIdArray) > 1){
          for($i = 0; $i < sizeof($rIdArray); $i++){
@@ -105,13 +106,11 @@
            $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
            $ssth->execute();
            $tmp = $ssth->fetchObject();
-           if(strtotime($date) == strtotime($tmp->date) || $date == null){
+           if(strtotime($date) < strtotime($tmp->date) || $date == null){
              $date = $tmp->date;
              $data = unserialize($tmp->data);
            }
-
          }
-
       }
       else{
         $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
@@ -125,8 +124,6 @@
         }
         //echo "data: " . $data->studen1;
       }
-
-
      }
 
 
