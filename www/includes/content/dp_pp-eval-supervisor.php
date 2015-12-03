@@ -43,7 +43,7 @@
       <td>Supervisor</td>
       <td><input type="text" name="supervisor" class="form_input"  value="<?php echo $data->supervisor; ?>" required></td> <!-- required -->
       <td>Term (e.g. vt14): </td>
-      <td><input type="text" name="term" class="form_input" value="<?php echo $data->term; ?>" required></td> <!-- required -->
+      <td><input ty$reviewArrpe="text" name="term" class="form_input" value="<?php echo $data->term; ?>" required></td> <!-- required -->
       <td>Type:</td>
       <td><input type="number" name="type" min="1" class="form_input" max="4" value="<?php echo $data->type; ?>" required></td> <!-- required -->
       <td rowspan="3">

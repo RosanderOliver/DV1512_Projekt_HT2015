@@ -5,6 +5,7 @@
 	$commentArr = array();
 	$reviewIdArr = array();
 	$reviewArr = array();
+	$reviewArrData = array();
 
 	$ssth = $dbh->prepare(SQL_SELECT_PROJECT_WHERE_ID);
 	$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
@@ -25,6 +26,7 @@
 		$ssth->bindParam(":rid", $reviewIdArr[$x], PDO::PARAM_INT);
 		$ssth->execute();
 		$reviewArr[$x] = $ssth->fetchObject();
+		$reviewArrData[$x] = unserialize($reviewArr[$x]->data);
 	}
 
 
@@ -86,29 +88,26 @@
  <font color="darkred"><?php echo "Deadline "; echo $project->deadline; ?></font></font></h3>
 <?php
 	if (sizeof($reviewArr) > 0 ) {
-		$reviewArrData = unserialize($reviewArr[0]->data);
-		if (get_class($reviewArrData) == "TE") {
+		if (get_class($reviewArrData[0]) == "TE") {
 			echo "&nbsp&nbspReviewer"."&nbsp&nbsp&nbsp"." Process"."&nbsp&nbsp"."Content"."&nbsp&nbsp"."Contribution"."&nbsp&nbsp"."Presentation"."&nbsp&nbsp"."Grade<br>";
-		} elseif (get_class($reviewArrData) == "PP"){
+		} elseif (get_class($reviewArrData[0]) == "PP"){
 			echo "&nbsp&nbspReviewer"."&nbsp&nbsp&nbsp"." Process"."&nbsp&nbsp"."Content"."&nbsp&nbsp"."&nbsp&nbsp"."&nbsp&nbsp"."Grade<br>";
 		}
-		for($x=0; $x<sizeof($reviewArr); $x++){
-			$reviewArrData = unserialize($reviewArr[$x]->data);
-			if (get_class($reviewArrData) == "TE") {
+		for($x=0; $x<sizeof($reviewArrData); $x++){
+			if (get_class($reviewArrData[$x]) == "TE") {
 				echo "&nbsp&nbsp&nbsp".$reviewArr[$x]->user."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";									//TODO Get reviewer name from correct table
-				echo $reviewArrData->s1."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-				echo $reviewArrData->s2."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-				echo $reviewArrData->s3."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-				echo $reviewArrData->s4."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-				echo $reviewArrData->s6."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-				echo "";
+				echo $reviewArrData[$x]->s1."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+				echo $reviewArrData[$x]->s2."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+				echo $reviewArrData[$x]->s3."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+				echo $reviewArrData[$x]->s4."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+				echo $reviewArrData[$x]->s6."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
 				echo "<br><br>";
-			} elseif (get_class($reviewArrData) == "PP") {
+			} elseif (get_class($reviewArrData[$x]) == "PP") {
 				echo "&nbsp&nbsp&nbsp".$reviewArr[$x]->user."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";									//TODO Get reviewer name from correct table
-				echo $reviewArrData->s1."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-				echo $reviewArrData->s2."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-				echo $reviewArrData->s3."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-				echo $reviewArrData->s4."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+				echo $reviewArrData[$x]->s1."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+				echo $reviewArrData[$x]->s2."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+				echo $reviewArrData[$x]->s3."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+				echo $reviewArrData[$x]->s4."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
 				echo "<br><br>";
 			}
 		}
@@ -117,16 +116,16 @@
 
 	$commentArr = getComment($dbh, $lastSubmissionIndex);
 	echo "Student comment: ".$commentArr[0];																		//TODO retrive correct student Comment
-	echo "<br>Uploaded file: <br><br>";																									//TODO Name of uploaded files regarding this submission
+	echo "<br>Uploaded file: ";																									//TODO Name of uploaded files regarding this submission
 
 	for($x=0; $x < sizeof($reviewArr); $x++) {
-		$getcomment = unserialize($reviewArr[$x]->data);
-
-
-		echo "<br>Reviewer: ";																											//TODO Reviewername
-		echo "<br>Overall comments and feedback: ".$getcomment->feedback;
-		echo '<br><a href="Link to formulary">Link to formulary:</a>';							//TODO Link to formulary should be the name of the reviewer
-		echo "<br><br>";
+		echo "<br>Overall comments and feedback: ".$reviewArrData[$x]->feedback;
+		if (get_class($reviewArrData[$x]) == "TE"){
+			echo '<br><a target="_blank" href="">Link to REVIEWS NAMES REVIEW FORMULARY</a>';							//TODO Link to formulary should be the name of the reviewer
+		} elseif ($reviewArrData[$x] == "PP") {
+			# code...
+		}
+			echo "<br><br>";
 	}
 
 ?>
