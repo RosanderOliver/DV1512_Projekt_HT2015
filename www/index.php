@@ -4,7 +4,7 @@
 //if ( $_SERVER['HTTPS'] !== 'on' ) die('Site requires https!');
 
 // PHP 5.3 or higher is required
-if (version_compare(phpversion(), '5.3.0', '<')) exit('PHP Version 5.4 or higher is required');
+if (version_compare(phpversion(), '5.4.0', '<')) exit('PHP Version 5.4 or higher is required');
 
 // Set site variable
 define('IN_EXM', TRUE);
