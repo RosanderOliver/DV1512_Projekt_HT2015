@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS `site`.`users` (
 
 CREATE TABLE IF NOT EXISTS `site`.`courses` (
     `id`                    INT           NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
-    `role_table`            INT           NOT NULL COMMENT 'table of permissions id',
+    `role_table`            INT           NOT NULL COMMENT 'id of permissions table',
     `deadlines`             VARCHAR(64)   NOT NULL COMMENT 'array with the course''s dates for dealines',
-    `projects`              VARCHAR(128)  DEFAULT 'a:0:{}' COMMENT 'files assosiated with the course',
+    `projects`              VARCHAR(128)  DEFAULT 'a:0:{}' COMMENT 'projects assosiated with the course',
     PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='course roles, files and other data related to each course';
 
@@ -107,5 +107,10 @@ CREATE TABLE IF NOT EXISTS `login`.`users` (
     UNIQUE KEY `user_email` (`user_email`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data';
 
+/* TEST DATA FOR DEBUG ONLY */
 INSERT INTO `login`.`users` (`user_id`, `user_name`, `user_password_hash`, `user_email`, `user_active`)
 	VALUES ('1', 'admin', '\$2y\$15\$cDNpzTbhPCVVESl6NrvR4eBZPuqZRg9VxoS8Y4qy1D2hHemnT4e8O', 'student@localhost', '1');
+INSERT INTO `site`.`users` (`eppn`, `email`, `given_name`, `courses`) VALUES ('admin', 'admin@mail.com', 'Administrator', 'a:1:{i:0;i:1;}');
+INSERT INTO `site`.`courses` (`role_table`, `deadlines`, `projects`) VALUES ('1', 'a:0:{}projects', 'a:1:{i:0;i:1;}');
+INSERT INTO `site`.`projects` (`subject`, `stage`, `submissions`, `students`, `managers`, `examinators`, `reviewers`) VALUES ('Test Project', '2', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}');
+INSERT INTO `site`.`submissions` (`user`) VALUES ('1');
