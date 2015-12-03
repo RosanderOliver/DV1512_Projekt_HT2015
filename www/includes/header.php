@@ -16,5 +16,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="includes/java/Jquery.js"></script>
 </head>
-<body>
-  <?php include_once("includes/menu.php");
+<body onresize="pageSize()">
+  <?php include_once("includes/menu.php"); ?>
+  <div id="page">
