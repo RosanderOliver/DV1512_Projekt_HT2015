@@ -6,77 +6,86 @@
 
  if(isset($_POST['submit'])){
 
-   $form = new PP();
-   $form->student1 = test_input($_POST["student1"]);
-   $form->s1email = test_input($_POST["s1email"]);
-   $form->pnr1 = test_input($_POST["pnr1"]);
+   $notEmpty = true;
 
-   $form->student2 = test_input($_POST["student2"]);
-   $form->s2email = test_input($_POST["s2email"]);
-   $form->pnr2 = test_input($_POST["pnr2"]);
+     $data = new PP();
+     $data->student1 = input_length(test_input($_POST["student1"]));
+     $data->s1email = input_length(test_input($_POST["s1email"]));
+     $data->pnr1 = input_length(test_input($_POST["pnr1"]));
 
-   $form->title = test_input($_POST["title"]);
-   $form->course = test_input($_POST["course"]);
-   $form->supervisor = test_input($_POST["supervisor"]);
-   $form->term  = test_input($_POST["term"]);
-   $form->type = test_input($_POST["type"]);
+     $data->student2 = input_length(test_input($_POST["student2"]));
+     $data->s2email = input_length(test_input($_POST["s2email"]));
+     $data->pnr2 = input_length(test_input($_POST["pnr2"]));
 
-   $form->process1 = test_input(test_num($_POST["process1"]));
-   $form->processcomment1 = test_input($_POST["processcomment1"]);
-   $form->process2 = test_input(test_num($_POST["process2"]));
-   $form->processcomment2 = test_input($_POST["processcomment2"]);
-   $form->process3 = test_input(test_num($_POST["process3"]));
-   $form->processcomment3 = test_input($_POST["processcomment3"]);
-   $form->process4 = test_input(test_num($_POST["process4"]));
-   $form->processcomment4 = test_input($_POST["processcomment4"]);
+     $data->title = input_length(test_input($_POST["title"]));
+     $data->course = input_length(test_input($_POST["course"]));
+     $data->supervisor = input_length(test_input($_POST["supervisor"]));
+     $data->term  = input_length(test_input($_POST["term"]));
+     $data->type = input_length(test_input($_POST["type"]));
 
-   $form->s1 = test_input(test_num($_POST["s1"]));
+     $data->process1 = length_one(test_input(test_num($_POST["process1"])));
+     $data->processcomment1 = input_length(test_input($_POST["processcomment1"]));
+     $data->process2 = length_one(test_input(test_num($_POST["process2"])));
+     $data->processcomment2 = input_length(test_input($_POST["processcomment2"]));
+     $data->process3 = length_one(test_input(test_num($_POST["process3"])));
+     $data->processcomment3 = input_length(test_input($_POST["processcomment3"]));
+     $data->process4 = length_one(test_input(test_num($_POST["process4"])));
+     $data->processcomment4 = input_length(test_input($_POST["processcomment4"]));
 
-   $form->content1 = test_input(test_num($_POST["content1"]));
-   $form->contentcomment1 = test_input($_POST["contentcomment1"]);
-   $form->content2 = test_input(test_num($_POST["content2"]));
-   $form->contentcomment2 = test_input($_POST["contentcomment2"]);
-   $form->content3 = test_input(test_num($_POST["content3"]));
-   $form->contentcomment3 = test_input($_POST["contentcomment3"]);
-   $form->content4 = test_input(test_num($_POST["content4"]));
-   $form->contentcomment4 = test_input($_POST["contentcomment4"]);
+     $data->s1 = length_one(test_input(test_num($_POST["s1"])));
 
-   $form->s2 = test_input(test_num($_POST["s2"]));
+     $data->content1 = length_one(test_input(test_num($_POST["content1"])));
+     $data->contentcomment1 = input_length(test_input($_POST["contentcomment1"]));
+     $data->content2 = length_one(test_input(test_num($_POST["content2"])));
+     $data->contentcomment2 = input_length(test_input($_POST["contentcomment2"]));
+     $data->content3 = length_one(test_input(test_num($_POST["content3"])));
+     $data->contentcomment3 = input_length(test_input($_POST["contentcomment3"]));
+     $data->content4 = length_one(test_input(test_num($_POST["content4"])));
+     $data->contentcomment4 = input_length(test_input($_POST["contentcomment4"]));
 
-   $form->presentation1 = test_input(test_num($_POST["presentation1"]));
-   $form->presentationcomment1 = test_input($_POST["presentationcomment1"]);
-   $form->presentation2 = test_input(test_num($_POST["presentation2"]));
-   $form->presentationcomment2 = test_input($_POST["presentationcomment2"]);
-   $form->presentation3 = test_input(test_num($_POST["presentation3"]));
-   $form->presentationcomment3 = test_input($_POST["presentationcomment3"]);
-   $form->presentation4 = test_input(test_num($_POST["presentation4"]));
-   $form->presentationcomment4 = test_input($_POST["presentationcomment4"]);
-   $form->presentation5 = test_input(test_num($_POST["presentation5"]));
-   $form->presentationcomment5 = test_input($_POST["presentationcomment5"]);
+     $data->s2 = length_one(test_input(test_num($_POST["s2"])));
 
-   $form->s3 = test_input(test_num($_POST["s3"]));
-   $form->s4 = test_input(test_grade($_POST["s4"]));
-   $form->feedback = test_input($_POST["feedback"]);
+     $data->presentation1 = length_one(test_input(test_num($_POST["presentation1"])));
+     $data->presentationcomment1 = input_length(test_input($_POST["presentationcomment1"]));
+     $data->presentation2 = length_one(test_input(test_num($_POST["presentation2"])));
+     $data->presentationcomment2 = input_length(test_input($_POST["presentationcomment2"]));
+     $data->presentation3 = length_one(test_input(test_num($_POST["presentation3"])));
+     $data->presentationcomment3 = input_length(test_input($_POST["presentationcomment3"]));
+     $data->presentation4 = length_one(test_input(test_num($_POST["presentation4"])));
+     $data->presentationcomment4 = input_length(test_input($_POST["presentationcomment4"]));
+     $data->presentation5 = length_one(test_input(test_num($_POST["presentation5"])));
+     $data->presentationcomment5 = input_length(test_input($_POST["presentationcomment5"]));
 
-   if($dbh != null){
-    $ssth = $dbh->prepare(SQL_INSERT_REVIEW);
-    $uid = $_SESSION['user_id'];
-    $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
-    $ssth->bindParam(':date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
-    $ssth->bindParam(':last_modified', date("Y-m-d H:i:s"), PDO::PARAM_STR);
-    $ssth->bindParam(':data', serialize($form), PDO::PARAM_STR);
-    $ssth->execute();
-    $lastInsertId = $dbh->lastInsertId();
-    insertReviewIdToSubmission($dbh, $submissionsId, $lastInsertId);
+     $data->s3 = length_one(test_input(test_num($_POST["s3"])));
+     $data->s4 = length_one(test_input(test_grade($_POST["s4"])));
+     $data->feedback = input_length(test_input($_POST["feedback"]));
 
+     $notEmpty = is_empty($data);
 
-    echo "Your form has been saved.</br>";
-   }
-   else{
-     echo "Connection failed. Try to log in again.</br>";
-   }
+     if(notEmpty){
 
-   echo "end </br>";
+       if($dbh != null){
+        $ssth = $dbh->prepare(SQL_INSERT_REVIEW);
+        $uid = $_SESSION['user_id'];
+        $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
+        $ssth->bindParam(':date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
+        $ssth->bindParam(':last_modified', date("Y-m-d H:i:s"), PDO::PARAM_STR);
+        $ssth->bindParam(':data', serialize($data), PDO::PARAM_STR);
+        $ssth->execute();
+        $lastInsertId = $dbh->lastInsertId();
+        insertReviewIdToSubmission($dbh, $submissionsId, $lastInsertId);
+
+        echo "Your form has been saved.</br>";
+       }
+       else{
+         echo "Connection failed. Try to log in again.</br>";
+       }
+
+     }
+     else{
+       include('includes/content/dp_pp-eval-supervisor.php');
+     }
+
 
  }
  else{
