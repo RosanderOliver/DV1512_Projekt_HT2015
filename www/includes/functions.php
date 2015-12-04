@@ -123,3 +123,16 @@
      $ssth->execute();
 
    }
+
+   /**
+     * @author Annika Hansson
+     * @var
+     * @param string, $data, class variable
+     * @return string, return true if a class variable is empty
+     */
+     function is_empty($data){
+       foreach($data as $key => $value){
+   	return false;
+       }
+       return true;
+     }
