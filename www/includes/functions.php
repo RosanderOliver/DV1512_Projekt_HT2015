@@ -172,7 +172,7 @@
    }
    return $data;
  }
- 
+
  /**
   * @author Annika Hansson
   * @var
@@ -184,6 +184,24 @@
       $diff = 1 - sizeof($data);
       $rest = substr($data, 0, $diff);
       $data = $rest;
+    }
+    return $data;
+  }
+
+  /**
+  * @author Annika Hansson
+  * @var
+  * @param string, $data, raw data from form
+  * @return string, returned with a size that does not exceed the limit of 128 chars
+  */
+  function input_length($data){
+    if(sizeof($data) > 128){
+      $diff = 128 - sizeof($data);
+      $rest = substr($data, 0, $diff);
+      $data = $rest;
+    }
+    else if(sizeof($data) < 0){
+      $data = "";
     }
     return $data;
   }
