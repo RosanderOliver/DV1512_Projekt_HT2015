@@ -136,3 +136,21 @@
        }
        return true;
      }
+
+     /**
+      * @author Annika Hansson
+      * @var
+      * @param string, $data, raw data from form
+      * @return string, returned with a size of 3 or 0
+      */
+      function length_three($data){
+        if(sizeof($data) > 3){
+          $diff = 3 - sizeof($data);
+          $rest = substr($data, 0, $diff);
+          $data = $rest;
+        }
+        else if(sizeof($data) < 0){
+          $data = "";
+        }
+        return $data;
+      }
