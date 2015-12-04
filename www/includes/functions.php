@@ -172,3 +172,18 @@
    }
    return $data;
  }
+ 
+ /**
+  * @author Annika Hansson
+  * @var
+  * @param string, $data, raw data from form
+  * @return string, returned with a size of 1 or 0
+  */
+  function length_one($data){
+    if(sizeof($data) != 1){
+      $diff = 1 - sizeof($data);
+      $rest = substr($data, 0, $diff);
+      $data = $rest;
+    }
+    return $data;
+  }
