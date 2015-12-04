@@ -154,3 +154,21 @@
         }
         return $data;
       }
+
+      /**
+ * @author Annika Hansson
+ * @var
+ * @param string, $data, raw data from form
+ * @return string, returned with a size of 10 or 0
+ */
+ function length_date($data){
+   if(sizeof($data) > 10){
+     $diff = 10 - sizeof($data);
+     $rest = substr($data, 0, $diff);
+     $data = $rest;
+   }
+   else if(sizeof($data) < 0){
+     $data = "";
+   }
+   return $data;
+ }
