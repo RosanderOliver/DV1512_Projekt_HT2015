@@ -31,6 +31,14 @@ a, a:hover, a:visited {
 }
 
 /* Menu */
+
+#menu_logo {
+  text-align: center;
+  background-color: white;
+  padding: 0.5em;
+}
+
+
 #menu {
   width: 100%;
   background: #fff;
