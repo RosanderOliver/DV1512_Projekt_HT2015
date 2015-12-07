@@ -12,5 +12,5 @@
     [ "Logout", "?logout" ]
   ];
 
-  echo '<div id="menu_logo"><a href="overview_v2.html"><img src="assets/images/EXM_SMALL.png"></a></div>';
+  echo '<div id="menu_logo"><a href="?view=overview"><img src="assets/images/EXM_SMALL.png"></a></div>';
   printMenu($navigation);
