@@ -23,9 +23,14 @@ define("SQL_UPDATE_FILES_COMMENTGRADE_WHERE_ID", "UPDATE `site`.`files` SET comm
 
 //Submissions
 define("SQL_SELECT_SUBMISSION_WHERE_ID", "SELECT * FROM `site`.`submissions` WHERE `id`=:id");
-define("SQL_UPDATE_SUBMISSION_COMMENTGRADE_WHERE_ID", "UPDATE `site`.`submissions` SET comments=:comments, grade=:grade WHERE id=:id");
+define("SQL_UPDATE_SUBMISSION_COMMENTGRADE_WHERE_ID", "UPDATE `site`.`submissions` SET `comments`=:comments, `grade`=:grade WHERE `id`=:id");
+define("SQL_UPDATE_SUBMISSION_REVIEWS_WHERE_ID", "UPDATE `site`.`submissions` SET `reviews`=:reviews WHERE `id`=:id");
 
 //Comments
 define("SQL_SELECT_COMMENTS_WHERE_ID", "SELECT * FROM `site`.`comments` WHERE `id`=:id");
 define("SQL_INSERT_COMMENTS", "INSERT INTO `site`.`comments` (`user`, `date`, `data`, `subcomments`) VALUES (:user, :date, :data, :subcomments)");
->>>>>>> 1874b8dbef8f650e9b41f229852cd061d727cd89
+
+//reviewer
+define("SQL_INSERT_REVIEW","INSERT INTO `site`.`reviews`(`user`, `date`, `last_modified`, `data`) VALUES(:user,:date,:last_modified,:data)");
+define("SQL_SELECT_REVIEW_WHERE_ID_AND_USER","SELECT * FROM `site`.`reviews` WHERE `id` = :rid AND `user`=:user");
+define("SQL_SELECT_REVIEW_WHERE_ID","SELECT * FROM `site`.`reviews` WHERE `id` = :rid");

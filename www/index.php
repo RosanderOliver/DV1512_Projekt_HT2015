@@ -18,8 +18,12 @@ require_once('includes/functions.php');
 // include the config
 require_once('includes/config.php');
 
+// include functions
+require_once('includes/functions.php');
+
 // include the SQL-file
 require_once('includes/SQL.php');
+
 
 // include the PHPMailer library
 require_once('includes/libraries/PHPMailer.php');
@@ -53,9 +57,7 @@ try {
     // Generate a database connection, using the PDO connector
     $dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
 } catch (PDOException $e) {
-    // If shit hits the fan
-    echo MESSAGE_DATABASE_ERROR . $e->getMessage();
-    exit;
+    // If shit hits the fanindex
 }
 
 // Set views
@@ -65,7 +67,10 @@ $views = [
   'settings',
   'edit',
   'course',
-  'projectoverview'
+  'projectoverview',
+  'examinatorgrading',
+  'pp',
+  'thesis'
 ];
 
 /*
@@ -87,6 +92,8 @@ if ($login->isUserLoggedIn() === true) {
 
   // Include footer
   include_once('includes/footer.php');
+
+
 
 } else {
 

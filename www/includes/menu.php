@@ -7,8 +7,10 @@
     [ "Overview", "?view=overview" ],
     [ "DEBUG", [
         [ "Edit", "?view=edit" ],
-        [ "Examinator", "?view=examinator_page" ],
-        [ "Project overview", "?view=projectoverview&id=3"]
+        [ "Examinator", "?view=examinatorgrading&id=1" ],
+        [ "Form1", "?view=pp&rid=1" ],
+        [ "Project overview", "?view=projectoverview&id=3"],
+        [ "Form2", "?view=thesis&rid=1" ]
     ]],
     [ "Logout", "?logout" ]
   ];

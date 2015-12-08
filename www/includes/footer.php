@@ -5,8 +5,7 @@
 
 ?>
     <div id="footer">
-      <?php /*echo date("F j, Y, g:i a"); ?> | &copy; <?php echo date("Y"); echo SITE_NAME;*/ ?>  
-    </div>
+      <?php echo date("F j, Y, g:i a"); ?> | &copy; <?php echo date("Y"); echo SITE_NAME; ?>
     </div>
   </body>
 </html>
