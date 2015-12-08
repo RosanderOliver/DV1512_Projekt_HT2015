@@ -13,7 +13,7 @@
   * @return void
   */
   function printMenu($navigation) {
-    echo '<nav id="menu">';
+    echo '<nav>';
     printULLink( $navigation );
     echo '</nav>';
   }
@@ -58,7 +58,6 @@
   */
 
   function setComment($user, $comment, $subcomment, $dbh) {
-    //PREPARE STATEMENT
     $date = date("Y-m-d H:i:s");
     $ssth = $dbh->prepare(SQL_INSERT_COMMENTS);
     $ssth->bindParam(":user", $user, PDO::PARAM_INT);
@@ -102,7 +101,8 @@
 /**
  * getComment Retrives comments given a submission id
  * @author Oliver Rosander
- * @param PDO $dbh, int $subId
+ * @param PDO $dbh
+ * @param int $subId 
  * @return array -1 if fail or an array containing the comments
  */
  function getComment($dbh, $subId) {

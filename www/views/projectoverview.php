@@ -1,56 +1,50 @@
 <?php
-$submissionArray = array();
-$commentArray = array();
-$projectId=$_GET["id"];
 
-$ssth = $dbh->prepare(SQL_SELECT_PROJECT_WHERE_ID);
-$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
-$ssth->execute();
-$project=$ssth->fetchObject();
-$submissionID = unserialize($project->submissions);
-
-
-
-for ($x=0; $x<sizeof($submissionID); $x++){
-
-  $ssth = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
-  $ssth->bindParam(":id", $submissionID[$x], PDO::PARAM_INT);
-  $ssth->execute();
-  $submissionArray[$x]=$ssth->fetchObject();
+// Get course id
+$course;
+if (isset($_GET['course']) && intval($_GET['course']) > 0) {
+  $course = intval($_GET['course']);
+} else {
+  exit("Invalid course!");
 }
 
-?>
+// Get project id
+$project;
+if (isset($_GET['id']) && intval($_GET['id']) > 0) {
+  $project = intval($_GET['id']);
+} else {
+  exit("Invalid project!");
+}
 
+// Get the course
+$course = $user->getCourse($course);
+// Get project
+$project = $course->getProject($project);
 
-<html>
-<body>
+echo '<h1>  Project overview  </h1>';
 
-<center><h1>  Project overview  </h1></center>
+// List all submissions
+foreach ($project->submissions as $key => $value) {
 
-<?php
+  // Get the submission
+  $sth = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
+  $sth->bindParam(":id", $value, PDO::PARAM_INT);
+  $sth->execute();
+  $submission = $sth->fetch(PDO::FETCH_OBJ);
 
-for($x = 0; $x < sizeof($submissionID); $x++ ) {                                   //Loop for number of submissions
+  //$commentArray = getComment($dbh, $submission->id);
 
-  $tempId = $submissionID[$x];
-  $commentArray = getComment($dbh, $tempId);
+  if ($submission->grade > 0 && $submission->grade < 4){      //What it is not graded? Need an else...
+    echo "<h2> Project plan ".($key+1)." </h2>";
+    echo "Files: ".$submission->files;                                 //should be serialized and linked to files.
+    //echo "<br>Student comment: ".$commentArray[0];
+    //echo "<br>Examinator comment: ".$commentArray[1];
+    echo "<br>Grade: ".$grades[$submission->grade];                    //Transforms grade using $grade array defined in the begging of the file.
 
-  if ($submissionArray[$x]->grade > 0 && $submissionArray[$x]->grade < 4){      //What it is not graded? Need an else...
-    echo "<h2> Project plan ".($x+1)." </h2>";
-    echo "Files: ".$submissionArray[$x]->files;                                 //should be serialized and linked to files.
-    echo "<br>Student comment: ".$commentArray[0];
-    echo "<br>Examinator comment: ".$commentArray[1];
-    echo "<br>Grade: ".$grades[$submissionArray[$x]->grade];                    //Transforms grade using $grade array defined in the begging of the file.
-
-  } elseif ($submissionArray[$x]->grade > 3 && $submissionArray[$x]->grade < 11){                                       //Fel test?
-    echo "<h2> Project report ".($x+1)." </h2>";
-    echo "Files: ".$submissionArray[$x]->files;
-    echo "<br>Studentv comment: ".$commentArray[0];                             //should be serialized and linked to files.
-    echo "<br>Grade: ".$grades[$submissionArray[$x]->grade];                    //Transforms grade using $grade array defined in the begging of the file.
+  } elseif ($submission->grade > 3 && $submission->grade < 11){                                       //Fel test?
+    echo "<h2> Project report ".($key+1)." </h2>";
+    echo "Files: ".$submission->files;
+    //echo "<br>Studentv comment: ".$commentArray[0];                             //should be serialized and linked to files.
+    echo "<br>Grade: ".$grades[$submission->grade];                    //Transforms grade using $grade array defined in the begging of the file.
   }
-
-  }
-?>
-
-
-</body>
-</html>
+}

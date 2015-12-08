@@ -35,7 +35,7 @@ class User
   /**
   * @var array $courses The user's courses
   */
-  public $courses = Array();
+  private $courses = Array();
 
   /**
   * Constructor
@@ -100,18 +100,29 @@ class User
     $this->eppn = $result->eppn;
     $this->given_name = $result->given_name;
     $this->email = $result->email;
-    $courseIDs = unserialize($result->courses);
+    $this->courses = unserialize($result->courses);
+  }
 
-    // Add course class for each courses
-    foreach ($courseIDs as $key => $value) {
-      /*$sth = $this->dbh->prepare(SQL_SELECT_COURSE_WHERE_ID);
-      $sth->bindParam(':id', $value, PDO::PARAM_INT);
-      $sth->execute();
-      $this->courses[] = $sth->fetch(PDO::FETCH_OBJ);*/
-      $this->courses[] = new Course($value, $dbh);
-    }
+  /**
+  * Get course data
+  * @author Jim Ahlstrand
+  * @param int, $id, Id of the course to be fetched defaults to null
+  * @return obj, Course
+  */
+  function getCourse( $id = null ) {
 
-    // Print it for tests
-    //prettyPrint($this);
+    // If id is null return a list of all courses listed for the User
+    if ($id === null)
+      return $this->courses;
+
+    // Check for invalid id
+    if (gettype($id) !== "integer" || intval($id) <= 0)
+      throw new Exception("Invalid parameter");
+
+    // Check so the course is listed for the user
+    if (!in_array($id, $this->courses))
+      throw new Exception("Invalid course request");
+
+    return new Course($id, $this->dbh);
   }
 }

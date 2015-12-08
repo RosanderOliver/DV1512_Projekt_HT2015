@@ -79,13 +79,29 @@ class Course
     $this->role_table = $result->role_table;
     $this->name = $result->name;
     $this->deadlines = unserialize($result->deadlines);
-    // Fetch projects
-    $projects = unserialize($result->projects);
-    foreach ($projects as $key => $value) {
-      $sth = $this->dbh->prepare(SQL_SELECT_PROJECT_WHERE_ID);
-      $sth->bindParam(':id', $value, PDO::PARAM_INT);
-      $sth->execute();
-      $this->projects[] = $sth->fetch(PDO::FETCH_OBJ);
-    }
+    $this->projects = unserialize($result->projects);
+  }
+
+  /**
+  * Get project data
+  * @author Jim Ahlstrand
+  * @param int, $id, Id of the project to be fetched defaults to null
+  * @return obj, stdClassObject
+  * TODO return only projects that the user own or has permission to view
+  */
+  function getProject( $id = null ) {
+    // If id is null return a list of all projects listed for the course
+    if ($id === null)
+      return $this->projects;
+
+    // Check for invalid id
+    if (gettype($id) !== "integer" || intval($id) <= 0)
+      throw new Exception("Invalid parameter");
+
+    // Check so project exists in the course
+    if (!in_array($id, $this->projects))
+      throw new Exception("Invalid project request");
+
+    return new Project($id, $this->dbh);
   }
 }
