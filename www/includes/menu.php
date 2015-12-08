@@ -7,7 +7,8 @@
     [ "Overview", "?view=overview" ],
     [ "DEBUG", [
         [ "Edit", "?view=edit" ],
-        [ "Examinator", "?view=examinator_page" ]
+        [ "Examinator", "?view=examinator_page" ],
+        [ "Project overview", "?view=projectoverview&id=3"]
     ]],
     [ "Logout", "?logout" ]
   ];

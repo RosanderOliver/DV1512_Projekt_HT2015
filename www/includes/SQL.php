@@ -13,5 +13,19 @@ define("SQL_INSERT_USER", "INSERT INTO `site`.`users` (`eppn`, `email`) VALUES (
 // Courses
 define("SQL_SELECT_COURSE_WHERE_ID", "SELECT * FROM `site`.`courses` WHERE `id`= :id");
 
-// Projects
-define("SQL_SELECT_PROJECT_WHERE_ID", "SELECT * FROM `site`.`projects` WHERE `id`= :id");
+//Projects
+define("SQL_SELECT_PROJECT_WHERE_ID", "SELECT * FROM `site`.`projects` WHERE `id`=:id");
+define("SQL_UPDATE_PROJECT_STAGE_WHERE_ID", "UPDATE `site`.`projects` SET stage=:stage WHERE id=:id");
+
+//Files
+define("SQL_SELECT_FILES_WHERE_ID", "SELECT * FROM `site`.`files` WHERE `id`=:id");
+define("SQL_UPDATE_FILES_COMMENTGRADE_WHERE_ID", "UPDATE `site`.`files` SET comments=:comments, grade=:grade WHERE id=:id");
+
+//Submissions
+define("SQL_SELECT_SUBMISSION_WHERE_ID", "SELECT * FROM `site`.`submissions` WHERE `id`=:id");
+define("SQL_UPDATE_SUBMISSION_COMMENTGRADE_WHERE_ID", "UPDATE `site`.`submissions` SET comments=:comments, grade=:grade WHERE id=:id");
+
+//Comments
+define("SQL_SELECT_COMMENTS_WHERE_ID", "SELECT * FROM `site`.`comments` WHERE `id`=:id");
+define("SQL_INSERT_COMMENTS", "INSERT INTO `site`.`comments` (`user`, `date`, `data`, `subcomments`) VALUES (:user, :date, :data, :subcomments)");
+>>>>>>> 1874b8dbef8f650e9b41f229852cd061d727cd89
