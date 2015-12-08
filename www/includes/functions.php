@@ -199,3 +199,105 @@
      $ssth->execute();
 
    }
+
+   /**
+     * @author Annika Hansson
+     * @var
+     * @param string, $data, class variable
+     * @return string, return true if a class variable is empty
+     */
+     function is_empty($data){
+       foreach($data as $key => $value){
+   	return false;
+       }
+       return true;
+     }
+
+     /**
+      * @author Annika Hansson
+      * @var
+      * @param string, $data, raw data from form
+      * @return string, returned with a size of 3 or 0
+      */
+      function length_three($data){
+        if(sizeof($data) > 3){
+          $diff = 3 - sizeof($data);
+          $rest = substr($data, 0, $diff);
+          $data = $rest;
+        }
+        else if(sizeof($data) < 0){
+          $data = "";
+        }
+        return $data;
+      }
+
+      /**
+ * @author Annika Hansson
+ * @var
+ * @param string, $data, raw data from form
+ * @return string, returned with a size of 10 or 0
+ */
+ function length_date($data){
+   if(sizeof($data) > 10){
+     $diff = 10 - sizeof($data);
+     $rest = substr($data, 0, $diff);
+     $data = $rest;
+   }
+   else if(sizeof($data) < 0){
+     $data = "";
+   }
+   return $data;
+ }
+
+ /**
+  * @author Annika Hansson
+  * @var
+  * @param string, $data, raw data from form
+  * @return string, returned with a size of 1 or 0
+  */
+  function length_one($data){
+    if(sizeof($data) != 1){
+      $diff = 1 - sizeof($data);
+      $rest = substr($data, 0, $diff);
+      $data = $rest;
+    }
+    return $data;
+  }
+
+  /**
+  * @author Annika Hansson
+  * @var
+  * @param string, $data, raw data from form
+  * @return string, returned with a size that does not exceed the limit of 128 chars
+  */
+  function input_length($data){
+    if(sizeof($data) > 128){
+      $diff = 128 - sizeof($data);
+      $rest = substr($data, 0, $diff);
+      $data = $rest;
+    }
+    else if(sizeof($data) < 0){
+      $data = "";
+    }
+    return $data;
+  }
+
+  /**
+  * @author Oliver Rosander
+  * @param PDO $dbh
+  * @return int, id of last input
+  * define("SQL_INSERT_SUBMISSION", "INSERT INTO `site`.`submissions` (`user`, `date`, `files`, `reviews`, `comments`, `grade`) VALUES (:user, :date, :files, :reviews, :comments, :grade)");
+  */
+  function createEmptySubmission($dbh) {
+    $date = date("Y-m-d H:i:s");
+    $ssth = $dbh->prepare(SQL_INSERT_SUBMISSION);                               //TODO Deadlines borde sättas här!
+    $ssth->bindParam(":user", 0, PDO::PARAM_INT);
+    $ssth->bindParam(":date", $date, PDO::PARAM_STR);
+    $ssth->bindParam(":files", "Empty", PDO::PARAM_STR);
+    $ssth->bindParam(":reviews", "", PDO::PARAM_STR);
+    $ssth->bindParam(":comments", "", PDO::PARAM_STR);
+    $ssth->bindParam(":grade", -1, PDO::PARAM_INT);
+    $ssth->execute();
+
+    return $dbh->lastInsertId();
+  }

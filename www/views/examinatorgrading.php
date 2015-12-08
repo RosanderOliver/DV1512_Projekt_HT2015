@@ -14,6 +14,8 @@
 	$submissionsIndex = unserialize($project->submissions);
 	$lastSubmissionIndex = $submissionsIndex[count($submissionsIndex) - 1];
 
+	prettyPrint($submissionsIndex);
+
 	$ssth = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
 	$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);
 	$ssth->execute();
@@ -39,7 +41,6 @@
 
 			if ($commentId != -1){
 				$dataSent=1;
-
 				if ($submission->comments == null) {
 					$submission->comments=serialize($commentId);
 				} else{
@@ -54,10 +55,19 @@
 				$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);
 				$ssth->execute();
 
+				$newSubmission = createEmptySubmission($dbh);
+				if ($submissionsIndex == null) {
+					$serializedSubmission = serialize($newSubmission);
+				} else{
+					$submissionsIndex .= " ".$newSubmission;
+					$serializedSubmission = serialize($submissionsIndex);
+				}
+
 				if ($grade > 2 && $grade < 9){
 					$project->stage = $project->stage+1;
 					$ssth = $dbh->prepare(SQL_UPDATE_PROJECT_STAGE_WHERE_ID);
 					$ssth->bindParam(":stage", $project->stage, PDO::PARAM_INT);
+					$ssth->bindParam(":submissions", $serializedSubmission, PDO::PARAM_STR);
 					$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
 					$ssth->execute();
 				}
@@ -115,13 +125,13 @@
 
 
 	$commentArr = getComment($dbh, $lastSubmissionIndex);
-	echo "Student comment: ".$commentArr[0];																		//TODO retrive correct student Comment
-	echo "<br>Uploaded file: ";																									//TODO Name of uploaded files regarding this submission
+	echo "Student comment: ".$commentArr[0];
+	echo "<br>Uploaded file: ";																										//TODO Name of uploaded files regarding this submission
 
 	for($x=0; $x < sizeof($reviewArr); $x++) {
 		echo "<br>Overall comments and feedback: ".$reviewArrData[$x]->feedback;
 		if (get_class($reviewArrData[$x]) == "TE"){
-			echo '<br><a target="_blank" href="/index.php?view=pp&id='.$lastSubmissionIndex.'&uid='.$reviewArr[$x]->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';							//TODO Link to formulary should be the name of the reviewer
+			echo '<br><a target="_blank" href="/index.php?view=thesis&id='.$lastSubmissionIndex.'&uid='.$reviewArr[$x]->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';							//TODO Link to formulary should be the name of the reviewer
 		} elseif (get_class($reviewArrData[$x]) == "PP") {
 			echo '<br><a target="_blank" href="/index.php?view=pp&id='.$lastSubmissionIndex.'&uid='.$reviewArr[$x]->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';
 		}
