@@ -29,7 +29,7 @@ class Project
   /**
   * @var array $submissions array with id of the submissions related to the project
   */
-  public $submissions = Array();
+  private $submissions = Array();
   /**
   * @var array $comments array with id of comments related to the project
   */
@@ -112,5 +112,35 @@ class Project
     $this->examinators = unserialize($result->examinators);
     $this->reviewers = unserialize($result->reviewers);
     $this->feasible_reviewers = unserialize($result->feasible_reviewers);
+  }
+
+  /**
+  * Get submission data
+  * @author Jim Ahlstrand
+  * @param int, $id, Id of the submission to be fetched defaults to null
+  * @return obj, stdClassObject
+  * TODO return only submissions that the user own or has permission to view
+  */
+  function getSubmission( $id = null ) {
+    // If id is null return a list of all submissions listed for the project
+    if ($id === null)
+      return $this->submissions;
+
+    // Check for invalid id
+    if (gettype($id) !== "integer" || intval($id) <= 0)
+      throw new Exception("Invalid parameter");
+
+    // Check so submission exists in the course
+    if (!in_array($id, $this->submissions))
+      throw new Exception("Invalid submission request");
+
+    $sth = $this->dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
+    $sth->bindParam(':id', $project, PDO::PARAM_INT);
+    $sth->execute();
+    $result = $sth->fetch(PDO::FETCH_OBJ);
+    if (!$result)
+      throw new Exception("Project was not found");
+
+    return $result;
   }
 }

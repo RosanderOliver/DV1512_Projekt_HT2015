@@ -32,7 +32,7 @@ class Course
   /**
   * @var int $projects Projects assosiated with the course
   */
-  public $projects = Array();
+  private $projects = Array();
 
   /**
   * Constructor
