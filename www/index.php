@@ -12,9 +12,6 @@ define('IN_EXM', TRUE);
 // Activate output buffer
 ob_start('ob_gzhandler');
 
-// Array for grades
-$grades = [1=>'U', 2=>'Ux', 3=>'G', 4=>'A', 5=>'B', 6=>'C', 7=>'D', 8=>'E', 9=>'Fx', 10=>'F'];
-
 // include the config
 require_once('includes/functions.php');
 
@@ -44,14 +41,13 @@ require_once('includes/autoloader.php');
 // so this single line handles the entire login process.
 $login = new Login();
 
- // Create a user object
- $user;
- try {
-   $user = new User();
- } catch (Exception $e) {
-   echo $e->getMessage();
- }
-
+// Create a user object
+$user;
+try {
+ $user = new User();
+} catch (Exception $e) {
+ echo $e->getMessage();
+}
 
 // Create new database handle
 $dbh = null;
@@ -62,6 +58,19 @@ try {
   // If shit hits the fan
   throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
 }
+
+// graders defenitions
+$grades = [
+  1  => 'U',
+  2  => 'Ux',
+  3  => 'G',
+  4  => 'A',
+  5  => 'B',
+  6  => 'C',
+  7  => 'D',
+  8  => 'E',
+  9  => 'Fx',
+  10 => 'F' ];
 
 // Set views
 $views = [

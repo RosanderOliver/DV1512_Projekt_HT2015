@@ -22,7 +22,7 @@ echo '<ul>';
 foreach ($course->getProject() as $key => $value) {
   $project = $course->getProject($value);
   echo '<li>';
-  echo '<a href="?view=projectoverview&id='.$project->id.'&course='.$course->id.'">'.$project->subject.'</a>';
+  echo '<a href="?view=projectoverview&pid='.$project->id.'&cid='.$course->id.'">'.$project->subject.'</a>';
   echo '</li>';
 }
 echo '</ul>';
