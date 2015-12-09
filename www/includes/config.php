@@ -126,3 +126,19 @@ define("HASH_COST_FACTOR", "12");
   * MAX_COMMENT_LENGTH: length of comments data
   */
   define("MAX_COMMENT_LENGTH", 256);
+
+  /**
+   * Configuration for: project stages
+   * Defines stages for the project
+   *
+   * STAGE_DRAFT: project is newly created and waiting for approval
+   * STAGE_PLAN: project plan needs to be submitted
+   * STAGE_RAPPORT: project rapport needs to be submitted
+   * STAGE_PEER_REVIEW: project is waiting to be reviewd by a Peer
+   * STAGE_FINISHED: project is finished and can't be edited
+   */
+   define("STAGE_DRAFT", "Draft");
+   define("STAGE_PLAN", "Plan");
+   define("STAGE_RAPPORT", "Rapport");
+   define("STAGE_PEER_REVIEW", "Peer Review");
+   define("STAGE_FINISHED", "Finished");

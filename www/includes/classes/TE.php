@@ -4,7 +4,7 @@
 Holds all parameters in the form.
 
 */
-class TE{
+class TE {
 
   //properties
   public $student1;
@@ -51,5 +51,3 @@ class TE{
   public $feedback;
 
 }
-
-?>

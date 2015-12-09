@@ -34,9 +34,9 @@ foreach ($project->getSubmission() as $key => $value) {
     $comments[] = new Comment($value);
   }
 
-  if ($submission->grade >= 0 && $submission->grade < 4) {
+  if ($stages[$project->stage] == STAGE_PLAN) {
     echo '<h2> Project plan '.($key+1).'</h2>';
-  } elseif ($submission->grade > 3 && $submission->grade < 11) {
+  } elseif ($stages[$project->stage] == STAGE_REPORT) {
     echo '<h2> Project report '.($key+1).'</h2>';
   }
   echo 'Files: '.$submission->files;
@@ -47,5 +47,10 @@ foreach ($project->getSubmission() as $key => $value) {
     echo '<br>Grade: '.$grades[$submission->grade];
   } else if ($submission->grade == 0) {
     echo '<br><a href="?view=examinatorgrading&pid='.$project->id.'&sid='.$submission->id.'">Grade this submission';
+    if ($stages[$project->stage] == STAGE_PLAN) {
+      echo '<br><a href="?view=reviewplan&sid='.$submission->id.'">Review this submission';
+    } else if ($stages[$project->stage] == STAGE_RAPPORT) {
+      echo '<br><a href="?view=reviewthesis&sid='.$submission->id.'">Review this submission';
+    }
   }
 }

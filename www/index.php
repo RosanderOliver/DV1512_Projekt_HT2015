@@ -59,8 +59,8 @@ try {
   throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
 }
 
-// graders defenitions
-$grades = [
+// graders definitions
+$grades = array(
   1  => 'U',
   2  => 'Ux',
   3  => 'G',
@@ -70,7 +70,15 @@ $grades = [
   7  => 'D',
   8  => 'E',
   9  => 'Fx',
-  10 => 'F' ];
+  10 => 'F' );
+
+// stage definitions
+$stages = array(
+  1 => STAGE_DRAFT,
+  2 => STAGE_PLAN,
+  3 => STAGE_RAPPORT,
+  4 => STAGE_PEER_REVIEW,
+  5 => STAGE_FINISHED );
 
 // Set views
 $views = [
@@ -81,8 +89,8 @@ $views = [
   'course',
   'projectoverview',
   'examinatorgrading',
-  'pp',
-  'thesis'
+  'reviewplan',
+  'reviewthesis'
 ];
 
 /*

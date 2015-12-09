@@ -1,5 +1,5 @@
 <?php
-class PP{
+class PP {
 
   public $student1;
   public $s1email;
@@ -50,4 +50,3 @@ class PP{
   public $feedback;
 
 }
-?>
