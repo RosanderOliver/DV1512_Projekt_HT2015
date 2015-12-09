@@ -136,3 +136,11 @@ define("HASH_COST_FACTOR", "12");
  * PATH_CLASS: path to folder contatning all classes
  */
  define("PATH_CLASS", "includes/classes/");
+
+ /**
+  * Configuration for: maximum lengths
+  * Defines maximum lengths of data variables, this is limited by the database
+  *
+  * MAX_COMMENT_LENGTH: length of comments data
+  */
+  define("MAX_COMMENT_LENGTH", 256);

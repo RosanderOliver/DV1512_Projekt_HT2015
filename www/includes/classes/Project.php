@@ -61,7 +61,7 @@ class Project
 
   /**
   * Constructor
-  * @param  int   $id   id of the course to load
+  * @param  int   $id   id of the project to load
   * @param  obj   $dbh  database handle
   */
   public function __construct($id, $dbh = null)
@@ -98,7 +98,7 @@ class Project
     $result = $sth->fetch(PDO::FETCH_OBJ);
 
     // If the project does not exists
-    if (!$result) throw new Exception("Project does not exists");
+    if (!$result) throw new Exception("Could not find requested project");
 
     $this->id = $result->id;
     $this->subject = $result->subject;
@@ -126,8 +126,9 @@ class Project
     if ($id === null)
       return $this->submissions;
 
+    $id = intval($id);
     // Check for invalid id
-    if (gettype($id) !== "integer" || intval($id) <= 0)
+    if ($id <= 0)
       throw new Exception("Invalid parameter");
 
     // Check so submission exists in the course
@@ -135,7 +136,7 @@ class Project
       throw new Exception("Invalid submission request");
 
     $sth = $this->dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
-    $sth->bindParam(':id', $project, PDO::PARAM_INT);
+    $sth->bindParam(':id', $id, PDO::PARAM_INT);
     $sth->execute();
     $result = $sth->fetch(PDO::FETCH_OBJ);
     if (!$result)

@@ -92,7 +92,7 @@ class User
       if(!$result) throw new Exception("Unable to add user!");
     } else if (!$result) {
       // If user was given and doeas not exist in db
-      throw new Exception("User does not exists");
+      throw new Exception("Could not find requested user");
     }
 
     // Add data to parameters
@@ -115,8 +115,9 @@ class User
     if ($id === null)
       return $this->courses;
 
-    // Check for invalid id
-    if (gettype($id) !== "integer" || intval($id) <= 0)
+      $id = intval($id);
+      // Check for invalid id
+      if ($id <= 0)
       throw new Exception("Invalid parameter");
 
     // Check so the course is listed for the user

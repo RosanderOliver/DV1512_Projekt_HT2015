@@ -73,7 +73,7 @@ class Course
     $result = $sth->fetch(PDO::FETCH_OBJ);
 
     // If the course does not exists
-    if (!$result) throw new Exception("Course does not exists");
+    if (!$result) throw new Exception("Could not find requested course");
 
     $this->id = $result->id;
     $this->role_table = $result->role_table;
@@ -94,8 +94,9 @@ class Course
     if ($id === null)
       return $this->projects;
 
+    $id = intval($id);
     // Check for invalid id
-    if (gettype($id) !== "integer" || intval($id) <= 0)
+    if ($id <= 0)
       throw new Exception("Invalid parameter");
 
     // Check so project exists in the course

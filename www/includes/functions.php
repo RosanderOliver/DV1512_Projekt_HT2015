@@ -56,10 +56,9 @@
   * @param int $user, string $comment, string $subcomment, PDO $dbh
   * @return int Id of inserted row, -1 if fail
   */
-
   function setComment($user, $comment, $subcomment, $dbh) {
     $date = date("Y-m-d H:i:s");
-    $ssth = $dbh->prepare(SQL_INSERT_COMMENTS);
+    $ssth = $dbh->prepare(SQL_INSERT_COMMENT);
     $ssth->bindParam(":user", $user, PDO::PARAM_INT);
     $ssth->bindParam(':date', $date, PDO::PARAM_STR);
     $ssth->bindParam(":data", $comment, PDO::PARAM_STR);
@@ -74,35 +73,35 @@
   * @param PDO $dbh, string|null $lbl Post index default "comment"
   * @return int Id of last inserted row -1 if fail
   */
-    function createComment($dbh, $lbl = null) {
-
-      if ($lbl == null && isset($_POST["comment"])) {
-        $comment = $_POST["comment"];
-      } elseif (isset($_POST[$lbl])) {
-        $comment = $_POST[$lbl];
-      }
-      else {
-        return -1;
-      }
-
-      if ($comment != null && strlen($comment) < 256) {
-        $comment = strip_tags($comment);
-        $ret = setComment(0, $comment, "subcomment", $dbh);                       //TODO MISSING USER AND SUBCOMMENT
-        if ($ret != -1) {
-          return $ret;
-        } else {
-          return -1;
-        }
+  function createComment($dbh, $lbl = null) {
+    // Check for label to retrieve data from session
+    if ($lbl == null && isset($_POST["comment"])) {
+      $comment = $_POST["comment"];
+    } elseif (isset($_POST[$lbl])) {
+      $comment = $_POST[$lbl];
+    }
+    else {
+      return -1;
+    }
+    // Check data
+    if ($comment != null && strlen($comment) < 256) {
+      $comment = strip_tags($comment);
+      $ret = setComment(0, $comment, "subcomment", $dbh);                       //TODO MISSING USER AND SUBCOMMENT
+      if ($ret != -1) {
+        return $ret;
       } else {
         return -1;
       }
+    } else {
+      return -1;
     }
+  }
 
 /**
  * getComment Retrives comments given a submission id
  * @author Oliver Rosander
  * @param PDO $dbh
- * @param int $subId 
+ * @param int $subId
  * @return array -1 if fail or an array containing the comments
  */
  function getComment($dbh, $subId) {

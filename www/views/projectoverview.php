@@ -24,13 +24,10 @@ $project = $course->getProject($project);
 echo '<h1>  Project overview  </h1>';
 
 // List all submissions
-foreach ($project->submissions as $key => $value) {
+foreach ($project->getSubmission() as $key => $value) {
 
   // Get the submission
-  $sth = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
-  $sth->bindParam(":id", $value, PDO::PARAM_INT);
-  $sth->execute();
-  $submission = $sth->fetch(PDO::FETCH_OBJ);
+  $project->getSubmission($value);
 
   //$commentArray = getComment($dbh, $submission->id);
 
