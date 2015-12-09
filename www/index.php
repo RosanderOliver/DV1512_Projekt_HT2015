@@ -55,7 +55,7 @@ $login = new Login();
 $dbh = null;
 try {
   // Generate a database connection, using the PDO connector
-  $this->dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
+  $dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
 } catch (PDOException $e) {
   // If shit hits the fan
   throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());

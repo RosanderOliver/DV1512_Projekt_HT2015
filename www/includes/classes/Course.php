@@ -1,7 +1,6 @@
 <?php
 
 // TODO: What is permissions table?
-// TODO: Add projects object directly linked to in projects array
 
 /**
 * Handles course data and functions regarding handling data

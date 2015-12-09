@@ -3,6 +3,7 @@
 /**
 * Handles project data and functions regarding handling data
 * @author Jim Ahlstrand
+* TODO Add submissions class
 */
 class Project
 {
