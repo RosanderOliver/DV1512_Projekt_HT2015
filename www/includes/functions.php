@@ -64,7 +64,7 @@
     $ssth->bindParam(":data", $comment, PDO::PARAM_STR);
     $ssth->bindParam(":subcomments", $subcomment, PDO::PARAM_STR);
     $ssth->execute();
-    return $dbh->lastInsertId();
+    return intval($dbh->lastInsertId());
   }
 
   /**
@@ -112,8 +112,7 @@
  	 $ssth->bindParam(":id", $subId, PDO::PARAM_INT);								              //TODO is it just one fileid, otherwise handle it
    $ssth->execute();
    $submission = $ssth->fetchObject();
-   $submission->comments = unserialize($submission->comments);
-   $commentIdArr = explode(" ", $submission->comments);
+   $commentIdArr = unserialize($submission->comments);
 
    for ($x=0; $x<sizeof($commentIdArr); $x++) {
 
@@ -152,7 +151,7 @@
   * @return int, returned as valid number
   */
   function test_num($data){
-    if(($data < 0 && $data > 6) || $data == "-"){
+    if(($data < 0 || $data > 6) || $data === "-"){
       $data = "-";
       return $data;
     }
@@ -184,22 +183,126 @@
   function insertReviewIdToSubmission($dbh, $submissionsId, $lastInsertId) {
 
     $ssth = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
-    $ssth->bindParam(":id", $submissionsId, PDO::PARAM_INT);
+   	$ssth->bindParam(":id", $submissionsId, PDO::PARAM_INT);
     $ssth->execute();
     $submission = $ssth->fetchObject();
-
+    $lastInsertId = intval($lastInsertId);
     prettyPrint($submission);
-
+    prettyPrint($lastInsertId);
     if ($submission->reviews == null) {
-      $submission->reviews = serialize($lastInsertId);
+      $reviewIdArr[] = $lastInsertId;
+      $submission->reviews = serialize($reviewIdArr);
     } else{
       $reviewIdArr = unserialize($submission->reviews);
-      $reviewIdArr .=" ".$lastInsertId;
+      $reviewIdArr[] = $lastInsertId;
       $submission->reviews = serialize($reviewIdArr);
     }
     $ssth = $dbh->prepare(SQL_UPDATE_SUBMISSION_REVIEWS_WHERE_ID);
     $ssth->bindParam(":reviews", $submission->reviews, PDO::PARAM_STR);
     $ssth->bindParam(":id", $submissionsId, PDO::PARAM_INT);
     $ssth->execute();
+  }
 
+  /**
+   * @author Annika Hansson
+   * @var
+   * @param string, $data, class variable
+   * @return string, return true if a class variable is empty
+   */
+  function is_empty($data) {
+   return empty($data);
+  }
+
+  /**
+  * @author Annika Hansson
+  * @var
+  * @param string, $data, raw data from form
+  * @return string, returned with a size of 3 or 0
+  */
+  function length_three($data){
+    if(sizeof($data) > 3){
+      $diff = 3 - sizeof($data);
+      $rest = substr($data, 0, $diff);
+      $data = $rest;
+    }
+    else if(sizeof($data) < 0){
+      $data = "";
+    }
+    return $data;
+  }
+
+  /**
+ * @author Annika Hansson
+ * @var
+ * @param string, $data, raw data from form
+ * @return string, returned with a size of 10 or 0
+ */
+ function length_date($data){
+   if(strlen($data) > 10){
+     $diff = 10 - strlen($data);
+     $rest = strlen($data, 0, $diff);
+     $data = $rest;
+   }
+   else if(strlen($data) < 0){
+     $data = "";
+   }
+   return $data;
+ }
+
+ /**
+  * @author Annika Hansson
+  * @var
+  * @param string, $data, raw data from form
+  * @return string, returned with a size of 1 or 0
+  */
+  function length_one($data){
+    if(strlen($data) != 1){
+      $diff = 1 - strlen($data);
+      $rest = strlen($data, 0, $diff);
+      $data = $rest;
+    }
+    return $data;
+  }
+
+  /**
+  * @author Annika Hansson
+  * @var
+  * @param string, $data, raw data from form
+  * @return string, returned with a size that does not exceed the limit of 128 chars
+  */
+  function input_length($data){
+    if(strlen($data) > 128){
+      $diff = 128 - strlen($data);
+      $rest = strlen($data, 0, $diff);
+      $data = $rest;
+    }
+    else if(strlen($data) < 0){
+      $data = "";
+    }
+    return $data;
+  }
+
+  /**
+  * @author Oliver Rosander
+  * @param PDO $dbh
+  * @return int, id of last input
+  * define("SQL_INSERT_SUBMISSION", "INSERT INTO `site`.`submissions` (`user`, `date`, `files`, `reviews`, `comments`, `grade`) VALUES (:user, :date, :files, :reviews, :comments, :grade)");
+  */
+  function createEmptySubmission($dbh) {
+    $user = 0;
+    $date = date("Y-m-d H:i:s");
+    $files = "";
+    $reviews = "";
+    $comments = "";
+    $grade = 0;
+    $ssth = $dbh->prepare(SQL_INSERT_SUBMISSION);                               //TODO Deadlines borde sättas här!
+    $ssth->bindParam(":user", $user, PDO::PARAM_INT);
+    $ssth->bindParam(':date', $date, PDO::PARAM_STR);
+    $ssth->bindParam(":files",$files, PDO::PARAM_STR);
+    $ssth->bindParam(":reviews", $reviews, PDO::PARAM_STR);
+    $ssth->bindParam(":comments", $comments, PDO::PARAM_STR);
+    $ssth->bindParam(":grade", $grade, PDO::PARAM_INT);
+    $ssth->execute();
+
+    return intval($dbh->lastInsertId());
   }
