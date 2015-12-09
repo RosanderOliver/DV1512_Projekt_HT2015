@@ -34,7 +34,7 @@ foreach ($project->getSubmission() as $key => $value) {
     $comments[] = new Comment($value);
   }
 
-  if ($submission->grade > 0 && $submission->grade < 4) {
+  if ($submission->grade >= 0 && $submission->grade < 4) {
     echo "<h2> Project plan ".($key+1)." </h2>";
     echo "Files: ".$submission->files;
     foreach ($comments as $key => $value) {
