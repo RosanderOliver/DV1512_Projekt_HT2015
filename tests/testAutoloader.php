@@ -14,15 +14,6 @@
   // We need the definitions
   require_once('www/includes/config.php');
 
-  $dbh = null;
-  try {
-    // Generate a database connection, using the PDO connector
-    $dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
-  } catch (PDOException $e) {
-    // If shit hits the fan
-    throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
-  }
-
   if (version_compare(phpversion(), '5.1.2', '<')) {
     die('Autoloader requires PHP > 5.1.2');
   }

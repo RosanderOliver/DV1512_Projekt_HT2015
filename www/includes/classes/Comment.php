@@ -114,14 +114,14 @@ class Comment
     $date = $this->date->format("Y-m-d H:i:s");
     $subcomments = serialize($this->subcomments);
 
-    $ssth = $dbh->prepare(SQL_INSERT_COMMENT);
+    $ssth = $this->dbh->prepare(SQL_INSERT_COMMENT);
     $ssth->bindParam(":user", $this->user, PDO::PARAM_INT);
     $ssth->bindParam(':date', $date, PDO::PARAM_STR);
     $ssth->bindParam(":data", $this->data, PDO::PARAM_STR);
     $ssth->bindParam(":subcomments", $subcomments, PDO::PARAM_STR);
     $ssth->execute();
 
-    return $dbh->lastInsertId();
+    return $this->dbh->lastInsertId();
   }
 
 }
