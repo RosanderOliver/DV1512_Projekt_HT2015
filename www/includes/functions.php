@@ -148,7 +148,7 @@
   * @return int, returned as valid number
   */
   function test_num($data){
-    if(($data < 0 && $data > 6) || $data == "-"){
+    if(($data < 0 || $data > 6) || $data == "-"){
       $data = "-";
       return $data;
     }
@@ -233,19 +233,19 @@
         return $data;
       }
 
-      /**
+  /**
  * @author Annika Hansson
  * @var
  * @param string, $data, raw data from form
  * @return string, returned with a size of 10 or 0
  */
  function length_date($data){
-   if(sizeof($data) > 10){
-     $diff = 10 - sizeof($data);
-     $rest = substr($data, 0, $diff);
+   if(strlen($data) > 10){
+     $diff = 10 - strlen($data);
+     $rest = strlen($data, 0, $diff);
      $data = $rest;
    }
-   else if(sizeof($data) < 0){
+   else if(strlen($data) < 0){
      $data = "";
    }
    return $data;
@@ -258,9 +258,9 @@
   * @return string, returned with a size of 1 or 0
   */
   function length_one($data){
-    if(sizeof($data) != 1){
-      $diff = 1 - sizeof($data);
-      $rest = substr($data, 0, $diff);
+    if(strlen($data) != 1){
+      $diff = 1 - strlen($data);
+      $rest = strlen($data, 0, $diff);
       $data = $rest;
     }
     return $data;
@@ -273,12 +273,12 @@
   * @return string, returned with a size that does not exceed the limit of 128 chars
   */
   function input_length($data){
-    if(sizeof($data) > 128){
-      $diff = 128 - sizeof($data);
-      $rest = substr($data, 0, $diff);
+    if(strlen($data) > 128){
+      $diff = 128 - strlen($data);
+      $rest = strlen($data, 0, $diff);
       $data = $rest;
     }
-    else if(sizeof($data) < 0){
+    else if(strlen($data) < 0){
       $data = "";
     }
     return $data;
