@@ -67,23 +67,12 @@ class Project
   public function __construct($id, $dbh = null)
   {
     // Setup database handle
-    if ($dbh == null) {
-      try {
-          // Generate a database connection, using the PDO connector
-          $this->dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
-      } catch (PDOException $e) {
-          // If shit hits the fan
-          throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
-      }
-    }
-    else {
-      try {
-        // Check so the database handle is legit
-        $dbh->getAttribute(PDO::ATTR_CONNECTION_STATUS);
-        $this->dbh = $dbh;
-      } catch (Exception $e) {
-        throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
-      }
+    try {
+      // Generate a database connection, using the PDO connector
+      $this->dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
+    } catch (PDOException $e) {
+      // If shit hits the fan
+      throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
     }
 
     // Get the project id

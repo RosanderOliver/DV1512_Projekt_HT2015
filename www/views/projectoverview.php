@@ -28,20 +28,22 @@ foreach ($project->getSubmission() as $key => $value) {
 
   // Get the submission
   $project->getSubmission($value);
+  $comments = Array();
+  foreach ($project->comments as $key => $value) {
+    $comments[] = new Comment($value);
+  }
 
-  //$commentArray = getComment($dbh, $submission->id);
-
-  if ($submission->grade > 0 && $submission->grade < 4){      //What it is not graded? Need an else...
+  if ($submission->grade > 0 && $submission->grade < 4){                //What it is not graded? Need an else...
     echo "<h2> Project plan ".($key+1)." </h2>";
-    echo "Files: ".$submission->files;                                 //should be serialized and linked to files.
+    echo "Files: ".$submission->files;                                  //should be serialized and linked to files.
     //echo "<br>Student comment: ".$commentArray[0];
     //echo "<br>Examinator comment: ".$commentArray[1];
-    echo "<br>Grade: ".$grades[$submission->grade];                    //Transforms grade using $grade array defined in the begging of the file.
+    echo "<br>Grade: ".$grades[$submission->grade];                     //Transforms grade using $grade array defined in the begging of the file.
 
-  } elseif ($submission->grade > 3 && $submission->grade < 11){                                       //Fel test?
+  } elseif ($submission->grade > 3 && $submission->grade < 11){         //Fel test?
     echo "<h2> Project report ".($key+1)." </h2>";
     echo "Files: ".$submission->files;
-    //echo "<br>Studentv comment: ".$commentArray[0];                             //should be serialized and linked to files.
-    echo "<br>Grade: ".$grades[$submission->grade];                    //Transforms grade using $grade array defined in the begging of the file.
+    //echo "<br>Studentv comment: ".$commentArray[0];                   //should be serialized and linked to files.
+    echo "<br>Grade: ".$grades[$submission->grade];                     //Transforms grade using $grade array defined in the begging of the file.
   }
 }

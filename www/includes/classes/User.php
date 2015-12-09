@@ -42,26 +42,15 @@ class User
   * @param  int   $id   id of the course to load
   * @param  obj   $dbh  database handle
   */
-  public function __construct($id = null, $dbh = null)
+  public function __construct($id = null)
   {
     // Setup database handle
-    if ($dbh == null) {
-      try {
-          // Generate a database connection, using the PDO connector
-          $this->dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
-      } catch (PDOException $e) {
-          // If shit hits the fan
-          throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
-      }
-    }
-    else {
-      try {
-        // Check so the database handle is legit
-        $dbh->getAttribute(PDO::ATTR_CONNECTION_STATUS);
-        $this->dbh = $dbh;
-      } catch (Exception $e) {
-        throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
-      }
+    try {
+      // Generate a database connection, using the PDO connector
+      $this->dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
+    } catch (PDOException $e) {
+      // If shit hits the fan
+      throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
     }
 
     // Set the user id
