@@ -89,27 +89,25 @@ else{
 
       $rIdArray = array();
 
-      if($temp != null){
-        $rIdArray = explode(" ",unserialize($temp->reviews));
+      if ($temp != null) {
+        $rIdArray = unserialize($temp->reviews);
       }
 
       $data = null;
       $uid = $_GET["uid"];
-      $date = null;
-      if(sizeof($rIdArray) > 1){
         for($i = 0; $i < sizeof($rIdArray); $i++){
           $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
           $ssth->bindParam(':rid', $rIdArray[$i], PDO::PARAM_INT);
           $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
           $ssth->execute();
           $tmp = $ssth->fetchObject();
-          if(strtotime($date) < strtotime($tmp->date) || $date == null){
+          if (strtotime($date) < strtotime($tmp->date) || $date == null) {
             $date = $tmp->date;
             $data = unserialize($tmp->data);
           }
         }
      }
-     else{
+     else {
        $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
        $ssth->bindParam(':rid', $rIdArray[0], PDO::PARAM_INT);
        $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
@@ -121,6 +119,5 @@ else{
        }
        //echo "data: " . $data->studen1;
      }
-    }
   include('includes/content/dp_thesis-eval_supervisor.php');
-}
+    }

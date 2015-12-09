@@ -1,27 +1,24 @@
 <?php
 	$dataSent = 0;
 	$correctgrade=false;
-	$projectId=$_GET["id"];																												//TODO CHECK IF USER IS ALLOWED TO VIEW THIS ID
+	$projectId=$_GET["pid"];																												//TODO CHECK IF USER IS ALLOWED TO VIEW THIS ID
+	$lastSubmissionIndex = $_GET["sid"];
 	$commentArr = array();
 	$reviewIdArr = array();
 	$reviewArr = array();
 	$reviewArrData = array();
+	$submissionsIndexArray = array();
 
 	$ssth = $dbh->prepare(SQL_SELECT_PROJECT_WHERE_ID);
 	$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
 	$ssth->execute();
 	$project=$ssth->fetchObject();
-	$submissionsIndex = unserialize($project->submissions);
-	$lastSubmissionIndex = $submissionsIndex[count($submissionsIndex) - 1];
-
-	prettyPrint($submissionsIndex);
 
 	$ssth = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
 	$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);
 	$ssth->execute();
 	$submission = $ssth->fetchObject();
-	$reviewIds = unserialize($submission->reviews);
-	$reviewIdArr = explode(" ", $reviewIds);
+	$reviewIdArr = unserialize($submission->reviews);
 
 	for($x = 0; $x < sizeof($reviewIdArr); $x++) {
 		$ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID);
@@ -36,16 +33,17 @@
 		$grade = intval($_POST["grades"]);
 		$comment = $_POST["comment"];
 
-		if( $grade < 11 || $grade > 0 ) { 	//test grades
+		if( $grade < 11 || $grade > 0 ) {
 			$commentId=createComment($dbh);
 
 			if ($commentId != -1){
 				$dataSent=1;
 				if ($submission->comments == null) {
-					$submission->comments=serialize($commentId);
+					$submissionArray[] = $commentId;
+					$submission->comments = serialize($submissionArray);
 				} else{
 					$submissionArray = unserialize($submission->comments);
-					$submissionArray .= " ".$commentId;
+					$submissionArray[] = $commentId;
 					$submission->comments = serialize($submissionArray);
 				}
 
@@ -55,19 +53,27 @@
 				$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);
 				$ssth->execute();
 
-				$newSubmission = createEmptySubmission($dbh);
-				if ($submissionsIndex == null) {
-					$serializedSubmission = serialize($newSubmission);
-				} else{
-					$submissionsIndex .= " ".$newSubmission;
-					$serializedSubmission = serialize($submissionsIndex);
+				if ($grade < 4 || $grade > 8) {
+					$newSubmission = createEmptySubmission($dbh);
+					$submissionsIndexArray[] = intval($newSubmission);
+					$submissionsIndexArray = serialize($submissionsIndexArray);
+				}
+				else {
+					$submissionsIndexArray =	serialize($submissionsIndexArray);
 				}
 
-				if ($grade > 2 && $grade < 9){
+				if ($grade > 2 && $grade < 9) {
 					$project->stage = $project->stage+1;
-					$ssth = $dbh->prepare(SQL_UPDATE_PROJECT_STAGE_WHERE_ID);
+					$ssth = $dbh->prepare(SQL_UPDATE_PROJECT_STAGESUBMISSION_WHERE_ID);
 					$ssth->bindParam(":stage", $project->stage, PDO::PARAM_INT);
-					$ssth->bindParam(":submissions", $serializedSubmission, PDO::PARAM_STR);
+					$ssth->bindParam(":submissions", $submissionsIndexArray, PDO::PARAM_STR);
+					$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
+					$ssth->execute();
+				}
+				else {
+					$ssth = $dbh->prepare(SQL_UPDATE_PROJECT_STAGESUBMISSION_WHERE_ID);
+					$ssth->bindParam(":stage", $project->stage, PDO::PARAM_INT);
+					$ssth->bindParam(":submissions", $submissionsIndexArray, PDO::PARAM_STR);
 					$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
 					$ssth->execute();
 				}
@@ -127,7 +133,6 @@
 	$commentArr = getComment($dbh, $lastSubmissionIndex);
 	echo "Student comment: ".$commentArr[0];
 	echo "<br>Uploaded file: ";																										//TODO Name of uploaded files regarding this submission
-
 	for($x=0; $x < sizeof($reviewArr); $x++) {
 		echo "<br>Overall comments and feedback: ".$reviewArrData[$x]->feedback;
 		if (get_class($reviewArrData[$x]) == "TE"){

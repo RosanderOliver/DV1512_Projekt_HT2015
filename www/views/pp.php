@@ -96,7 +96,7 @@
        $rIdArray = array();
 
        if ($temp != null) {
-         $rIdArray = explode(" ",unserialize($temp->reviews));
+         $rIdArray = unserialize($temp->reviews);
        }
 
        $data = null;

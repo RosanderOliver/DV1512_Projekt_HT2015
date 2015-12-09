@@ -62,7 +62,7 @@
     $ssth->bindParam(":data", $comment, PDO::PARAM_STR);
     $ssth->bindParam(":subcomments", $subcomment, PDO::PARAM_STR);
     $ssth->execute();
-    return $dbh->lastInsertId();
+    return intval($dbh->lastInsertId());
   }
 
 
@@ -111,8 +111,7 @@
  	 $ssth->bindParam(":id", $subId, PDO::PARAM_INT);								              //TODO is it just one fileid, otherwise handle it
    $ssth->execute();
    $submission = $ssth->fetchObject();
-   $submission->comments = unserialize($submission->comments);
-   $commentIdArr = explode(" ", $submission->comments);
+   $commentIdArr = unserialize($submission->comments);
 
    for ($x=0; $x<sizeof($commentIdArr); $x++){
 
@@ -184,13 +183,16 @@
      $ssth->execute();
      $submission = $ssth->fetchObject();
 
+     $lastInsertId = intval($lastInsertId);
      prettyPrint($submission);
+     prettyPrint($lastInsertId);
 
      if ($submission->reviews == null) {
-       $submission->reviews = serialize($lastInsertId);
+       $reviewIdArr[] = $lastInsertId;
+       $submission->reviews = serialize($reviewIdArr);
      } else{
        $reviewIdArr = unserialize($submission->reviews);
-       $reviewIdArr .=" ".$lastInsertId;
+       $reviewIdArr[] = $lastInsertId;
        $submission->reviews = serialize($reviewIdArr);
      }
      $ssth = $dbh->prepare(SQL_UPDATE_SUBMISSION_REVIEWS_WHERE_ID);
@@ -289,15 +291,20 @@
   * define("SQL_INSERT_SUBMISSION", "INSERT INTO `site`.`submissions` (`user`, `date`, `files`, `reviews`, `comments`, `grade`) VALUES (:user, :date, :files, :reviews, :comments, :grade)");
   */
   function createEmptySubmission($dbh) {
+    $user = 0;
     $date = date("Y-m-d H:i:s");
+    $files = "";
+    $reviews = "";
+    $comments = "";
+    $grade = 0;
     $ssth = $dbh->prepare(SQL_INSERT_SUBMISSION);                               //TODO Deadlines borde sättas här!
-    $ssth->bindParam(":user", 0, PDO::PARAM_INT);
-    $ssth->bindParam(":date", $date, PDO::PARAM_STR);
-    $ssth->bindParam(":files", "Empty", PDO::PARAM_STR);
-    $ssth->bindParam(":reviews", "", PDO::PARAM_STR);
-    $ssth->bindParam(":comments", "", PDO::PARAM_STR);
-    $ssth->bindParam(":grade", -1, PDO::PARAM_INT);
+    $ssth->bindParam(":user", $user, PDO::PARAM_INT);
+    $ssth->bindParam(':date', $date, PDO::PARAM_STR);
+    $ssth->bindParam(":files",$files, PDO::PARAM_STR);
+    $ssth->bindParam(":reviews", $reviews, PDO::PARAM_STR);
+    $ssth->bindParam(":comments", $comments, PDO::PARAM_STR);
+    $ssth->bindParam(":grade", $grade, PDO::PARAM_INT);
     $ssth->execute();
 
-    return $dbh->lastInsertId();
+    return intval($dbh->lastInsertId());
   }
