@@ -54,7 +54,7 @@ class Comment
       // Get the comment id
       $comment = intval($id);
       if ($comment <= 0) {
-        throw new Exception("Invalid course id");
+        throw new Exception("Invalid comment id");
       }
 
       $sth = $this->dbh->prepare(SQL_SELECT_COMMENT_WHERE_ID);
