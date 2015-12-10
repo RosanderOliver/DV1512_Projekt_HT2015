@@ -24,7 +24,7 @@ $project = $course->getProject($pid);
 echo '<h1>  Project overview  </h1>';
 
 // List all submissions
-foreach ($project->getSubmission() as $key => $value) {
+foreach (array_reverse($project->getSubmission()) as $key => $value) {
 
   // Get the submission
   $submission = $project->getSubmission($value);
@@ -35,15 +35,15 @@ foreach ($project->getSubmission() as $key => $value) {
   }
 
   if ($stages[$project->stage] == STAGE_PLAN) {
-    echo '<h2> Project plan '.($key+1).'</h2>';
+    echo '<h2> Project plan</h2>';
   } elseif ($stages[$project->stage] == STAGE_REPORT) {
-    echo '<h2> Project report '.($key+1).'</h2>';
+    echo '<h2> Project report</h2>';
   }
   echo 'Files: '.$submission->files;
   foreach ($comments as $key => $value) {
     echo '<br>Comment: '.$value->data;
   }
-  if ($submission->grade > 0 && $submission->grade < count($grade)) {
+  if ($submission->grade > 0 && $submission->grade < count($grades)) {
     echo '<br>Grade: '.$grades[$submission->grade];
   } else if ($submission->grade == 0) {
     echo '<br><a href="?view=examinatorgrading&pid='.$project->id.'&sid='.$submission->id.'">Grade this submission';

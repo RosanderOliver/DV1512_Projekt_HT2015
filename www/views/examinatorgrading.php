@@ -21,7 +21,6 @@
 	$submission = $ssth->fetchObject();
 	$reviewIdArr = unserialize($submission->reviews);
 	$submissionCommentIndex = unserialize($submission->comments);
-	prettyPrint($submissionCommentIndex);
 
 	for($x = 0; $x < sizeof($reviewIdArr); $x++) {
 		$ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID);
@@ -39,15 +38,10 @@
 
 		if( $grade < 11 || $grade > 0 ) {
 			$commentId=createComment($dbh);
-			prettyPrint($commentId);
-			prettyPrint($submissionCommentIndex);
 			if ($commentId != -1){
 				$dataSent=1;
-				echo "APAPAPAPAP";
 				$submissionCommentIndex[] = $commentId;
 				$submissionCommentIndex = serialize($submissionCommentIndex);
-				prettyPrint($submissionCommentIndex);
-				prettyPrint($lastSubmissionIndex);
 
 				$ssth = $dbh->prepare(SQL_UPDATE_SUBMISSION_COMMENTGRADE_WHERE_ID);
 				$ssth->bindParam(":comments", $submissionCommentIndex, PDO::PARAM_STR);
