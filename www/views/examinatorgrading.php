@@ -1,13 +1,14 @@
 <?php
 	$dataSent = 0;
 	$correctgrade=false;
-	$projectId=$_GET["pid"];																												//TODO CHECK IF USER IS ALLOWED TO VIEW THIS ID
-	$lastSubmissionIndex = $_GET["sid"];
+	$projectId=intval($_GET["pid"]);																												//TODO CHECK IF USER IS ALLOWED TO VIEW THIS ID
+	$lastSubmissionIndex = intval($_GET["sid"]);
 	$commentArr = array();
 	$reviewIdArr = array();
 	$reviewArr = array();
 	$reviewArrData = array();
 	$submissionsIndexArray = array();
+	$submissionCommentIndex = array();
 
 	$ssth = $dbh->prepare(SQL_SELECT_PROJECT_WHERE_ID);
 	$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
@@ -19,6 +20,8 @@
 	$ssth->execute();
 	$submission = $ssth->fetchObject();
 	$reviewIdArr = unserialize($submission->reviews);
+	$submissionCommentIndex = unserialize($submission->comments);
+	prettyPrint($submissionCommentIndex);
 
 	for($x = 0; $x < sizeof($reviewIdArr); $x++) {
 		$ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID);
@@ -32,23 +35,22 @@
 	if($_POST){
 		$grade = intval($_POST["grades"]);
 		$comment = $_POST["comment"];
+		$newcomments;
 
 		if( $grade < 11 || $grade > 0 ) {
 			$commentId=createComment($dbh);
-
+			prettyPrint($commentId);
+			prettyPrint($submissionCommentIndex);
 			if ($commentId != -1){
 				$dataSent=1;
-				if ($submission->comments == null) {
-					$submissionArray[] = $commentId;
-					$submission->comments = serialize($submissionArray);
-				} else{
-					$submissionArray = unserialize($submission->comments);
-					$submissionArray[] = $commentId;
-					$submission->comments = serialize($submissionArray);
-				}
+				echo "APAPAPAPAP";
+				$submissionCommentIndex[] = $commentId;
+				$submissionCommentIndex = serialize($submissionCommentIndex);
+				prettyPrint($submissionCommentIndex);
+				prettyPrint($lastSubmissionIndex);
 
 				$ssth = $dbh->prepare(SQL_UPDATE_SUBMISSION_COMMENTGRADE_WHERE_ID);
-				$ssth->bindParam(":comments", $submission->comments, PDO::PARAM_STR);
+				$ssth->bindParam(":comments", $submissionCommentIndex, PDO::PARAM_STR);
 				$ssth->bindParam(":grade", $grade, PDO::PARAM_INT);
 				$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);
 				$ssth->execute();
@@ -162,7 +164,7 @@
 				<p> Wrong input!!! </p>
 				<?php echo $grade; ?>
 			<?php  else : ?>
-	<form method='post' action="?view=examinatorgrading&id=<?php echo $projectId; ?>">
+	<form method='post' action="?view=examinatorgrading&pid=<?php echo $projectId; ?>&sid=<?php echo $lastSubmissionIndex; ?>">
 		<?php if($project->stage == 3) : ?>
 			<select name="grades">
 		    <option value="4">A</option>
