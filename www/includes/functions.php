@@ -74,7 +74,6 @@
   */
     function createComment($dbh, $lbl = null) {
 
-
       if ($lbl == null && isset($_POST["comment"])) {
         $comment = $_POST["comment"];
       } elseif (isset($_POST[$lbl])) {
@@ -86,7 +85,8 @@
 
       if ($comment != null && strlen($comment) < 256){
         $comment = strip_tags($comment);
-        $ret=setComment(0, $comment, "subcomment", $dbh);                       //TODO MISSING USER AND SUBCOMMENT
+        $subcomments = serialize(array());
+        $ret=setComment(0, $comment, $subcomments, $dbh);                       //TODO MISSING USER AND SUBCOMMENT
         if ($ret != -1){
           return $ret;
         } else {
@@ -184,8 +184,6 @@
      $submission = $ssth->fetchObject();
 
      $lastInsertId = intval($lastInsertId);
-     prettyPrint($submission);
-     prettyPrint($lastInsertId);
 
      if ($submission->reviews == null) {
        $reviewIdArr[] = $lastInsertId;
