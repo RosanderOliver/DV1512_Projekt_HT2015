@@ -1,6 +1,6 @@
 
 
-  <form action="index.php?view=pp&id=<?php echo $submissionsId?>" method="post" name="pp" onmouseover="pass(pp.s1.value, pp.s2.value, pp.s3.value)">
+  <form action="index.php?view=reviewplan&sid=<?php echo $submissionsId?>" method="post" name="pp" onmouseover="pass(pp.s1.value, pp.s2.value, pp.s3.value)">
   <table class="form_table">
 
     <th>Student 1</th>

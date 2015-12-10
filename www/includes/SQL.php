@@ -35,4 +35,4 @@ define("SQL_INSERT_COMMENT", "INSERT INTO `site`.`comments` (`user`, `date`, `da
 //reviewer
 define("SQL_INSERT_REVIEW","INSERT INTO `site`.`reviews`(`user`, `date`, `last_modified`, `data`) VALUES(:user,:date,:last_modified,:data)");
 define("SQL_SELECT_REVIEW_WHERE_ID_AND_USER","SELECT * FROM `site`.`reviews` WHERE `id` = :rid AND `user`=:user");
-define("SQL_SELECT_REVIEW_WHERE_ID","SELECT * FROM `site`.`reviews` WHERE `id` = :rid");
+define("SQL_SELECT_REVIEW_WHERE_ID","SELECT * FROM `site`.`reviews` WHERE `id`=:rid");

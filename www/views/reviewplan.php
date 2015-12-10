@@ -1,6 +1,6 @@
 <?php
-  if(isset($_GET['id'])){
-    $submissionsId = $_GET['id'];
+  if(isset($_GET['sid'])){
+    $submissionsId = intval($_GET['sid']);
   }
 
  if(isset($_POST['submit'])){
