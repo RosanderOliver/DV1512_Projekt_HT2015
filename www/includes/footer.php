@@ -4,6 +4,7 @@
   if (!defined('IN_EXM')) exit;
 
 ?>
+      </div>
     <div id="footer">
       <?php echo date("F j, Y, g:i a"); ?> | &copy; <?php echo date("Y"); echo SITE_NAME; ?>
     </div>

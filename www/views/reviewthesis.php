@@ -2,7 +2,6 @@
 if(isset($_GET['id'])){
   $submissionsId = $_GET['id'];
 }
-prettyPrint($submissionsId);
 if(isset($_POST['submit'])){
 
   $notEmpty = true;

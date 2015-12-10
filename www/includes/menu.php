@@ -7,8 +7,8 @@
     [ "Overview", "?view=overview" ],
     [ "DEBUG", [
         [ "Edit", "?view=edit" ],
-        [ "Form1", "?view=pp&rid=1" ],
-        [ "Form2", "?view=thesis&rid=1" ]
+        [ "Form1", "?view=reviewplan&sid=1&rid=1" ],
+        [ "Form2", "?view=reviewthesis&sid=1&rid=1" ]
     ]],
     [ "Logout", "?logout" ]
   ];

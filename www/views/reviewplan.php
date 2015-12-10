@@ -2,7 +2,6 @@
   if(isset($_GET['id'])){
     $submissionsId = $_GET['id'];
   }
-  prettyPrint($submissionsId);
 
  if(isset($_POST['submit'])){
 
@@ -58,18 +57,16 @@
    $form->s4 = test_input(test_grade($_POST["s4"]));
    $form->feedback = test_input($_POST["feedback"]);
 
-   $notEmpty = is_empty($data);
-
-   if(notEmpty){
+   if(empty($data)){
 
      if($dbh != null){
-      $ssth = $dbh->prepare(SQL_INSERT_REVIEW);
+      $sth = $dbh->prepare(SQL_INSERT_REVIEW);
       $uid = $_SESSION['user_id'];
-      $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
-      $ssth->bindParam(':date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
-      $ssth->bindParam(':last_modified', date("Y-m-d H:i:s"), PDO::PARAM_STR);
-      $ssth->bindParam(':data', serialize($form), PDO::PARAM_STR);
-      $ssth->execute();
+      $sth->bindParam(':user', $uid, PDO::PARAM_INT);
+      $sth->bindParam(':date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
+      $sth->bindParam(':last_modified', date("Y-m-d H:i:s"), PDO::PARAM_STR);
+      $sth->bindParam(':data', serialize($form), PDO::PARAM_STR);
+      $sth->execute();
       $lastInsertId = $dbh->lastInsertId();
       insertReviewIdToSubmission($dbh, $submissionsId, $lastInsertId);
 
@@ -104,11 +101,11 @@
        $date = null;
        if (sizeof($rIdArray) > 1) {
          for($i = 0; $i < sizeof($rIdArray); $i++){
-           $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
-           $ssth->bindParam(':rid', $rIdArray[$i], PDO::PARAM_INT);
-           $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
-           $ssth->execute();
-           $tmp = $ssth->fetchObject();
+           $sth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
+           $sth->bindParam(':rid', $rIdArray[$i], PDO::PARAM_INT);
+           $sth->bindParam(':user', $uid, PDO::PARAM_INT);
+           $sth->execute();
+           $tmp = $sth->fetchObject();
            if (strtotime($date) < strtotime($tmp->date) || $date == null) {
              $date = $tmp->date;
              $data = unserialize($tmp->data);
@@ -116,11 +113,11 @@
          }
       }
       else {
-        $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
-        $ssth->bindParam(':rid', $rIdArray[0], PDO::PARAM_INT);
-        $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
-        $ssth->execute();
-        $tmp = $ssth->fetchObject();
+        $sth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
+        $sth->bindParam(':rid', $rIdArray[0], PDO::PARAM_INT);
+        $sth->bindParam(':user', $uid, PDO::PARAM_INT);
+        $sth->execute();
+        $tmp = $sth->fetchObject();
         if($tmp != null){
           echo "test";
           $data = unserialize($tmp->data);

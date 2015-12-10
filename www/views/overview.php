@@ -6,9 +6,7 @@ if ($login->isUserLoggedIn() === false) exit(1);
 
 ?>
 
-<body style="margin: 0px; padding: 0px; font-family: 'Trebuchet MS',verdana;">
-
-<table width="100%" style="height: 100%;" cellpadding="10" cellspacing="0" border="0">
+<table cellpadding="10" cellspacing="0" border="0">
 
 <!-- ============ LEFT COLUMN (COURSES) ============== -->
 <td width="20%" valign="top">
@@ -55,5 +53,5 @@ TASKTASKTATSK
 
 <br><br>
 
-
 </tr>
+</table>

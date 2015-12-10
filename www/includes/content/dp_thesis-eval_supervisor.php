@@ -1,8 +1,4 @@
-<html>
-<link href="../css/stylesheet.css" type="text/css" rel="stylesheet" />
-<link href="../css/style.css" type="text/css" rel="stylesheet" />
-<script type="text/javascript" src="includes/java/Form.js"></script>
-<body>
+
 
 <form action="index.php?view=thesis&id=<?php echo $submissionsId?>" method="post" name="thesis"  onmouseover="tot(thesis.s1.value, thesis.s2.value, thesis.s3.value, thesis.s4.value)">
 <table class="form_table">
@@ -156,6 +152,4 @@
 </table>
 </form>
 
-
-</body>
-</html>
+<script type="text/javascript" src="includes/java/Form.js"></script>

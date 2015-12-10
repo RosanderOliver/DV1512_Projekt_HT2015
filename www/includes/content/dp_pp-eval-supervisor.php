@@ -1,8 +1,4 @@
-<html>
-<link href="../css/stylesheet.css" type="text/css" rel="stylesheet" />
-<link href="../css/style.css" type="text/css" rel="stylesheet" />
-<script type="text/javascript" src="includes/java/Form.js"></script>
-<body>
+
 
   <form action="index.php?view=pp&id=<?php echo $submissionsId?>" method="post" name="pp" onmouseover="pass(pp.s1.value, pp.s2.value, pp.s3.value)">
   <table class="form_table">
@@ -157,6 +153,4 @@ dp_pp-eval-supervisor.php'
   </table>
   </form>
 
-
-</body>
-</html>
+  <script type="text/javascript" src="includes/java/Form.js"></script>
