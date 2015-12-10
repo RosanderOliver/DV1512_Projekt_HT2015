@@ -182,7 +182,6 @@
   * @return -1 if fail otherwise lastInsertId
   */
   function insertReviewIdToSubmission($dbh, $submissionsId, $lastInsertId) {
-
     $ssth = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
    	$ssth->bindParam(":id", $submissionsId, PDO::PARAM_INT);
     $ssth->execute();

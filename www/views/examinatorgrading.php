@@ -51,6 +51,7 @@
 
 				if ($grade < 4 || $grade > 8) {
 					$newSubmission = createEmptySubmission($dbh);
+					$submissionsIndexArray = unserialize($project->submissions);
 					$submissionsIndexArray[] = intval($newSubmission);
 					$submissionsIndexArray = serialize($submissionsIndexArray);
 				}

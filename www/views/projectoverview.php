@@ -29,6 +29,7 @@ foreach (array_reverse($project->getSubmission()) as $key => $value) {
   // Get the submission
   $submission = $project->getSubmission($value);
   $submission->comments = unserialize($submission->comments);
+  $submission->files = unserialize($submission->files);
   $comments = Array();
   foreach ($submission->comments as $key => $value) {
     $comments[] = new Comment($value);

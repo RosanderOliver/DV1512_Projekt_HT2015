@@ -76,7 +76,7 @@ $grades = array(
 $stages = array(
   1 => STAGE_DRAFT,
   2 => STAGE_PLAN,
-  3 => STAGE_RAPPORT,
+  3 => STAGE_REPORT,
   4 => STAGE_PEER_REVIEW,
   5 => STAGE_FINISHED );
 
