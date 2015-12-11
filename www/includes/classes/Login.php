@@ -609,7 +609,7 @@ class Login
 
         // Set data to be sent
         $name   = array(EMAIL_PASSWORDRESET_FROM_NAME);
-        $link   = EMAIL_PASSWORDRESET_URL.'?user_name='.urlencode($user_name).'&verification_code='.urlencode($user_password_reset_hash);
+        $link   = EMAIL_PASSWORDRESET_URL.'&user_name='.urlencode($user_name).'&verification_code='.urlencode($user_password_reset_hash);
 
         // Create new mail
         $email = new SendGrid\Email();
