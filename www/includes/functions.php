@@ -240,7 +240,7 @@
  function length_date($data){
    if(strlen($data) > 10){
      $diff = 10 - strlen($data);
-     $rest = strlen($data, 0, $diff);
+     $rest = substr($data, 0, $diff);
      $data = $rest;
    }
    else if(strlen($data) < 0){
@@ -258,7 +258,7 @@
   function length_one($data){
     if(strlen($data) != 1){
       $diff = 1 - strlen($data);
-      $rest = strlen($data, 0, $diff);
+      $rest = substr($data, 0, $diff);
       $data = $rest;
     }
     return $data;
@@ -273,7 +273,7 @@
   function input_length($data){
     if(strlen($data) > 128){
       $diff = 128 - strlen($data);
-      $rest = strlen($data, 0, $diff);
+      $rest = substr($data, 0, $diff);
       $data = $rest;
     }
     else if(strlen($data) < 0){
