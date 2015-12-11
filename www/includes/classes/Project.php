@@ -111,7 +111,7 @@ class Project
   * @return obj, stdClassObject
   * TODO return only submissions that the user own or has permission to view
   */
-  function getSubmission( $id = null ) {
+  public function getSubmission( $id = null ) {
     // If id is null return a list of all submissions listed for the project
     if ($id === null)
       return $this->submissions;
@@ -133,5 +133,51 @@ class Project
       throw new Exception("Project was not found");
 
     return $result;
+  }
+
+  /**
+  * @author Oliver Rosander, Jim Ahlstrand
+  * @return void
+  */
+  public function createSubmission() {
+    $user = 0;
+    $date = date("Y-m-d H:i:s");
+    $files = serialize(array());
+    $reviews = serialize(array());
+    $comments = serialize(array());
+    $grade = 0;
+
+    // Insert the new submission
+    // TODO This should be a class
+    $sth = $this->dbh->prepare(SQL_INSERT_SUBMISSION);
+    $sth->bindParam(":user", $user, PDO::PARAM_INT);
+    $sth->bindParam(':date', $date, PDO::PARAM_STR);
+    $sth->bindParam(":files",$files, PDO::PARAM_STR);
+    $sth->bindParam(":reviews", $reviews, PDO::PARAM_STR);
+    $sth->bindParam(":comments", $comments, PDO::PARAM_STR);
+    $sth->bindParam(":grade", $grade, PDO::PARAM_INT);
+    $sth->bindParam(":stage", $this->stage, PDO::PARAM_INT);
+    $sth->execute();
+
+    // Add the submission
+    $this->submissions[] = intval($this->dbh->lastInsertId());
+    // Update the Database
+    $submissions = serialize($this->submissions);
+    $sth = $this->dbh->prepare(SQL_UPDATE_PROJECT_SUBMISSION_WHERE_ID);
+    $sth->bindParam(":submissions", $submissions, PDO::PARAM_STR);
+    $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+    $sth->execute();
+  }
+  
+  /**
+  * @author Oliver Rosander, Jim Ahlstrand
+  * @return void
+  */
+  public function updateStage() {
+    $stage = $this->stage + 1;
+    $sth = $this->dbh->prepare(SQL_UPDATE_PROJECT_STAGE_WHERE_ID);
+    $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+    $sth->bindParam(":stage", $stage, PDO::PARAM_INT);
+    $sth->execute();
   }
 }

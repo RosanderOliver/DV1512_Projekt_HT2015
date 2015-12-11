@@ -9,6 +9,7 @@
 	$reviewArrData = array();
 	$submissionsIndexArray = array();
 	$submissionCommentIndex = array();
+	$projectClass = new Project($projectId);
 
 	$ssth = $dbh->prepare(SQL_SELECT_PROJECT_WHERE_ID);
 	$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
@@ -49,30 +50,12 @@
 				$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);
 				$ssth->execute();
 
-				if ($grade < 4 || $grade > 8) {
-					$newSubmission = createEmptySubmission($dbh);
-					$submissionsIndexArray = unserialize($project->submissions);
-					$submissionsIndexArray[] = intval($newSubmission);
-					$submissionsIndexArray = serialize($submissionsIndexArray);
-				}
-				else {
-					$submissionsIndexArray =	serialize($submissionsIndexArray);
+				if ($grade > 2 && $grade < 9) {
+					$projectClass->updateStage();
 				}
 
-				if ($grade > 2 && $grade < 9) {
-					$project->stage = $project->stage+1;
-					$ssth = $dbh->prepare(SQL_UPDATE_PROJECT_STAGESUBMISSION_WHERE_ID);
-					$ssth->bindParam(":stage", $project->stage, PDO::PARAM_INT);
-					$ssth->bindParam(":submissions", $submissionsIndexArray, PDO::PARAM_STR);
-					$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
-					$ssth->execute();
-				}
-				else {
-					$ssth = $dbh->prepare(SQL_UPDATE_PROJECT_STAGESUBMISSION_WHERE_ID);
-					$ssth->bindParam(":stage", $project->stage, PDO::PARAM_INT);
-					$ssth->bindParam(":submissions", $submissionsIndexArray, PDO::PARAM_STR);
-					$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
-					$ssth->execute();
+				if ($grade < 4 || $grade > 8) {
+					$projectClass->createSubmission();
 				}
 			}
 		} else {

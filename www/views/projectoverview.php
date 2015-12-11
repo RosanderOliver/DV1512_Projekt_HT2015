@@ -51,9 +51,9 @@ foreach (array_reverse($project->getSubmission()) as $key => $value) {
     $comments[] = new Comment($value);
   }
 
-  if ($stages[$project->stage] == STAGE_PLAN) {
+  if ($stages[$submission->stage] == STAGE_PLAN) {
     echo '<h2> Project plan</h2>';
-  } elseif ($stages[$project->stage] == STAGE_REPORT) {
+  } elseif ($stages[$submission->stage] == STAGE_REPORT) {
     echo '<h2> Project report</h2>';
   }
   echo 'Files: '.$submission->files;
@@ -66,9 +66,9 @@ foreach (array_reverse($project->getSubmission()) as $key => $value) {
     echo '<br><a href="?view=examinatorgrading&pid='.$project->id.'&sid='.$submission->id.'">Grade this submission</a>';
     if (userHasReviewed($submission, $dbh)) {
       echo '<br><a href="?view=projectreviews&sid='.$submission->id.'">View reviews</a>';
-    } else if ($stages[$project->stage] == STAGE_PLAN) {
+    } else if ($stages[$submission->stage] == STAGE_PLAN) {
       echo '<br><a href="?view=reviewplan&sid='.$submission->id.'">Review this submission</a>';
-    } else if ($stages[$project->stage] == STAGE_REPORT) {
+    } else if ($stages[$submission->stage] == STAGE_REPORT) {
       echo '<br><a href="?view=reviewthesis&sid='.$submission->id.'">Review this submission</a>';
     }
   }

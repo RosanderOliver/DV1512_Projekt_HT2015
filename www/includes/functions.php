@@ -281,26 +281,30 @@
   }
 
   /**
-  * @author Oliver Rosander
+  * @author Oliver Rosander, Jim Ahlstrand
   * @param PDO $dbh
   * @return int, id of last input
-  * define("SQL_INSERT_SUBMISSION", "INSERT INTO `site`.`submissions` (`user`, `date`, `files`, `reviews`, `comments`, `grade`) VALUES (:user, :date, :files, :reviews, :comments, :grade)");
+  * @see define("SQL_INSERT_SUBMISSION", "INSERT INTO `site`.`submissions` (`user`, `date`, `files`, `reviews`, `comments`, `grade`, `stage`) VALUES (:user, :date, :files, :reviews, :comments, :grade, :stage)");
   */
   function createEmptySubmission($dbh) {
+    // TODO These should be input parameters
     $user = 0;
-    $date = date("Y-m-d H:i:s");
-    $files = "";
-    $reviews = "";
-    $comments = "";
     $grade = 0;
-    $ssth = $dbh->prepare(SQL_INSERT_SUBMISSION);                               //TODO Deadlines borde sättas här!
-    $ssth->bindParam(":user", $user, PDO::PARAM_INT);
-    $ssth->bindParam(':date', $date, PDO::PARAM_STR);
-    $ssth->bindParam(":files",$files, PDO::PARAM_STR);
-    $ssth->bindParam(":reviews", $reviews, PDO::PARAM_STR);
-    $ssth->bindParam(":comments", $comments, PDO::PARAM_STR);
-    $ssth->bindParam(":grade", $grade, PDO::PARAM_INT);
-    $ssth->execute();
+    $stage = 0;
+    // =============
+    $date = date("Y-m-d H:i:s");
+    $files = serialize(array());
+    $reviews = serialize(array());
+    $comments = serialize(array());
+    $sth = $dbh->prepare(SQL_INSERT_SUBMISSION);                               //TODO Deadlines borde sättas här!
+    $sth->bindParam(":user", $user, PDO::PARAM_INT);
+    $sth->bindParam(':date', $date, PDO::PARAM_STR);
+    $sth->bindParam(":files",$files, PDO::PARAM_STR);
+    $sth->bindParam(":reviews", $reviews, PDO::PARAM_STR);
+    $sth->bindParam(":comments", $comments, PDO::PARAM_STR);
+    $sth->bindParam(":grade", $grade, PDO::PARAM_INT);
+    $sth->bindParam(":stage", $stage, PDO::PARAM_INT);
+    $sth->execute();
 
     return intval($dbh->lastInsertId());
   }
