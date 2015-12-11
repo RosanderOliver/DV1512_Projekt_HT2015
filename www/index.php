@@ -3,6 +3,9 @@
 // Require https
 //if ( $_SERVER['HTTPS'] !== 'on' ) die('Site requires https!');
 
+// PHP 5.3 or higher is required
+if (version_compare(phpversion(), '5.4.0', '<')) exit('PHP Version 5.4 or higher is required');
+
 // Set site variable
 define('IN_EXM', TRUE);
 
@@ -15,11 +18,11 @@ require_once('includes/functions.php');
 // include the config
 require_once('includes/config.php');
 
+// include functions
+require_once('includes/functions.php');
+
 // include the SQL-file
 require_once('includes/SQL.php');
-
-// include the PHPMailer library
-require_once('includes/libraries/PHPMailer.php');
 
 // include the Password library
 if (version_compare(phpversion(), '5.5.0', '<'))
@@ -28,7 +31,10 @@ if (version_compare(phpversion(), '5.5.0', '<'))
 // Include translation
 include_once('includes/translations/en.php');
 
-// includehe class autoloader
+// include composer autoloader
+require_once('includes/vendor/autoload.php');
+
+// include the class autoloader
 require_once('includes/autoloader.php');
 
 // Create a login object. when this object is created, it will do all login/logout stuff automatically
@@ -36,25 +42,55 @@ require_once('includes/autoloader.php');
 $login = new Login();
 
 // Create a user object
-$user = new User();
+$user;
+try {
+ $user = new User();
+} catch (Exception $e) {
+ echo $e->getMessage();
+}
 
 // Create new database handle
 $dbh = null;
 try {
-    // Generate a database connection, using the PDO connector
-    $dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
+  // Generate a database connection, using the PDO connector
+  $dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
 } catch (PDOException $e) {
-    // If shit hits the fan
-    echo MESSAGE_DATABASE_ERROR . $e->getMessage();
-    exit;
+  // If shit hits the fan
+  throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
 }
+
+// graders definitions
+$grades = array(
+  1  => 'U',
+  2  => 'Ux',
+  3  => 'G',
+  4  => 'A',
+  5  => 'B',
+  6  => 'C',
+  7  => 'D',
+  8  => 'E',
+  9  => 'Fx',
+  10 => 'F' );
+
+// stage definitions
+$stages = array(
+  1 => STAGE_DRAFT,
+  2 => STAGE_PLAN,
+  3 => STAGE_REPORT,
+  4 => STAGE_PEER_REVIEW,
+  5 => STAGE_FINISHED );
 
 // Set views
 $views = [
   'course',
   'overview',
   'settings',
-  'edit'
+  'edit',
+  'course',
+  'projectoverview',
+  'examinatorgrading',
+  'reviewplan',
+  'reviewthesis'
 ];
 
 /*
@@ -76,6 +112,8 @@ if ($login->isUserLoggedIn() === true) {
 
   // Include footer
   include_once('includes/footer.php');
+
+
 
 } else {
 

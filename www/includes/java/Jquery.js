@@ -1,6 +1,6 @@
 
 var pageSize = function() {
-    $("#page").height($(document).height() - 30);
+    $("#page").height($(document).height() - 125);
 }
 
 $(function() {

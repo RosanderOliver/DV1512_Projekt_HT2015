@@ -40,11 +40,13 @@ define("MESSAGE_VERIFICATION_MAIL_ERROR", "Sorry, we could not send you an verif
 define("MESSAGE_VERIFICATION_MAIL_NOT_SENT", "Verification Mail NOT successfully sent! Error: ");
 define("MESSAGE_VERIFICATION_MAIL_SENT", "Your account has been created successfully and we have sent you an email. Please click the VERIFICATION LINK within that mail.");
 define("MESSAGE_USER_DOES_NOT_EXIST", "This user does not exist");
+define("MESSAGE_REALNAME_BAD_LENGTH", "Your name cannot be shorter than 2 or longer than 64 characters");
 define("MESSAGE_USERNAME_BAD_LENGTH", "Username cannot be shorter than 2 or longer than 64 characters");
 define("MESSAGE_USERNAME_CHANGE_FAILED", "Sorry, your chosen username renaming failed");
 define("MESSAGE_USERNAME_CHANGED_SUCCESSFULLY", "Your username has been changed successfully. New username is ");
 define("MESSAGE_USERNAME_EMPTY", "Username field was empty");
 define("MESSAGE_USERNAME_EXISTS", "Sorry, that username is already taken. Please choose another one.");
+define("MESSAGE_REALNAME_INVALID", "Your name does not fit the name scheme: only letters are allowed, 2 to 64 characters");
 define("MESSAGE_USERNAME_INVALID", "Username does not fit the name scheme: only a-Z and numbers are allowed, 2 to 64 characters");
 define("MESSAGE_USERNAME_SAME_LIKE_OLD_ONE", "Sorry, that username is the same as your current one. Please choose another one.");
 
@@ -69,10 +71,11 @@ define("WORDING_PROFILE_PICTURE", "Your profile picture (from gravatar):");
 define("WORDING_REGISTER", "Register");
 define("WORDING_REGISTER_NEW_ACCOUNT", "Register new account");
 define("WORDING_REGISTRATION_CAPTCHA", "Please enter these characters");
-define("WORDING_REGISTRATION_EMAIL", "User's email (please provide a real email address, you'll get a verification mail with an activation link)");
-define("WORDING_REGISTRATION_PASSWORD", "Password (min. 6 characters!)");
+define("WORDING_REGISTRATION_EMAIL", "Email");
+define("WORDING_REGISTRATION_PASSWORD", "Password");
 define("WORDING_REGISTRATION_PASSWORD_REPEAT", "Password repeat");
-define("WORDING_REGISTRATION_USERNAME", "Username (only letters and numbers, 2 to 64 characters)");
+define("WORDING_REGISTRATION_REALNAME", "Name");
+define("WORDING_REGISTRATION_USERNAME", "Username");
 define("WORDING_REMEMBER_ME", "Keep me logged in (for 2 weeks)");
 define("WORDING_REQUEST_PASSWORD_RESET", "Request a password reset. Enter your username and you'll get a mail with instructions:");
 define("WORDING_RESET_PASSWORD", "Reset my password");

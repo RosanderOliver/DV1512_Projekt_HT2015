@@ -60,7 +60,7 @@
    public function loadingInvalidClass()
    {
      // Trying to create a class that does not exist.
-     $a = new Nouser();
+     //$a = new InvalidClass();
 
      // Testing to change value of id
      $a->id = 123;

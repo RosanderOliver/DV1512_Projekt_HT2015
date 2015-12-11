@@ -60,29 +60,11 @@ define("COOKIE_SECRET_KEY", "lk@hfsd]786@9d3NJ9{80ssfJ9");
  * what you do, then you can skip this section. Otherwise please set EMAIL_USE_SMTP to true
  * and fill in your SMTP provider account data.
  *
- * An example setup for using gmail.com [Google Mail] as email sending service,
- * works perfectly in August 2013. Change the "xxx" to your needs.
- * Please note that there are several issues with gmail, like gmail will block your server
- * for "spam" reasons or you'll have a daily sending limit. See the readme.md for more info.
- *
- * define("EMAIL_USE_SMTP", true);
- * define("EMAIL_SMTP_HOST", "ssl://smtp.gmail.com");
- * define("EMAIL_SMTP_AUTH", true);
- * define("EMAIL_SMTP_USERNAME", "xxxxxxxxxx@gmail.com");
- * define("EMAIL_SMTP_PASSWORD", "xxxxxxxxxxxxxxxxxxxx");
- * define("EMAIL_SMTP_PORT", 465);
- * define("EMAIL_SMTP_ENCRYPTION", "ssl");
- *
- * It's really recommended to use SMTP!
+ * EMAIL_SG_API_KEY: API key to sendgrid account
+ * @see https://app.sendgrid.com/settings/api_keys
  *
  */
-define("EMAIL_USE_SMTP", false);
-define("EMAIL_SMTP_HOST", "sendgrid.");
-define("EMAIL_SMTP_AUTH", true);
-define("EMAIL_SMTP_USERNAME", "yourusername");
-define("EMAIL_SMTP_PASSWORD", "yourpassword");
-define("EMAIL_SMTP_PORT", 465);
-define("EMAIL_SMTP_ENCRYPTION", "ssl");
+define("EMAIL_SG_API_KEY", "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");
 
 /**
  * Configuration for: password reset email data
@@ -136,3 +118,27 @@ define("HASH_COST_FACTOR", "12");
  * PATH_CLASS: path to folder contatning all classes
  */
  define("PATH_CLASS", "includes/classes/");
+
+ /**
+  * Configuration for: maximum lengths
+  * Defines maximum lengths of data variables, this is limited by the database
+  *
+  * MAX_COMMENT_LENGTH: length of comments data
+  */
+  define("MAX_COMMENT_LENGTH", 256);
+
+  /**
+   * Configuration for: project stages
+   * Defines stages for the project
+   *
+   * STAGE_DRAFT: project is newly created and waiting for approval
+   * STAGE_PLAN: project plan needs to be submitted
+   * STAGE_RAPPORT: project rapport needs to be submitted
+   * STAGE_PEER_REVIEW: project is waiting to be reviewd by a Peer
+   * STAGE_FINISHED: project is finished and can't be edited
+   */
+   define("STAGE_DRAFT", "Draft");
+   define("STAGE_PLAN", "Plan");
+   define("STAGE_REPORT", "Rapport");
+   define("STAGE_PEER_REVIEW", "Peer Review");
+   define("STAGE_FINISHED", "Finished");
