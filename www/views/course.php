@@ -12,8 +12,6 @@ if (isset($_GET['id']) && intval($_GET['id']) > 0) {
   exit("Invalid id!");
 }
 
-echo "Course";
-
 // Get current Course
 $course = $user->getCourse($id);
 

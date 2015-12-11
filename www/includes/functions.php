@@ -182,9 +182,8 @@
   */
   function add_feasible_reviewer($rid,$dbh,$subject){
     if($dbh != null){
-      for($i = 0; $i < sizeof($subject); $i++){
         $ssth = $dbh->prepare(SQL_SELECT_PROJECTS_WHERE_SUBJECT);
-        $ssth->bindParam(':subject', $subject[$i], PDO::PARAM_STR);
+        $ssth->bindParam(':subject', $subject, PDO::PARAM_STR);
         if($ssth->execute()){
           $tmp = $ssth->fetchObject();
           if($tmp->feasible_reviewers == null){
@@ -204,11 +203,10 @@
             }
           }
           $ssth = $dbh->prepare(SQL_UPDATE_USER_AS_FEASIBLE_REVIEWERS_WHERE_SUBJECT);
-          $ssth->bindParam(':subject', $subject[$i], PDO::PARAM_STR);
+          $ssth->bindParam(':subject', $subject, PDO::PARAM_STR);
           $ssth->bindParam(':feasible_reviewers', $tmp->feasible_reviewers, PDO::PARAM_STR);
-          $ssth->execut();
+          $ssth->execute();
         }
-      }
     }
     else{
       echo "DB connection has failed. Try to login.</br>";
