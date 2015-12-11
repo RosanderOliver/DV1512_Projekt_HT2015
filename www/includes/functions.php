@@ -65,17 +65,14 @@
         echo "<table></th>Projekts</th>";
         while($tmp = $ssth->fetchObject()){
           $rIdArray = explode(" ", unserialize($tmp->reviewers));
-          for(int i = 0; i < sizeof($rIdArray); i++){
-            if($rid == $rIdArray[i]){
+          for(int $i = 0; $i < sizeof($rIdArray); i++){
+            if($rid == $rIdArray[$i]){
               $projectName = $ssth->fetchObject($tmp->subject);
               echo "<tr><td>". $projectName . "</td></tr>";
             }
           }
         }
         echo "</table>";
-      }
-      else{
-        echo "Somethings wrong, try to log in again.</br>";
       }
     }
     else{
@@ -87,27 +84,37 @@
   * @author Annika Hansson
   * @param PDO, $dbh, database connection
   * @param int, $rid, variable containing reviewer id
-  * @param int, $projectId, variable containging id of project
+  * @param array int, $projectId, array containging ids of selected projects
   * @return void
   */
   function add_feasible_reviewer($rid,$dbh,$projectId){
     if($dbh != null){
-      $ssth = $dbh->prepare(SQL_INSERT_USER_AS_FEASIBLE_REVIEWERS);
-      if($ssth->execute()){
-        echo "<table></th>Projekts</th>";
-        while($tmp = $ssth->fetchObject()){
-          $rIdArray = explode(" ", unserialize($tmp->reviewers));
-          for(int i = 0; i < sizeof($rIdArray); i++){
-            if($rid == $rIdArray[i]){
-              $projectName = $ssth->fetchObject($tmp->subject);
-              echo "<tr><td>". $projectName . "</td></tr>";
+      for(int $i = 0; i < sizeof($projectId), $i++){
+        $ssth = $dbh->prepare(SQL_SELECT_PROJECTS_WHERE_ID);
+        $ssth->bindParam(':id',$projectId[$i]);
+        if($ssth->execute()){
+          $tmp = $ssth->fetchObject();
+          if($tmp->feasible_reviewers == null){
+            $tmp->feasible_reviewers = serialize($rid);
+          }
+          else{
+            $feasible_reviewers = unserialize($tmp->feasible_reviewers);
+            $ridExist = false;
+            for(int $j = 0; $j < sizeof($feasible_reviewers); $j++){
+              if($feasible_reviewers[$j] == $rid){
+                $ridExist = true;
+              }
+            }
+            if(!$ridExist){
+              $feasible_reviewers .= " " . $rid;
+              $tmp->feasible_reviewers = serialize($feasible_reviewers);
             }
           }
+          $ssth = $dbh->prepare(SQL_UPDATE_USER_AS_FEASIBLE_REVIEWERS_WHERE_ID);
+          $ssth->bindParam(':id', $projectId[$i],PDO::PARAM_INT);
+          $ssth->bindParam(':feasible_reviewers', $tmp->feasible_reviewers, PDO::PARAM_STR);
+          $ssth->execut();
         }
-        echo "</table>";
-      }
-      else{
-        echo "Somethings wrong, try to log in again.</br>";
       }
     }
     else{
