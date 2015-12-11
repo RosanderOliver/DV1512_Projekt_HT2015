@@ -71,11 +71,11 @@
      //Test of the function input_length()
      $string128 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
      $string129 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab";
-     $this->assertEquals($string128, input_length($string129));   // <--- This function does not work
+     $this->assertEquals($string128, input_length($string129));
 
 
      //Test of the function length_one()
-     $this->assertEquals("1", length_one("12345"));   // <--- This function does not work
+     $this->assertEquals("1", length_one("12345"));
 
 
    }
