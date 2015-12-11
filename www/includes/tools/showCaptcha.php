@@ -19,7 +19,7 @@ if (!extension_loaded('gd')) {
 session_start();
 
 // target captcha string length
-$iCaptchaLength = 4;
+$iCaptchaLength = 5;
 
 // following letters are excluded from captcha: I, O, Q, S, 0, 1, 5
 $str_choice = 'ABCDEFGHJKLMNPRTUVWXYZ2346789';
@@ -38,20 +38,20 @@ for ($i=0; $i < $iCaptchaLength; $i++) {
 $_SESSION['captcha'] = $str_captcha;
 
 // begin to create the image with PHP's GD tools
-$im = imagecreatetruecolor(150, 70);
+$im = imagecreatetruecolor(200, 70);
 
 $bg = imagecolorallocate($im, 255, 255, 255);
 imagefill($im, 0, 0, $bg);
 
 // create background with 1000 short lines
-/*for($i=0;$i<1000;$i++) {
+for($i=0;$i<1000;$i++) {
     $lines = imagecolorallocate($im, rand(200, 220), rand(200, 220), rand(200, 220));
-    $start_x = rand(0,150);
+    $start_x = rand(0,200);
     $start_y = rand(0,70);
     $end_x = $start_x + rand(0,5);
     $end_y = $start_y + rand(0,5);
     imageline($im, $start_x, $start_y, $end_x, $end_y, $lines);
-}*/
+}
 
 // create letters. for more info on how this works, please
 // @see php.net/manual/en/function.imagefttext.php

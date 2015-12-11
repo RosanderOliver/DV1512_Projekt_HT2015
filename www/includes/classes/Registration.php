@@ -30,21 +30,25 @@ class Registration
      */
     public  $messages                 = array();
 
-    /**
-     * the function "__construct()" automatically starts whenever an object of this class is created,
-     * you know, when you do "$login = new Login();"
-     */
+
     public function __construct()
     {
-        session_start();
+      // create/read session
+      if (version_compare(phpversion(), '5.4.0', '>')) {
+        if (session_status() == PHP_SESSION_NONE)
+          session_start();
+      } else {
+        if (session_id() == '')
+          session_start();
+      }
 
-        // if we have such a POST request, call the registerNewUser() method
-        if (isset($_POST["register"])) {
-            $this->registerNewUser($_POST['user_name'], $_POST['user_email'], $_POST['user_password_new'], $_POST['user_password_repeat'], $_POST["captcha"]);
-        // if we have such a GET request, call the verifyNewUser() method
-        } else if (isset($_GET["id"]) && isset($_GET["verification_code"])) {
-            $this->verifyNewUser($_GET["id"], $_GET["verification_code"]);
-        }
+      // if we have such a POST request, call the registerNewUser() method
+      if (isset($_POST["register"])) {
+          $this->registerNewUser($_POST['real_name'], $_POST['user_name'], $_POST['user_email'], $_POST['user_password_new'], $_POST['user_password_repeat'], $_POST["captcha"]);
+      // if we have such a GET request, call the verifyNewUser() method
+      } else if (isset($_GET["id"]) && isset($_GET["verification_code"])) {
+          $this->verifyNewUser($_GET["id"], $_GET["verification_code"]);
+      }
     }
 
     /**
@@ -78,11 +82,12 @@ class Registration
      * handles the entire registration process. checks all error possibilities, and creates a new user in the database if
      * everything is fine
      */
-    private function registerNewUser($user_name, $user_email, $user_password, $user_password_repeat, $captcha)
+    private function registerNewUser($user_real_name, $user_name, $user_email, $user_password, $user_password_repeat, $captcha)
     {
-        // we just remove extra space on username and email
-        $user_name  = trim($user_name);
-        $user_email = trim($user_email);
+        // we just remove extra space and set html special chars
+        $user_real_name   = htmlspecialchars(trim($user_real_name));
+        $user_name        = htmlspecialchars(trim($user_name));
+        $user_email       = htmlspecialchars(trim($user_email));
 
         // check provided data validity
         // TODO: check for "return true" case early, so put this first
@@ -96,8 +101,12 @@ class Registration
             $this->errors[] = MESSAGE_PASSWORD_BAD_CONFIRM;
         } elseif (strlen($user_password) < 6) {
             $this->errors[] = MESSAGE_PASSWORD_TOO_SHORT;
+        } elseif (strlen($user_real_name) > 64 || strlen($user_real_name) < 2) {
+            $this->errors[] = MESSAGE_REALNAME_BAD_LENGTH;
         } elseif (strlen($user_name) > 64 || strlen($user_name) < 2) {
             $this->errors[] = MESSAGE_USERNAME_BAD_LENGTH;
+        } elseif (!preg_match('/^[\p{L} ]{2,64}$/i', $user_real_name)) {
+            $this->errors[] = MESSAGE_REALNAME_INVALID;
         } elseif (!preg_match('/^[a-z\d]{2,64}$/i', $user_name)) {
             $this->errors[] = MESSAGE_USERNAME_INVALID;
         } elseif (empty($user_email)) {
@@ -136,7 +145,8 @@ class Registration
                 $user_activation_hash = sha1(uniqid(mt_rand(), true));
 
                 // write new users data into database
-                $query_new_user_insert = $this->db_connection->prepare('INSERT INTO users (user_name, user_password_hash, user_email, user_activation_hash, user_registration_ip, user_registration_datetime) VALUES(:user_name, :user_password_hash, :user_email, :user_activation_hash, :user_registration_ip, now())');
+                $query_new_user_insert = $this->db_connection->prepare('INSERT INTO users (user_real_name, user_name, user_password_hash, user_email, user_activation_hash, user_registration_ip, user_registration_datetime) VALUES(:user_real_name, :user_name, :user_password_hash, :user_email, :user_activation_hash, :user_registration_ip, now())');
+                $query_new_user_insert->bindValue(':user_real_name', $user_real_name, PDO::PARAM_STR);
                 $query_new_user_insert->bindValue(':user_name', $user_name, PDO::PARAM_STR);
                 $query_new_user_insert->bindValue(':user_password_hash', $user_password_hash, PDO::PARAM_STR);
                 $query_new_user_insert->bindValue(':user_email', $user_email, PDO::PARAM_STR);
@@ -150,7 +160,6 @@ class Registration
                 if ($query_new_user_insert) {
                     // send a verification email
                     if ($this->sendVerificationEmail($user_id, $user_email, $user_activation_hash)) {
-                    //if (true) {
                         // when mail has been send successfully
                         $this->messages[] = MESSAGE_VERIFICATION_MAIL_SENT;
                         $this->registration_successful = true;
@@ -175,46 +184,31 @@ class Registration
      */
     public function sendVerificationEmail($user_id, $user_email, $user_activation_hash)
     {
-        $mail = new PHPMailer;
-
         // please look into the config/config.php for much more info on how to use this!
-        // use SMTP or use mail()
-        if (EMAIL_USE_SMTP) {
-            // Set mailer to use SMTP
-            $mail->IsSMTP();
-            //useful for debugging, shows full SMTP errors
-            //$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
-            // Enable SMTP authentication
-            $mail->SMTPAuth = EMAIL_SMTP_AUTH;
-            // Enable encryption, usually SSL/TLS
-            if (defined(EMAIL_SMTP_ENCRYPTION)) {
-                $mail->SMTPSecure = EMAIL_SMTP_ENCRYPTION;
-            }
-            // Specify host server
-            $mail->Host = EMAIL_SMTP_HOST;
-            $mail->Username = EMAIL_SMTP_USERNAME;
-            $mail->Password = EMAIL_SMTP_PASSWORD;
-            $mail->Port = EMAIL_SMTP_PORT;
-        } else {
-            $mail->IsMail();
-        }
+        // Make new mailer
+        $sendgrid = new SendGrid(EMAIL_SG_API_KEY);
 
-        $mail->From = EMAIL_VERIFICATION_FROM;
-        $mail->FromName = EMAIL_VERIFICATION_FROM_NAME;
-        $mail->AddAddress($user_email);
-        $mail->Subject = EMAIL_VERIFICATION_SUBJECT;
+        // Set data to be sent
+        $name = array(EMAIL_VERIFICATION_FROM_NAME);
+        $link = EMAIL_VERIFICATION_URL.'&id='.urlencode($user_id).'&verification_code='.urlencode($user_activation_hash);
 
-        $link = EMAIL_VERIFICATION_URL.'?id='.urlencode($user_id).'&verification_code='.urlencode($user_activation_hash);
+        // Create new mail
+        $email = new SendGrid\Email();
+        $email
+            ->addTo($user_email)
+            ->setFrom(EMAIL_VERIFICATION_FROM)
+            ->setSubject(EMAIL_VERIFICATION_SUBJECT)
+            ->setText(EMAIL_VERIFICATION_CONTENT . ' ' . $link)
+            ->addSubstitution(":name", $name)
+        ;
 
-        // the link to your register.php, please set this value in config/email_verification.php
-        $mail->Body = EMAIL_VERIFICATION_CONTENT.' '.$link;
-
-        if(!$mail->Send()) {
-            $this->errors[] = MESSAGE_VERIFICATION_MAIL_NOT_SENT . $mail->ErrorInfo;
+        try {
+            $sendgrid->send($email);
+        } catch(\SendGrid\Exception $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -224,18 +218,19 @@ class Registration
     {
         // if database connection opened
         if ($this->databaseConnection()) {
-            // try to update user with specified information
-            $query_update_user = $this->db_connection->prepare('UPDATE users SET user_active = 1, user_activation_hash = NULL WHERE user_id = :user_id AND user_activation_hash = :user_activation_hash');
-            $query_update_user->bindValue(':user_id', intval(trim($user_id)), PDO::PARAM_INT);
-            $query_update_user->bindValue(':user_activation_hash', $user_activation_hash, PDO::PARAM_STR);
-            $query_update_user->execute();
+          // try to update user with specified information
+          $query_update_user = $this->db_connection->prepare('UPDATE users SET user_active = 1, user_activation_hash = NULL WHERE user_id = :user_id AND user_activation_hash = :user_activation_hash');
+          $query_update_user->bindValue(':user_id', intval(trim($user_id)), PDO::PARAM_INT);
+          $query_update_user->bindValue(':user_activation_hash', $user_activation_hash, PDO::PARAM_STR);
+          $query_update_user->execute();
 
-            if ($query_update_user->rowCount() > 0) {
-                $this->verification_successful = true;
-                $this->messages[] = MESSAGE_REGISTRATION_ACTIVATION_SUCCESSFUL;
-            } else {
-                $this->errors[] = MESSAGE_REGISTRATION_ACTIVATION_NOT_SUCCESSFUL;
-            }
+          if ($query_update_user->rowCount() > 0) {
+            $this->verification_successful = true;
+            $this->messages[] = MESSAGE_REGISTRATION_ACTIVATION_SUCCESSFUL;
+          } else {
+            // This error is suppressed
+            //$this->errors[] = MESSAGE_REGISTRATION_ACTIVATION_NOT_SUCCESSFUL;
+          }
         }
     }
 }

@@ -8,6 +8,9 @@
   // Needed to load config file
   define('IN_EXM', true);
 
+  // Include the composer autoloader
+  require_once('www/includes/vendor/autoload.php');
+
   // We need the definitions
   require_once('www/includes/config.php');
 
@@ -17,13 +20,15 @@
   else if (version_compare(phpversion(), '5.3.0', '<')) {
     function classloader($class){
       if(!class_exists($class, false))
-        include PATH_CLASS . $class . '.php';
+        $parts = explode('\\', $class);
+        require 'www/' . PATH_CLASS . implode('/', $parts) . '.php';
     }
     spl_autoload_register('classloader');
   }
   else {
     spl_autoload_register(function ($class){
       if(!class_exists($class, false))
-        include 'www/' . PATH_CLASS . $class . '.php';
+        $parts = explode('\\', $class);
+        require 'www/' . PATH_CLASS . implode('/', $parts) . '.php';
     });
   }
