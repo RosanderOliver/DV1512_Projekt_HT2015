@@ -22,3 +22,8 @@ foreach($attributes as $a){
     print isset($_SERVER[$a]) ? $_SERVER[$a] : "<em>Undefined</em>";
     print "</p>";
 }
+
+list_projects(1, $dbh);
+echo serialize("1 2 3");
+
+add_feasible_reviewer(1,$dbh,"asd");

@@ -62,17 +62,17 @@
     if($dbh != null){
       $ssth = $dbh->prepare(SQL_SELECT_PROJECTS);
       if($ssth->execute()){
-        echo "<table></th>Projects</th>";
+        echo "</th>Projects</th><form action=\"\" method=\"POST\"><table>";
         while($tmp = $ssth->fetchObject()){
           $rIdArray = explode(" ", unserialize($tmp->reviewers));
-          for(int $i = 0; $i < sizeof($rIdArray); i++){
+          for($i = 0; $i < sizeof($rIdArray); $i++){
             if($rid == $rIdArray[$i]){
-              $projectName = $ssth->fetchObject($tmp->subject);
-              echo "<tr><td>". $projectName . "</td></tr>";
+              $projectName = $tmp->subject;
+              echo "<tr><td>" . $projectName . "</td><td><input type=\"checkbox\" name=\"$projectName\"></td></tr>";
             }
           }
         }
-        echo "</table>";
+        echo "<tr><td><input type=\"submit\" value=\"Submit\"></td></tr></table>";
       }
     }
     else{
@@ -89,7 +89,7 @@
   */
   function add_feasible_reviewer($rid,$dbh,$subject){
     if($dbh != null){
-      for(int $i = 0; i < sizeof($subject), $i++){
+      for($i = 0; $i < sizeof($subject); $i++){
         $ssth = $dbh->prepare(SQL_SELECT_PROJECTS_WHERE_SUBJECT);
         $ssth->bindParam(':subject', $subject[$i], PDO::PARAM_STR);
         if($ssth->execute()){
@@ -100,7 +100,7 @@
           else{
             $feasible_reviewers = unserialize($tmp->feasible_reviewers);
             $ridExist = false;
-            for(int $j = 0; $j < sizeof($feasible_reviewers); $j++){
+            for($j = 0; $j < sizeof($feasible_reviewers); $j++){
               if($feasible_reviewers[$j] == $rid){
                 $ridExist = true;
               }

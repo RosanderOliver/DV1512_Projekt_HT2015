@@ -13,4 +13,4 @@ define("SQL_INSERT_USER", "INSERT INTO `site`.`users` (`eppn`, `user_email`) VAL
 //reviewer
 define("SQL_SELECT_PROJECTS","SELECT * FROM `site`.`projects`");
 define("SQL_SELECT_PROJECTS_WHERE_SUBJECT","SELECT * FROM `site`.`projects` WHERE `subject`=:subject");
-define("SQL_UPDATE_USER_AS_FEASIBLE_REVIEWERS_WHERE_SUBJECT","UPDATE `site`.`projects` SET `feasible_reviewers`=:feasible_reviewers WHERE `subject`=:subject);
+define("SQL_UPDATE_USER_AS_FEASIBLE_REVIEWERS_WHERE_SUBJECT","UPDATE `site`.`projects` SET `feasible_reviewers`=:feasible_reviewers WHERE `subject`=:subject");
