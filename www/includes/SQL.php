@@ -12,4 +12,4 @@ define("SQL_INSERT_USER", "INSERT INTO `site`.`users` (`eppn`, `user_email`) VAL
 
 //reviewer
 define("SQL_SELECT_PROJECTS","SELECT * FROM `site`.`projects`");
-define("SQL_INSERT_USER_AS_FEASIBLE_REVIEWERS","INSERT INTO `site`.`projects` WHERE `feasible_reviewers`=:feasible_reviewers");
+define("SQL_INSERT_USER_AS_FEASIBLE_REVIEWERS","INSERT INTO `site`.`projects`);

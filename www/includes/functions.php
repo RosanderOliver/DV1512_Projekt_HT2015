@@ -82,3 +82,35 @@
       echo "DB connection has failed. Try to login.</br>";
     }
   }
+
+  /**
+  * @author Annika Hansson
+  * @param PDO, $dbh, database connection
+  * @param int, $rid, variable containing reviewer id
+  * @param int, $projectId, variable containging id of project
+  * @return void
+  */
+  function add_feasible_reviewer($rid,$dbh,$projectId){
+    if($dbh != null){
+      $ssth = $dbh->prepare(SQL_INSERT_USER_AS_FEASIBLE_REVIEWERS);
+      if($ssth->execute()){
+        echo "<table></th>Projekts</th>";
+        while($tmp = $ssth->fetchObject()){
+          $rIdArray = explode(" ", unserialize($tmp->reviewers));
+          for(int i = 0; i < sizeof($rIdArray); i++){
+            if($rid == $rIdArray[i]){
+              $projectName = $ssth->fetchObject($tmp->subject);
+              echo "<tr><td>". $projectName . "</td></tr>";
+            }
+          }
+        }
+        echo "</table>";
+      }
+      else{
+        echo "Somethings wrong, try to log in again.</br>";
+      }
+    }
+    else{
+      echo "DB connection has failed. Try to login.</br>";
+    }
+  }
