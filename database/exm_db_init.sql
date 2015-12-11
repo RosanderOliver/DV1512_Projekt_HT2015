@@ -70,7 +70,6 @@ CREATE TABLE IF NOT EXISTS `site`.`reviews` (
     `id` INT NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
     `user` INT NOT NULL COMMENT 'id of user submitting the review',
     `date` DATETIME DEFAULT '0000-00-00 00:00:00' COMMENT 'date and time of submission',
-    `last_modified` DATETIME DEFAULT '0000-00-00 00:00:00' COMMENT 'date and time of last modification',
     `data` VARCHAR(8192) NOT NULL COMMENT 'content of review',
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='data from and about forms submitted by reviewers';
@@ -115,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `login`.`users` (
 INSERT INTO `site`.`users` (`eppn`, `email`, `given_name`, `courses`) VALUES ('admin', 'admin@mail.com', 'Administrator', 'a:1:{i:0;i:1;}');
 INSERT INTO `site`.`courses` (`role_table`, `name`, `deadlines`, `projects`) VALUES ('1', 'TestCourse DV1337', 'a:0:{}', 'a:1:{i:0;i:1;}');
 INSERT INTO `site`.`projects` (`subject`, `stage`, `submissions`, `students`, `managers`, `examinators`, `reviewers`) VALUES ('Test Project', '2', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}');
-INSERT INTO `site`.`submissions` (`user`) VALUES ('1');
+INSERT INTO `site`.`submissions` (`user`, `stage`) VALUES ('1', '2');
 
 INSERT INTO `login`.`users` (`user_real_name`, `user_name`, `user_password_hash`, `user_email`, `user_active`)
 	VALUES ('Administrator', 'admin', '\$2y\$15\$cDNpzTbhPCVVESl6NrvR4eBZPuqZRg9VxoS8Y4qy1D2hHemnT4e8O', 'student@localhost', '1');

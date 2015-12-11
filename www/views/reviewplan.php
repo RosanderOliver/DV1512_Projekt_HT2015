@@ -1,9 +1,14 @@
 <?php
-  if(isset($_GET['sid'])){
-    $submissionsId = intval($_GET['sid']);
+
+  if (isset($_GET['sid']) && intval($_GET['sid']) > 0) {
+    $sid = intval($_GET['sid']);
+  } else {
+    exit("Invalid submission");
   }
 
- if(isset($_POST['submit'])){
+  $submission = new Submission($sid);
+
+  if (isset($_POST['submit'])) {
 
    $form = new PP();
    $form->student1 = test_input($_POST["student1"]);
@@ -57,38 +62,25 @@
    $form->s4 = test_input(test_grade($_POST["s4"]));
    $form->feedback = test_input($_POST["feedback"]);
 
-   if(empty($data)){
+   if (empty($data)) {
 
-     if($dbh != null){
-      $sth = $dbh->prepare(SQL_INSERT_REVIEW);
-      $uid = $_SESSION['user_id'];
-      $sth->bindParam(':user', $uid, PDO::PARAM_INT);
-      $sth->bindParam(':date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
-      $sth->bindParam(':last_modified', date("Y-m-d H:i:s"), PDO::PARAM_STR);
-      $sth->bindParam(':data', serialize($form), PDO::PARAM_STR);
-      $sth->execute();
-      $lastInsertId = $dbh->lastInsertId();
-      insertReviewIdToSubmission($dbh, $submissionsId, $lastInsertId);
+     if($dbh != null) {
+       $sth = $dbh->prepare(SQL_INSERT_REVIEW);
+       $sth->bindParam(':user', $_SESSION['user_id'], PDO::PARAM_INT);
+       $sth->bindParam(':date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
+       $sth->bindParam(':data', serialize($form), PDO::PARAM_STR);
+       $sth->execute(); $lastInsertId = $dbh->lastInsertId();
 
+       $submission->addReview($lastInsertId);
 
       echo "Your form has been saved.</br>";
-     }
-     else{
-       echo "Connection failed. Try to log in again.</br>";
-     }
+    } else {
+        echo "Connection failed. Try to log in again.</br>";
+      }
 
-     echo "end </br>";
-   }
- }
- else{
-
-     //have db connection
-     if($dbh != null && $submissionsId != 0){
-       //fin review from submission
-       $sub = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
-       $sub->bindParam(':id', $submissionsId, PDO::PARAM_INT);
-       $sub->execute();
-       $temp = $sub->fetchObject();
+      echo "end </br>";
+  }
+} else {
 
        $rIdArray = array();
 
@@ -107,26 +99,21 @@
            $sth->execute();
            $tmp = $sth->fetchObject();
            if (strtotime($date) < strtotime($tmp->date) || $date == null) {
-             $date = $tmp->date;
-             $data = unserialize($tmp->data);
+             $date = $tmp->date; $data = unserialize($tmp->data);
            }
          }
-      }
-      else {
-        $sth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
-        $sth->bindParam(':rid', $rIdArray[0], PDO::PARAM_INT);
-        $sth->bindParam(':user', $uid, PDO::PARAM_INT);
-        $sth->execute();
-        $tmp = $sth->fetchObject();
-        if($tmp != null){
-          echo "test";
-          $data = unserialize($tmp->data);
-        }
-        //echo "data: " . $data->studen1;
-      }
-     }
-
+       } else {
+         $sth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
+         $sth->bindParam(':rid', $rIdArray[0], PDO::PARAM_INT);
+         $sth->bindParam(':user', $uid, PDO::PARAM_INT);
+         $sth->execute();
+         $tmp = $sth->fetchObject();
+         if($tmp != null){
+           echo "test";
+           $data = unserialize($tmp->data);
+         }
+         //echo "data: " . $data->studen1;
+       }
 
    include('includes/content/dp_pp-eval-supervisor.php');
-
  }

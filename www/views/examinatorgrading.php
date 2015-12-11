@@ -1,4 +1,8 @@
 <?php
+
+	if (!defined("IN_EXM")) exit(1);
+	if ($login->isUserLoggedIn() === false) exit(1);
+
 	$dataSent = 0;
 	$correctgrade=false;
 	$projectId=intval($_GET["pid"]);																												//TODO CHECK IF USER IS ALLOWED TO VIEW THIS ID
@@ -116,9 +120,9 @@
 	for($x=0; $x < sizeof($reviewArr); $x++) {
 		echo "<br>Overall comments and feedback: ".$reviewArrData[$x]->feedback;
 		if (get_class($reviewArrData[$x]) == "TE"){
-			echo '<br><a target="_blank" href="/index.php?view=thesis&id='.$lastSubmissionIndex.'&uid='.$reviewArr[$x]->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';							//TODO Link to formulary should be the name of the reviewer
+			echo '<br><a target="_blank" href="?view=thesis&sid='.$lastSubmissionIndex.'&uid='.$reviewArr[$x]->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';							//TODO Link to formulary should be the name of the reviewer
 		} elseif (get_class($reviewArrData[$x]) == "PP") {
-			echo '<br><a target="_blank" href="/index.php?view=pp&id='.$lastSubmissionIndex.'&uid='.$reviewArr[$x]->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';
+			echo '<br><a target="_blank" href="?view=pp&sid='.$lastSubmissionIndex.'&uid='.$reviewArr[$x]->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';
 		}
 			echo "<br><br>";
 	}

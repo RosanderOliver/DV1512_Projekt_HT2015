@@ -3,7 +3,6 @@
 /**
 * Handles project data and functions regarding handling data
 * @author Jim Ahlstrand
-* TODO Add submissions class
 */
 class Project
 {
@@ -12,7 +11,7 @@ class Project
   */
   private $dbh = null;
   /**
-  * @var int $id The course's database id
+  * @var int $id The project's database id
   */
   public $id = null;
   /**
@@ -111,7 +110,8 @@ class Project
   * @return obj, stdClassObject
   * TODO return only submissions that the user own or has permission to view
   */
-  public function getSubmission( $id = null ) {
+  public function getSubmission( $id = null )
+  {
     // If id is null return a list of all submissions listed for the project
     if ($id === null)
       return $this->submissions;
@@ -139,7 +139,8 @@ class Project
   * @author Oliver Rosander, Jim Ahlstrand
   * @return void
   */
-  public function createSubmission() {
+  public function createSubmission()
+  {
     $user = 0;
     $date = date("Y-m-d H:i:s");
     $files = serialize(array());
@@ -168,12 +169,13 @@ class Project
     $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
     $sth->execute();
   }
-  
+
   /**
   * @author Oliver Rosander, Jim Ahlstrand
   * @return void
   */
-  public function updateStage() {
+  public function updateStage()
+  {
     $stage = $this->stage + 1;
     $sth = $this->dbh->prepare(SQL_UPDATE_PROJECT_STAGE_WHERE_ID);
     $sth->bindParam(":id", $this->id, PDO::PARAM_INT);

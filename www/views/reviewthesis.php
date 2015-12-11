@@ -1,10 +1,15 @@
 <?php
-if(isset($_GET['sid'])){
-  $submissionsId = intval($_GET['sid']);
-}
-if(isset($_POST['submit'])){
+  if (isset($_GET['sid'])) {
+    $sid = intval($_GET['sid']);
+  } else {
+    exit("Invalid submission");
+  }
 
-  $notEmpty = true;
+  $submission = new Submission($sid);
+
+  if(isset($_POST['submit'])){
+
+    $notEmpty = true;
 
     $data = new TE();
 
@@ -67,7 +72,8 @@ if(isset($_POST['submit'])){
         $ssth->bindParam(':data', serialize($data), PDO::PARAM_STR);
         $ssth->execute();
         $lastInsertId = $dbh->lastInsertId();
-        insertReviewIdToSubmission($dbh, $submissionsId, $lastInsertId);
+
+        $submission->addReview($lastInsertId);
 
         echo "Your form has been saved.</br>";
        }
