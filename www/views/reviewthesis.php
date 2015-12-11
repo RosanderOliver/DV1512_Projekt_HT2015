@@ -64,11 +64,10 @@
      if(notEmpty){
 
        if($dbh != null){
-        $ssth = $dbh->prepare(SQL_INSERT_REVIEW);
         $uid = $_SESSION['user_id'];
+        $ssth = $dbh->prepare(SQL_INSERT_REVIEW);
         $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
         $ssth->bindParam(':date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
-        $ssth->bindParam(':last_modified', date("Y-m-d H:i:s"), PDO::PARAM_STR);
         $ssth->bindParam(':data', serialize($data), PDO::PARAM_STR);
         $ssth->execute();
         $lastInsertId = $dbh->lastInsertId();

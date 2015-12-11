@@ -65,8 +65,9 @@
    if (empty($data)) {
 
      if($dbh != null) {
+       $user = $_SESSION['user_id'];
        $sth = $dbh->prepare(SQL_INSERT_REVIEW);
-       $sth->bindParam(':user', $_SESSION['user_id'], PDO::PARAM_INT);
+       $sth->bindParam(':user', $user, PDO::PARAM_INT);
        $sth->bindParam(':date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
        $sth->bindParam(':data', serialize($form), PDO::PARAM_STR);
        $sth->execute(); $lastInsertId = $dbh->lastInsertId();

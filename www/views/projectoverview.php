@@ -28,6 +28,7 @@ foreach (array_reverse($project->getSubmission()) as $key => $value) {
 
   // Get the submission
   $submission = new Submission($value);
+  $comments = array();
 
   foreach ($submission->comments as $key => $value) {
     $comments[] = new Comment($value);
