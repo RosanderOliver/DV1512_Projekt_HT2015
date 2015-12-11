@@ -84,14 +84,14 @@
   * @author Annika Hansson
   * @param PDO, $dbh, database connection
   * @param int, $rid, variable containing reviewer id
-  * @param array int, $projectId, array containging ids of selected projects
+  * @param array string, $subject, array containging ids of selected projects
   * @return void
   */
-  function add_feasible_reviewer($rid,$dbh,$projectId){
+  function add_feasible_reviewer($rid,$dbh,$subject){
     if($dbh != null){
-      for(int $i = 0; i < sizeof($projectId), $i++){
-        $ssth = $dbh->prepare(SQL_SELECT_PROJECTS_WHERE_ID);
-        $ssth->bindParam(':id',$projectId[$i]);
+      for(int $i = 0; i < sizeof($subject), $i++){
+        $ssth = $dbh->prepare(SQL_SELECT_PROJECTS_WHERE_SUBJECT);
+        $ssth->bindParam(':subject', $subject[$i], PDO::PARAM_STR);
         if($ssth->execute()){
           $tmp = $ssth->fetchObject();
           if($tmp->feasible_reviewers == null){
@@ -110,8 +110,8 @@
               $tmp->feasible_reviewers = serialize($feasible_reviewers);
             }
           }
-          $ssth = $dbh->prepare(SQL_UPDATE_USER_AS_FEASIBLE_REVIEWERS_WHERE_ID);
-          $ssth->bindParam(':id', $projectId[$i],PDO::PARAM_INT);
+          $ssth = $dbh->prepare(SQL_UPDATE_USER_AS_FEASIBLE_REVIEWERS_WHERE_SUBJECT);
+          $ssth->bindParam(':subject', $subject[$i], PDO::PARAM_STR);
           $ssth->bindParam(':feasible_reviewers', $tmp->feasible_reviewers, PDO::PARAM_STR);
           $ssth->execut();
         }
