@@ -62,7 +62,7 @@
     if($dbh != null){
       $ssth = $dbh->prepare(SQL_SELECT_PROJECTS);
       if($ssth->execute()){
-        echo "<table></th>Projekts</th>";
+        echo "<table></th>Projects</th>";
         while($tmp = $ssth->fetchObject()){
           $rIdArray = explode(" ", unserialize($tmp->reviewers));
           for(int $i = 0; $i < sizeof($rIdArray); i++){
