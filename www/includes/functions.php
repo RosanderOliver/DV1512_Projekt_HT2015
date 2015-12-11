@@ -51,3 +51,34 @@
   function prettyPrint($var) {
     print '<pre>'; print_r($var); print '</pre>';
   }
+
+  /**
+  * @author Annika Hansson
+  * @param int, $rid, variable containing reviewer id
+  * @param PDO, $dbh, db connection
+  * @return void
+  */
+  function list_projects($rid,$dbh){
+    if($dbh != null){
+      $ssth = $dbh->prepare(SQL_SELECT_PROJECTS);
+      if($ssth->execute()){
+        echo "<table></th>Projekts</th>";
+        while($tmp = $ssth->fetchObject()){
+          $rIdArray = explode(" ", unserialize($tmp->reviewers));
+          for(int i = 0; i < sizeof($rIdArray); i++){
+            if($rid == $rIdArray[i]){
+              $projectName = $ssth->fetchObject($tmp->subject);
+              echo "<tr><td>". $projectName . "</td></tr>";
+            }
+          }
+        }
+        echo "</table>";
+      }
+      else{
+        echo "Somethings wrong, try to log in again.</br>";
+      }
+    }
+    else{
+      echo "DB connection has failed. Try to login.</br>";
+    }
+  }
