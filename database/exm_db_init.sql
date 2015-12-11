@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `site`.`courses` (
     `deadlines`             VARCHAR(64)   NOT NULL COMMENT 'array with the course''s dates for dealines',
     `projects`              VARCHAR(128)  DEFAULT 'a:0:{}' COMMENT 'projects assosiated with the course',
     PRIMARY KEY (`id`)
-)  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='course roles, files and other data related to each course';
+)  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='course projects and other data related to each course';
 
 CREATE TABLE IF NOT EXISTS `site`.`projects` (
     `id` INT NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `site`.`submissions` (
     `reviews` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'array with written reviews for the file',
     `comments` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'array with id\'s of comments',
     `grade` INT DEFAULT '0' COMMENT 'grade of the submission',
+    `stage` INT DEFAULT '0' COMMENT 'stage of the project when the submission was filed',
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='data about each submission and it\'s files';
 
@@ -112,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `login`.`users` (
 
 /* TEST DATA FOR DEBUG ONLY */
 INSERT INTO `site`.`users` (`eppn`, `email`, `given_name`, `courses`) VALUES ('admin', 'admin@mail.com', 'Administrator', 'a:1:{i:0;i:1;}');
-INSERT INTO `site`.`courses` (`role_table`, `name`, `deadlines`, `projects`) VALUES ('1', 'TestCourse DV1337', 'a:0:{}projects', 'a:1:{i:0;i:1;}');
+INSERT INTO `site`.`courses` (`role_table`, `name`, `deadlines`, `projects`) VALUES ('1', 'TestCourse DV1337', 'a:0:{}', 'a:1:{i:0;i:1;}');
 INSERT INTO `site`.`projects` (`subject`, `stage`, `submissions`, `students`, `managers`, `examinators`, `reviewers`) VALUES ('Test Project', '2', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}');
 INSERT INTO `site`.`submissions` (`user`) VALUES ('1');
 
