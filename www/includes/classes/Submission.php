@@ -93,23 +93,13 @@ class Submission
       $reviewID = intval($reviewID);
     }
 
-    $found = false;
-    foreach ($this->reviews as $key => $value) {
-      echo "TEST";
-      prettyPrint($key);
-      prettyPrint($_SESSION['user_id']);
-      if ($key == $_SESSION['user_id']) {
-        echo "FOUND USER AND APPENDING ARRAY";
-        $this->reviews[$key][] = $reviewID;
-        $found = true;
-      }
-    }
-    if ($found == false) {
+    // Search for user in reviews array
+    if (array_key_exists($_SESSION['user_id'], $this->reviews)) {
+      $this->reviews[$_SESSION['user_id']][] = $reviewID;
+    } else {
       //Appned new user and reviewid
-      echo "CREATING NEW ARRAY WITH reviewID";
       $this->reviews[$_SESSION['user_id']] = array($reviewID);
     }
-
                                                                                 //@TODO Write to database
     $stringReviews = serialize($this->reviews);
     $sth = $this->dbh->prepare(SQL_UPDATE_SUBMISSION_REVIEWS_WHERE_ID);
@@ -117,26 +107,13 @@ class Submission
     $sth->bindParam(':id', $this->id, PDO::PARAM_INT);
     $sth->execute();
 
-
-
   }
 
   /**
   * @author Jim Ahlstrand, Oliver Rosander
-  * @return null
+  * @return bool true if user has reviewd
   */
   function userHasReviewed(){
-    foreach ($this->reviews as $key => $value) {
-      // Get review
-      $sth = $this->dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID);
-      $sth->bindParam(':rid', $value, PDO::PARAM_INT);
-      $sth->execute();
-      $review = $sth->fetch(PDO::FETCH_OBJ);
-      // Check if it belongs to the user
-      if ($review->user === $_SESSION['user_id']) {
-        return true;
-      }
-    }
-    return false;
+    return array_key_exists($_SESSION['user_id'], $this->reviews);
   }
 }
