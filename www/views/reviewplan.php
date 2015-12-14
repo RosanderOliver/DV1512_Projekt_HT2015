@@ -96,7 +96,7 @@
        if (sizeof($rIdArray) > 1) {
          for($i = 0; $i < sizeof($rIdArray); $i++){
            $sth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
-           $sth->bindParam(':rid', $rIdArray[$i], PDO::PARAM_INT);
+           $sth->bindParam(':id', $rIdArray[$i], PDO::PARAM_INT);
            $sth->bindParam(':user', $uid, PDO::PARAM_INT);
            $sth->execute();
            $tmp = $sth->fetchObject();
@@ -106,7 +106,7 @@
          }
        } else {
          $sth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
-         $sth->bindParam(':rid', $rIdArray[0], PDO::PARAM_INT);
+         $sth->bindParam(':id', $rIdArray[0], PDO::PARAM_INT);
          $sth->bindParam(':user', $uid, PDO::PARAM_INT);
          $sth->execute();
          $tmp = $sth->fetchObject();

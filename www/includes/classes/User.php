@@ -3,8 +3,8 @@
 // TODO: Check if session data is correct befor adding it to database
 // TODO: Create set functions to change user variables in user database
 // TODO: Create settings database and settings class directly liked to from this class
-// TODO: Create course class to directly link to course data
 // TODO: Be able to create object for any requested user ( if permitted )
+// TODO: Correctly fetch users instead of eppn, this is a work around for dual stacking IDM
 
 /**
  *  User object to handle user data
@@ -39,7 +39,7 @@ class User
 
   /**
   * Constructor
-  * @param  int   $id   id of the course to load
+  * @param  int   $id   id of the user to load
   * @param  obj   $dbh  database handle
   */
   public function __construct($id = null)
@@ -54,20 +54,28 @@ class User
     }
 
     // Set the user id
-    $user;
     if ($id == null) {
       $user = $_SESSION['user_name'];
     } else {
-      $user = intval($id);
+      if ( intval($id) > 0) {
+        $user = intval($id);
+      } else {
+        throw new Exception("Invalid user ID");
+      }
     }
 
     // Get user data
-    // Prepare the statement
-    $sth_get = $this->dbh->prepare(SQL_SELECT_USER_WHERE_EPPN);
-    $sth_get->bindParam(':eppn', $user, PDO::PARAM_STR);
+    // If no userid was given look for the user currently logged in, this can't be assumed to be a valid user in database because of IDM atm
+    if ($id == null) {
+      $sth_get = $this->dbh->prepare(SQL_SELECT_USER_WHERE_EPPN);
+      $sth_get->bindParam(':eppn', $user, PDO::PARAM_STR);
+    } else {
+      $sth_get = $this->dbh->prepare(SQL_SELECT_USER_WHERE_ID);
+      $sth_get->bindParam(':id', $user, PDO::PARAM_INT);
+    }
     $sth_get->execute();
-    // Fetch the data
     $result = $sth_get->fetch(PDO::FETCH_OBJ);
+
     // Check if result is empty then add the user if it's not a given user id
     if (!$result && $id == null)
     {

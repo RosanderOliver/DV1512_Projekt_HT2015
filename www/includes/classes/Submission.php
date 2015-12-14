@@ -3,6 +3,7 @@
 /**
 * Handles project data and functions regarding handling data
 * @author Jim Ahlstrand
+* TODO Add comment function
 */
 class Submission
 {
@@ -14,6 +15,10 @@ class Submission
   * @var int $id The submission's database id
   */
   public $id = 0;
+  /**
+  * @var int $user id of the user
+  */
+  public $user = 0;
   /**
   * @var DateTime $date date of submission
   */
@@ -42,9 +47,8 @@ class Submission
   /**
   * Constructor
   * @param  int   $id   id of the submission to load
-  * @param  obj   $dbh  database handle
   */
-  public function __construct($id, $dbh = null)
+  public function __construct($id)
   {
     // Setup database handle
     try {
@@ -115,5 +119,17 @@ class Submission
   */
   function userHasReviewed(){
     return array_key_exists($_SESSION['user_id'], $this->reviews);
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @return array array of comments classes
+  */
+  function getComments() {
+    $comments = array();
+    foreach ($this->comments as $key => $value) {
+      $comments[] = new Comment($value);
+    }
+    return $comments;
   }
 }

@@ -28,11 +28,6 @@ foreach (array_reverse($project->getSubmission()) as $key => $value) {
 
   // Get the submission
   $submission = new Submission($value);
-  $comments = array();
-
-  foreach ($submission->comments as $key => $value) {
-    $comments[] = new Comment($value);
-  }
 
   if ($stages[$submission->stage] == STAGE_PLAN) {
     echo '<h2> Project plan</h2>';
@@ -40,7 +35,7 @@ foreach (array_reverse($project->getSubmission()) as $key => $value) {
     echo '<h2> Project report</h2>';
   }
   echo 'Files: '.$submission->files;
-  foreach ($comments as $key => $value) {
+  foreach ($submission->getComments() as $key => $value) {
     echo '<br>Comment: '.$value->data;
   }
   if ($submission->grade > 0 && $submission->grade < count($grades)) {

@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS `site`.`reviews` (
     `id` INT NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
     `user` INT NOT NULL COMMENT 'id of user submitting the review',
     `date` DATETIME DEFAULT '0000-00-00 00:00:00' COMMENT 'date and time of submission',
+    `comments` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'array with id\'s of comments',
     `data` VARCHAR(8192) NOT NULL COMMENT 'content of review',
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='data from and about forms submitted by reviewers';

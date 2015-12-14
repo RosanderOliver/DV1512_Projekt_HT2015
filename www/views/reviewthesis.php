@@ -101,7 +101,7 @@ else{
       $uid = $_GET["uid"];
         for($i = 0; $i < sizeof($rIdArray); $i++){
           $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
-          $ssth->bindParam(':rid', $rIdArray[$i], PDO::PARAM_INT);
+          $ssth->bindParam(':id', $rIdArray[$i], PDO::PARAM_INT);
           $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
           $ssth->execute();
           $tmp = $ssth->fetchObject();
@@ -113,7 +113,7 @@ else{
      }
      else {
        $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
-       $ssth->bindParam(':rid', $rIdArray[0], PDO::PARAM_INT);
+       $ssth->bindParam(':id', $rIdArray[0], PDO::PARAM_INT);
        $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
        $ssth->execute();
        $tmp = $ssth->fetchObject();
