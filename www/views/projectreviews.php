@@ -5,7 +5,6 @@ if (!defined("IN_EXM")) exit(1);
 if ($login->isUserLoggedIn() === false) exit(1);
 
 // Get Submission id
-$sid;
 if (isset($_GET['sid']) && intval($_GET['sid']) > 0) {
   $sid = intval($_GET['sid']);
 } else {
@@ -21,6 +20,12 @@ foreach ($submission->reviews as $key => $value) {
 
   // Get review
   $review = new Review($id);
+
+  // If comment form was submitted
+  $commentSubmitId = 'comment'.$review->id;
+  if ($_POST[$commentSubmitId]) {
+    //$review->addComment($_POST[$commentSubmitId]); //TODO fix this function
+  }
 
   // Get the user associated with the review and print some data
   $user = new User( $review->user );
@@ -47,6 +52,15 @@ foreach ($submission->reviews as $key => $value) {
   foreach ($review->getComments() as $key => $value) {
     echo '<br/>Comment: '.$value->data;
   }
+
+  // Print form for submitting Comments
+  print('
+  <form method="post" name="commentForm" action="?view=projectreviews&sid='.$sid.'">
+    <textarea name="comment'.$review->id.'" id="comment"></textarea><br/>
+    <input type="submit" name="submitComment" value="Comment">
+  </form>
+  ');
+
   echo '</p>';
   echo '</div>';
 }
