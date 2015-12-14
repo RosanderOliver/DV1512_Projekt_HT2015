@@ -82,6 +82,7 @@ class User
       $sth_ins = $this->dbh->prepare(SQL_INSERT_USER);
       $sth_ins->bindParam(':eppn', $user, PDO::PARAM_STR);
       $sth_ins->bindParam(':email', $_SESSION['user_email'], PDO::PARAM_STR);
+      $sth_ins->bindParam(':given_name', $_SESSION['user_real_name'], PDO::PARAM_STR);
       $sth_ins->execute();
       // Try get the data agin
       $sth_get->execute();
