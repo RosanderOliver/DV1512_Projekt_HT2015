@@ -104,7 +104,7 @@ class Submission
       //Appned new user and reviewid
       $this->reviews[$_SESSION['user_id']] = array($reviewID);
     }
-                                                                                //@TODO Write to database
+
     $stringReviews = serialize($this->reviews);
     $sth = $this->dbh->prepare(SQL_UPDATE_SUBMISSION_REVIEWS_WHERE_ID);
     $sth->bindParam(':reviews', $stringReviews, PDO::PARAM_STR);

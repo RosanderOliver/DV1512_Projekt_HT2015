@@ -188,7 +188,6 @@ class Login
     private function loginWithSessionData()
     {
         $this->user_name = $_SESSION['user_name'];
-        $this->user_real_name = $_SESSION['user_real_name'];
         $this->user_email = $_SESSION['user_email'];
 
         // set logged in status to true, because we just checked for this:
@@ -223,7 +222,6 @@ class Login
                         // write user data into PHP SESSION [a file on your server]
                         $_SESSION['user_id'] = $result_row->user_id;
                         $_SESSION['user_name'] = $result_row->user_name;
-                        $_SESSION['user_real_name'] = $result_row->user_real_name;
                         $_SESSION['user_email'] = $result_row->user_email;
                         $_SESSION['user_logged_in'] = 1;
 
@@ -300,7 +298,6 @@ class Login
             } else {
                 // write user data into PHP SESSION [a file on your server]
                 $_SESSION['user_id'] = $result_row->user_id;
-                $_SESSION['user_real_name'] = $result_row->user_real_name;
                 $_SESSION['user_name'] = $result_row->user_name;
                 $_SESSION['user_email'] = $result_row->user_email;
                 $_SESSION['user_logged_in'] = 1;

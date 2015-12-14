@@ -6,12 +6,11 @@
  */
 
 // User
-define("SQL_SELECT_USER_WHERE_ID", "SELECT * FROM `site`.`users` WHERE `id`= :id");
-define("SQL_SELECT_USER_WHERE_EPPN", "SELECT * FROM `site`.`users` WHERE `eppn`= :eppn");
-define("SQL_INSERT_USER", "INSERT INTO `site`.`users` (`eppn`, `email`, `given_name`) VALUES (:eppn, :email, :given_name)");
+define("SQL_SELECT_USER_WHERE_ID", "SELECT * FROM `login`.`users` WHERE `user_id`=:id");
+define("SQL_SELECT_USER_WHERE_USER_NAME", "SELECT * FROM `login`.`users` WHERE `user_name`=:user_name");
 
 // Courses
-define("SQL_SELECT_COURSE_WHERE_ID", "SELECT * FROM `site`.`courses` WHERE `id`= :id");
+define("SQL_SELECT_COURSE_WHERE_ID", "SELECT * FROM `site`.`courses` WHERE `id`=:id");
 
 //Projects
 define("SQL_SELECT_PROJECT_WHERE_ID", "SELECT * FROM `site`.`projects` WHERE `id`=:id");

@@ -55,9 +55,9 @@ class User
 
     // Set the user id
     if ($id == null) {
-      $user = $_SESSION['user_name'];
+      $user = $_SESSION['user_id'];
     } else {
-      if ( intval($id) > 0) {
+      if (intval($id) > 0) {
         $user = intval($id);
       } else {
         throw new Exception("Invalid user ID");
@@ -65,40 +65,22 @@ class User
     }
 
     // Get user data
-    // If no userid was given look for the user currently logged in, this can't be assumed to be a valid user in database because of IDM atm
-    if ($id == null) {
-      $sth_get = $this->dbh->prepare(SQL_SELECT_USER_WHERE_EPPN);
-      $sth_get->bindParam(':eppn', $user, PDO::PARAM_STR);
-    } else {
-      $sth_get = $this->dbh->prepare(SQL_SELECT_USER_WHERE_ID);
-      $sth_get->bindParam(':id', $user, PDO::PARAM_INT);
-    }
-    $sth_get->execute();
-    $result = $sth_get->fetch(PDO::FETCH_OBJ);
+    $sth = $this->dbh->prepare(SQL_SELECT_USER_WHERE_ID);
+    $sth->bindParam(':id', $user, PDO::PARAM_INT);
+    $sth->execute();
+    $result = $sth->fetch(PDO::FETCH_OBJ);
 
-    // Check if result is empty then add the user if it's not a given user id
-    if (!$result && $id == null)
-    {
-      $sth_ins = $this->dbh->prepare(SQL_INSERT_USER);
-      $sth_ins->bindParam(':eppn', $user, PDO::PARAM_STR);
-      $sth_ins->bindParam(':email', $_SESSION['user_email'], PDO::PARAM_STR);
-      $sth_ins->bindParam(':given_name', $_SESSION['user_real_name'], PDO::PARAM_STR);
-      $sth_ins->execute();
-      // Try get the data agin
-      $sth_get->execute();
-      $result = $sth_get->fetch(PDO::FETCH_OBJ);
-      if(!$result) throw new Exception("Unable to add user!");
-    } else if (!$result) {
-      // If user was given and doeas not exist in db
+    if (!$result) {
+      // If user does not exist in db
       throw new Exception("Could not find requested user");
     }
 
     // Add data to parameters
     $this->id = intval($result->id);
-    $this->eppn = $result->eppn;
-    $this->given_name = $result->given_name;
-    $this->email = $result->email;
-    $this->courses = unserialize($result->courses);
+    $this->name = $result->user_name;
+    $this->real_name = $result->user_real_name;
+    $this->email = $result->user_email;
+    $this->courses = unserialize($result->user_courses);
   }
 
   /**

@@ -23,28 +23,30 @@ foreach ($submission->reviews as $key => $value) {
   $review = new Review($id);
 
   // Get the user associated with the review and print some data
-  $user = new User( intval($review->user) );
+  $user = new User( $review->user );
 
   echo '<div class="review_box">';
 
-  // Name of reviewer, also link to review
+  // Name of reviewer
+  echo '<h4 style="margin-bottom:0em;">'.$user->real_name.'</h4>';
+  echo '<p>';
+  // Link to review
   if (get_class($review->data) == "TE"){
-    echo '<br><a target="_blank" href="?view=thesis&sid='.$lastSubmissionIndex.'&uid='.$review->user.'"><h4>'.$user->given_name.'</h4></a>';
+    echo '<a href="?view=reviewthesis&sid='.$submission->id.'&uid='.$review->user.'">View Review</a><br/>';
   } elseif (get_class($review->data) == "PP") {
-    echo '<br><a target="_blank" href="?view=pp&sid='.$lastSubmissionIndex.'&uid='.$review->user.'"><h4>'.$user->given_name.'</h4></a>';
+    echo '<a href="?view=reviewplan&sid='.$submission->id.'&uid='.$review->user.'">View review</a><br/>';
   }
 
   // Date
-  $date = new DateTime($review->data->date);
-  echo 'Date: '.$date->format("Y-m-d H:i:s").'</br>';
+  echo 'Date: '.$review->date->format("Y-m-d H:i:s").'<br/>';
 
   // Feedback
-  echo 'Feedback: '.$review->data->feedback.'</br>';
+  echo 'Feedback: '.$review->data->feedback.'<br/>';
 
   // Comments
   foreach ($review->getComments() as $key => $value) {
-    echo '<br>Comment: '.$value->data;
+    echo '<br/>Comment: '.$value->data;
   }
-
+  echo '</p>';
   echo '</div>';
 }

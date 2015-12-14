@@ -1,14 +1,5 @@
 CREATE DATABASE IF NOT EXISTS `site`;
 
-CREATE TABLE IF NOT EXISTS `site`.`users` (
-    `id` INT NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id, unique',
-    `eppn` VARCHAR(16) NOT NULL UNIQUE COMMENT 'user\'s identifier, unique',
-    `email` VARCHAR(64) NOT NULL UNIQUE COMMENT 'user\'s email, unique',
-    `given_name` VARCHAR(64) NOT NULL COMMENT 'user\'s real name',
-    `courses` VARCHAR(32) DEFAULT 'a:0:{}' COMMENT 'serialized array with user\'s enlisted courses',
-    PRIMARY KEY (`id`)
-)  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='user specific data like email and unique identifier';
-
 CREATE TABLE IF NOT EXISTS `site`.`courses` (
     `id` INT NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
     `role_table` INT NOT NULL COMMENT 'id of permissions table',
@@ -95,6 +86,7 @@ CREATE TABLE IF NOT EXISTS `login`.`users` (
     `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing user_id of each user, unique index',
     `user_real_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s real name',
     `user_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s name, unique',
+    `courses` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'serialized array with user\'s enlisted courses',
     `user_password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s password in salted and hashed format',
     `user_email` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s email, unique',
     `user_active` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'user\'s activation status',
@@ -112,10 +104,9 @@ CREATE TABLE IF NOT EXISTS `login`.`users` (
 )  ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='user data';
 
 /* TEST DATA FOR DEBUG ONLY */
-INSERT INTO `site`.`users` (`eppn`, `email`, `given_name`, `courses`) VALUES ('admin', 'admin@mail.com', 'Administrator', 'a:1:{i:0;i:1;}');
 INSERT INTO `site`.`courses` (`role_table`, `name`, `deadlines`, `projects`) VALUES ('1', 'TestCourse DV1337', 'a:0:{}', 'a:1:{i:0;i:1;}');
 INSERT INTO `site`.`projects` (`subject`, `stage`, `submissions`, `students`, `managers`, `examinators`, `reviewers`) VALUES ('Test Project', '2', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}');
 INSERT INTO `site`.`submissions` (`user`, `stage`) VALUES ('1', '2');
 
-INSERT INTO `login`.`users` (`user_real_name`, `user_name`, `user_password_hash`, `user_email`, `user_active`)
-	VALUES ('Administrator', 'admin', '\$2y\$15\$cDNpzTbhPCVVESl6NrvR4eBZPuqZRg9VxoS8Y4qy1D2hHemnT4e8O', 'student@localhost', '1');
+INSERT INTO `login`.`users` (`user_real_name`, `user_name`, `user_courses`, `user_password_hash`, `user_email`, `user_active`)
+	VALUES ('Administrator', 'admin', 'a:1:{i:0;i:1;}', '\$2y\$15\$cDNpzTbhPCVVESl6NrvR4eBZPuqZRg9VxoS8Y4qy1D2hHemnT4e8O', 'administrator@localhost', '1');
