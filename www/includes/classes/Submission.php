@@ -95,15 +95,30 @@ class Submission
 
     $found = false;
     foreach ($this->reviews as $key => $value) {
-      if ($key === $_SESSION['user_id']) {
-        $value[] = $reviewID;
+      echo "TEST";
+      prettyPrint($key);
+      prettyPrint($_SESSION['user_id']);
+      if ($key == $_SESSION['user_id']) {
+        echo "FOUND USER AND APPENDING ARRAY";
+        $this->reviews[$key][] = $reviewID;
         $found = true;
       }
     }
     if ($found == false) {
       //Appned new user and reviewid
+      echo "CREATING NEW ARRAY WITH reviewID";
       $this->reviews[$_SESSION['user_id']] = array($reviewID);
     }
+
+                                                                                //@TODO Write to database
+    $stringReviews = serialize($this->reviews);
+    $sth = $this->dbh->prepare(SQL_UPDATE_SUBMISSION_REVIEWS_WHERE_ID);
+    $sth->bindParam(':reviews', $stringReviews, PDO::PARAM_STR);
+    $sth->bindParam(':id', $this->id, PDO::PARAM_INT);
+    $sth->execute();
+
+
+
   }
 
   /**

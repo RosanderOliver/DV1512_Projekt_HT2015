@@ -70,7 +70,8 @@
        $sth->bindParam(':user', $user, PDO::PARAM_INT);
        $sth->bindParam(':date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
        $sth->bindParam(':data', serialize($form), PDO::PARAM_STR);
-       $sth->execute(); $lastInsertId = $dbh->lastInsertId();
+       $sth->execute();
+       $lastInsertId = $dbh->lastInsertId();
 
        $submission->addReview($lastInsertId);
 
