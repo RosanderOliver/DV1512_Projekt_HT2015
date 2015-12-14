@@ -89,7 +89,7 @@
   $latesReview = $submission->reviews[$reviewUserId][$latestReviewIndex];
 
   $sth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
-  $sth->bindParam(':rid', $latesReview, PDO::PARAM_INT);
+  $sth->bindParam(':id', $latesReview, PDO::PARAM_INT);
   $sth->bindParam(':user', $reviewUserId, PDO::PARAM_INT);
   $sth->execute();
   $tmp = $sth->fetchObject();

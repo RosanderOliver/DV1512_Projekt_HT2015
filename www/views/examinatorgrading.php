@@ -32,7 +32,7 @@
 	$x = 0;
 	foreach ($reviewIdArr as $key => $value) {
 		$ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID);
-		$ssth->bindParam(":rid", $reviewIdArr[$key][sizeof($value)-1], PDO::PARAM_INT);
+		$ssth->bindParam(":id", $reviewIdArr[$key][sizeof($value)-1], PDO::PARAM_INT);
 		$ssth->execute();
 		$reviewArr[$x] = $ssth->fetchObject();
 		$reviewArrData[$x] = unserialize($reviewArr[$x]->data);

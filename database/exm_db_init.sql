@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `login`.`users` (
     `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing user_id of each user, unique index',
     `user_real_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s real name',
     `user_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s name, unique',
-    `courses` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'serialized array with user\'s enlisted courses',
+    `user_courses` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'serialized array with user\'s enlisted courses',
     `user_password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s password in salted and hashed format',
     `user_email` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s email, unique',
     `user_active` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'user\'s activation status',
