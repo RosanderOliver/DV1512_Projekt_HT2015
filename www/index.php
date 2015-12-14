@@ -101,6 +101,7 @@ $views = [
   'edit',
   'course',
   'projectoverview',
+  'projectreviews',
   'examinatorgrading',
   'reviewplan',
   'reviewthesis'

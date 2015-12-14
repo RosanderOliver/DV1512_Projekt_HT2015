@@ -5,9 +5,8 @@ if (!defined("IN_EXM")) exit(1);
 if ($login->isUserLoggedIn() === false) exit(1);
 
 // Get Submission id
-$pid;
 if (isset($_GET['sid']) && intval($_GET['sid']) > 0) {
-  $pid = intval($_GET['sid']);
+  $sid = intval($_GET['sid']);
 } else {
   exit("Invalid submission!");
 }
@@ -16,19 +15,52 @@ $submission = new Submission($sid);
 
 foreach ($submission->reviews as $key => $value) {
 
-  // Get review
-  $sth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID);
-  $sth->bindParam(':rid', $value, PDO::PARAM_INT);
-  $sth->execute();
-  $review = $sth->fetch(PDO::FETCH_OBJ);
-  $data = unserialize($review->data);
+  // Get the last id in the array
+  $id = intval($value[count($value) - 1]);
 
-  $user = new User( $data->user );
+  // Get review
+  $review = new Review($id);
+
+  // If comment form was submitted
+  $commentSubmitId = 'comment'.$review->id;
+  if ($_POST[$commentSubmitId]) {
+    //$review->addComment($_POST[$commentSubmitId]); //TODO fix this function
+  }
+
+  // Get the user associated with the review and print some data
+  $user = new User( $review->user );
 
   echo '<div class="review_box">';
-  if (get_class($data) == "TE"){
-    echo '<br><a target="_blank" href="?view=thesis&sid='.$lastSubmissionIndex.'&uid='.$data->user.'"></a>';
-  } elseif (get_class($data) == "PP") {
-    echo '<br><a target="_blank" href="?view=pp&sid='.$lastSubmissionIndex.'&uid='.$data->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';
+
+  // Name of reviewer
+  echo '<h4 style="margin-bottom:0em;">'.$user->real_name.'</h4>';
+  echo '<p>';
+  // Link to review
+  if (get_class($review->data) == "TE"){
+    echo '<a href="?view=reviewthesis&sid='.$submission->id.'&uid='.$review->user.'">View Review</a><br/>';
+  } elseif (get_class($review->data) == "PP") {
+    echo '<a href="?view=reviewplan&sid='.$submission->id.'&uid='.$review->user.'">View review</a><br/>';
   }
+
+  // Date
+  echo 'Date: '.$review->date->format("Y-m-d H:i:s").'<br/>';
+
+  // Feedback
+  echo 'Feedback: '.$review->data->feedback.'<br/>';
+
+  // Comments
+  foreach ($review->getComments() as $key => $value) {
+    echo '<br/>Comment: '.$value->data;
+  }
+
+  // Print form for submitting Comments
+  print('
+  <form method="post" name="commentForm" action="?view=projectreviews&sid='.$sid.'">
+    <textarea name="comment'.$review->id.'" id="comment"></textarea><br/>
+    <input type="submit" name="submitComment" value="Comment">
+  </form>
+  ');
+
+  echo '</p>';
+  echo '</div>';
 }

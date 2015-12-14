@@ -96,6 +96,5 @@ else{
     $data = unserialize($tmp->data);
   }
 
-
   include('includes/content/dp_thesis-eval_supervisor.php');
 }
