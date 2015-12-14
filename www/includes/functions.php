@@ -308,3 +308,36 @@
 
     return intval($dbh->lastInsertId());
   }
+
+  /** CreateTable
+  * @author Oliver Rosander, Jim Ahlstrand
+  * @param string array containing the column names
+  * @param string array containing the table data
+  */
+  function printTable( $head = null, $data )
+  {
+    echo '<table width=700px>';
+    // If head
+    if($head != null)
+    {
+      echo '<thead>';
+      echo '<tr>';
+      foreach ($head as $key => $value) {
+        echo '<td>'.$value.'</td>';
+      }
+      echo '</tr>';
+      echo '</thead>';
+    }
+    echo '<tdata>';
+    // for each row
+    foreach ($data as $key => $row) {
+      // for each column
+      echo '<tr>';
+      foreach ($row as $key2 => $column) {
+        echo '<td>'.$column.'</td>';
+      }
+      echo '</tr>';
+    }
+    echo '</tdata>';
+    echo '</table>';
+  }

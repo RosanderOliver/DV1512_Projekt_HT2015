@@ -83,45 +83,19 @@
 }
 else{
 
-    //have db connection
-    if($dbh != null && $submissionsId != 0){
-      //fin review from submission
-      $sub = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
-      $sub->bindParam(':id', $submissionsId, PDO::PARAM_INT);
-      $sub->execute();
-      $temp = $sub->fetchObject();
+  $reviewUserId = $_GET['uid'];
+  $latestReviewIndex = sizeof($submission->reviews[$reviewUserId])-1;
+  $latesReview = $submission->reviews[$reviewUserId][$latestReviewIndex];
 
-      $rIdArray = array();
+  $sth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
+  $sth->bindParam(':rid', $latesReview, PDO::PARAM_INT);
+  $sth->bindParam(':user', $reviewUserId, PDO::PARAM_INT);
+  $sth->execute();
+  $tmp = $sth->fetchObject();
+  if($tmp != null){
+    $data = unserialize($tmp->data);
+  }
 
-      if ($temp != null) {
-        $rIdArray = unserialize($temp->reviews);
-      }
 
-      $data = null;
-      $uid = $_GET["uid"];
-        for($i = 0; $i < sizeof($rIdArray); $i++){
-          $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
-          $ssth->bindParam(':rid', $rIdArray[$i], PDO::PARAM_INT);
-          $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
-          $ssth->execute();
-          $tmp = $ssth->fetchObject();
-          if (strtotime($date) < strtotime($tmp->date) || $date == null) {
-            $date = $tmp->date;
-            $data = unserialize($tmp->data);
-          }
-        }
-     }
-     else {
-       $ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
-       $ssth->bindParam(':rid', $rIdArray[0], PDO::PARAM_INT);
-       $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
-       $ssth->execute();
-       $tmp = $ssth->fetchObject();
-       if($tmp != null){
-         echo "test";
-         $data = unserialize($tmp->data);
-       }
-       //echo "data: " . $data->studen1;
-     }
   include('includes/content/dp_thesis-eval_supervisor.php');
-    }
+}

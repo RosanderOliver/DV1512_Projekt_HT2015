@@ -9,8 +9,8 @@
   $submission = new Submission($sid);
 
   if (isset($_POST['submit'])) {
-
    $form = new PP();
+
    $form->student1 = test_input($_POST["student1"]);
    $form->s1email = test_input($_POST["s1email"]);
    $form->pnr1 = test_input($_POST["pnr1"]);
@@ -34,7 +34,7 @@
    $form->process4 = test_input(test_num($_POST["process4"]));
    $form->processcomment4 = test_input($_POST["processcomment4"]);
 
-   $form->s1 = test_input(test_num($_POST["s1"]));
+   $form->s1 = test_num($_POST["s1"]);
 
    $form->content1 = test_input(test_num($_POST["content1"]));
    $form->contentcomment1 = test_input($_POST["contentcomment1"]);
@@ -58,8 +58,8 @@
    $form->presentation5 = test_input(test_num($_POST["presentation5"]));
    $form->presentationcomment5 = test_input($_POST["presentationcomment5"]);
 
-   $form->s3 = test_input(test_num($_POST["s3"]));
-   $form->s4 = test_input(test_grade($_POST["s4"]));
+   $form->s3 = test_num(test_input(test_num($_POST["s3"])));
+   $form->s4 = test_num(test_input(test_num($_POST["s4"])));
    $form->feedback = test_input($_POST["feedback"]);
 
    if (empty($data)) {
@@ -84,38 +84,18 @@
   }
 } else {
 
-       $rIdArray = array();
+  $reviewUserId = $_GET['uid'];
+  $latestReviewIndex = sizeof($submission->reviews[$reviewUserId])-1;
+  $latesReview = $submission->reviews[$reviewUserId][$latestReviewIndex];
 
-       if ($temp != null) {
-         $rIdArray = unserialize($temp->reviews);
-       }
-
-       $data = null;
-       $uid = $_GET["uid"];
-       $date = null;
-       if (sizeof($rIdArray) > 1) {
-         for($i = 0; $i < sizeof($rIdArray); $i++){
-           $sth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
-           $sth->bindParam(':rid', $rIdArray[$i], PDO::PARAM_INT);
-           $sth->bindParam(':user', $uid, PDO::PARAM_INT);
-           $sth->execute();
-           $tmp = $sth->fetchObject();
-           if (strtotime($date) < strtotime($tmp->date) || $date == null) {
-             $date = $tmp->date; $data = unserialize($tmp->data);
-           }
-         }
-       } else {
-         $sth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
-         $sth->bindParam(':rid', $rIdArray[0], PDO::PARAM_INT);
-         $sth->bindParam(':user', $uid, PDO::PARAM_INT);
-         $sth->execute();
-         $tmp = $sth->fetchObject();
-         if($tmp != null){
-           echo "test";
-           $data = unserialize($tmp->data);
-         }
-         //echo "data: " . $data->studen1;
-       }
+  $sth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
+  $sth->bindParam(':rid', $latesReview, PDO::PARAM_INT);
+  $sth->bindParam(':user', $reviewUserId, PDO::PARAM_INT);
+  $sth->execute();
+  $tmp = $sth->fetchObject();
+  if($tmp != null){
+    $data = unserialize($tmp->data);
+  }
 
    include('includes/content/dp_pp-eval-supervisor.php');
  }

@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `site`.`submissions` (
     `user` INT NOT NULL COMMENT 'user id of the uploader',
     `date` DATETIME DEFAULT '0000-00-00 00:00:00' COMMENT 'date and time of the upload',
     `files` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'array with files associated with the submission',
-    `reviews` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'array with written reviews for the file',
+    `reviews` VARCHAR(1024) DEFAULT 'a:0:{}' COMMENT 'array with written reviews for the file',
     `comments` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'array with id\'s of comments',
     `grade` INT DEFAULT '0' COMMENT 'grade of the submission',
     `stage` INT DEFAULT '0' COMMENT 'stage of the project when the submission was filed',
