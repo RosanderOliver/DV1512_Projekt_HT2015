@@ -60,9 +60,9 @@
     if($dbh != null){
       $ssth = $dbh->prepare(SQL_SELECT_PROJECTS);
       if($ssth->execute()){
-        echo "</th>Projects</th><form action=\"\" method=\"POST\"><table>";
+        echo "<form action=\"\" method=\"POST\"><table>";
         while($tmp = $ssth->fetchObject()){
-          $rIdArray = explode(" ", unserialize($tmp->reviewers));
+          $rIdArray = unserialize($tmp->reviewers);
           for($i = 0; $i < sizeof($rIdArray); $i++){
             if($rid == $rIdArray[$i]){
               $projectName = $tmp->subject;
@@ -177,7 +177,7 @@
   * @author Annika Hansson
   * @param PDO, $dbh, database connection
   * @param int, $rid, variable containing reviewer id
-  * @param array string, $subject, array containging ids of selected projects
+  * @param array string, $subject, array containging names of selected projects
   * @return void
   */
   function add_feasible_reviewer($rid,$dbh,$subject){
