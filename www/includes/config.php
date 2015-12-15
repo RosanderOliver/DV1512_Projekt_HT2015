@@ -123,9 +123,11 @@ define("HASH_COST_FACTOR", "12");
   * Configuration for: maximum lengths
   * Defines maximum lengths of data variables, this is limited by the database
   *
-  * MAX_COMMENT_LENGTH: length of comments data
+  * MAX_COMMENT_LENGTH: length of contents of comments
+  * MAX_COMMENT_DEPTH: maximum printed depth of comments and responses to comments
   */
   define("MAX_COMMENT_LENGTH", 256);
+  define("MAX_COMMENT_DEPTH", 3);
 
   /**
    * Configuration for: project stages
