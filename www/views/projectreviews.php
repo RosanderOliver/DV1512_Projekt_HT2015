@@ -67,4 +67,5 @@ foreach ($submission->reviews as $key => $value) {
 
   echo '</p>';
   echo '</div>';
+  echo '<hr/>';
 }

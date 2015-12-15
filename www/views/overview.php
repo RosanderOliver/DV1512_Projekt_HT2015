@@ -4,6 +4,7 @@ if (!defined("IN_EXM")) exit(1);
 
 if ($login->isUserLoggedIn() === false) exit(1);
 
+// TODO FIX the table structure
 ?>
 
 <table cellpadding="10" cellspacing="0" border="0">
@@ -41,17 +42,13 @@ if ($login->isUserLoggedIn() === false) exit(1);
 <td width="25%" valign="top">
 
 <h2>Tasks</h2>
+<ul>
+  <li>
+    <a href="?view=createcourse">Create new course</a>
+  </li>
+</ul>
 
-TASKTASKTATSK
-
-<br><br>
-
-TASKTASKTATSK
-
-<br><br>
-TASKTASKTATSK
-
-<br><br>
+</td>
 
 </tr>
 </table>

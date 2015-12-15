@@ -38,7 +38,7 @@ class Course
   * @param  int   $id   id of the course to load
   * @param  obj   $dbh  database handle
   */
-  public function __construct($id, $dbh = null)
+  public function __construct($id)
   {
     // Setup database handle
     try {

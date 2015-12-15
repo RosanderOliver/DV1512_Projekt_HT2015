@@ -10,6 +10,7 @@ define("SQL_SELECT_USER_WHERE_ID", "SELECT * FROM `login`.`users` WHERE `user_id
 define("SQL_SELECT_USER_WHERE_USER_NAME", "SELECT * FROM `login`.`users` WHERE `user_name`=:user_name");
 
 // Courses
+define("SQL_INSERT_COURSE", "INSERT INTO `site`.`courses`(`name`) VALUES(:name)");
 define("SQL_SELECT_COURSE_WHERE_ID", "SELECT * FROM `site`.`courses` WHERE `id`=:id");
 
 // Projects
