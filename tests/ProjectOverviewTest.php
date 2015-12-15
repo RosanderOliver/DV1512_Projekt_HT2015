@@ -29,15 +29,26 @@
     * @small
     * @test
     */
-   public function formFunctions()
+   public function submissionFunctions()
    {
      // Create new user class
-     $a = new PP();
+     $sub = new Submission();
      // Check if the object was created
-     $this->assertNotNull($a);
-     // Adding some variables into the form class PP
-     $a->student1   = "StudentName";
-     $this->assertEquals("StudentName", $a->student1);
+     $this->assertNotNull($sub);
+
+     /*
+
+     //Create a project!!!!
+     $projectId=intval(1);
+   	 $lastSubmissionIndex = intval(1);
+     $projectClass = new Project($projectId);
+
+     $grade = intval(); // 1=U, 2=Ux, 3=G
+
+     if ($grade > 2 && $grade < 9) {
+       $projectClass->updateStage();
+     }
+     */
 
    }
  }
