@@ -93,7 +93,8 @@ class User
   * @param int, $id, Id of the course to be fetched defaults to null
   * @return obj, Course
   */
-  function getCourse( $id = null ) {
+  function getCourse( $id = null )
+  {
 
     // If id is null return a list of all courses listed for the User
     if ($id === null)
@@ -109,5 +110,29 @@ class User
       throw new Exception("Invalid course request");
 
     return new Course($id, $this->dbh);
+  }
+
+  /**
+  * Adds courseID to user
+  * @author Jim Ahlstrand
+  * @param int $id course id to add
+  * TODO Check so course exists
+  */
+  function addCourseID($id)
+  {
+    if (intval($id) <= 0) {
+      throw new Exception("Invalid ID");
+    }
+
+    // Update this User
+    $this->courses[] = $id;
+    $courses = serialize($this->courses);
+
+    // Update db
+    $sth = $this->dbh->prepare(SQL_UPDATET_USER_COURSES_WHERE_ID);
+    $sth->bindParam(":courses", $courses, PDO::PARAM_STR);
+    $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+    $sth->execute();
+
   }
 }

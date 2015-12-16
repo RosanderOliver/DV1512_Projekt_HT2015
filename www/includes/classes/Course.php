@@ -25,11 +25,11 @@ class Course
   */
   public $name = "";
   /**
-  * @var int $deadlines Array of the course's deadlines
+  * @var array $deadlines Array of the course's deadlines
   */
   public $deadlines = Array();
   /**
-  * @var int $projects Projects assosiated with the course
+  * @var array $projects Projects assosiated with the course
   */
   private $projects = Array();
   /**
@@ -37,11 +37,16 @@ class Course
   */
   public $select_project = null;
   /**
+  * @var array $admins Admin users for this course
+  */
+  private $admins = Array();
+
+  /**
   * Constructor
   * @param  int   $id   id of the course to load
   * @param  obj   $dbh  database handle
   */
-  public function __construct($id, $dbh = null)
+  public function __construct($id)
   {
     // Setup database handle
     try {
@@ -72,6 +77,7 @@ class Course
     $this->deadlines = unserialize($result->deadlines);
     $this->projects = unserialize($result->projects);
     $this->select_project = $result->select_project;
+    $this->admins = unserialize($result->admins);
   }
 
   /**
@@ -81,7 +87,8 @@ class Course
   * @return obj, stdClassObject
   * TODO return only projects that the user own or has permission to view
   */
-  function getProject( $id = null ) {
+  function getProject( $id = null )
+  {
     // If id is null return a list of all projects listed for the course
     if ($id === null)
       return $this->projects;
@@ -96,5 +103,29 @@ class Course
       throw new Exception("Invalid project request");
 
     return new Project($id, $this->dbh);
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param int $id id of the user to add as admin
+  * @return void
+  */
+  function addAdmin($id)
+  {
+    $id = intval($id);
+    // Check for invalid id
+    if ($id <= 0) {
+      throw new Exception("Invalid parameter");
+    }
+
+    // Add user to admins array
+    $this->admins[] = $id;
+    $admins = serialize($this->admins);
+
+    // Update database
+    $sth = $this->dbh->prepare(SQL_UPDATE_COURSE_ADMINS_WHERE_ID);
+    $sth->bindParam(":admins", $admins, PDO::PARAM_STR);
+    $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+    $sth->execute();
   }
 }

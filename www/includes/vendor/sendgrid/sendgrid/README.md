@@ -61,7 +61,7 @@ Add SendGrid to your `composer.json` file. If you are not using [Composer](http:
 ```json
 {  
   "require": {
-    "sendgrid/sendgrid": "~3.2"
+    "sendgrid/sendgrid": "~4.0"
   }
 }
 ```
@@ -317,7 +317,7 @@ Permission denied, wrong credentials
 
 [APIKeys](https://sendgrid.com/docs/API_Reference/Web_API_v3/API_Keys/index.html)
 
-List all API Keys belonging to the authenticated user.
+List all API Keys belonging to the authenticated user. [GET]
 
 ```php
 require 'vendor/autoload.php';
@@ -328,6 +328,40 @@ $response = $sendgrid->api_keys->get();
 print("Status Code: " . $response->getStatusCode() . "\n");
 print("Body: " . $response->getBody() . "\n");
 ```
+
+Generate a new API Key for the authenticated user. [POST]
+
+```php
+require 'vendor/autoload.php';
+Dotenv::load(__DIR__);
+$sendgrid_apikey = getenv('SG_KEY');
+$sendgrid = new Client($sendgrid_apikey);
+$response = $sendgrid->api_keys->post("Key Name");
+print("Status Code: " . $response->getStatusCode() . "\n");
+print("Body: " . $response->getBody() . "\n");
+```
+
+Update the name of an existing API Key
+
+```php
+require 'vendor/autoload.php';
+Dotenv::load(__DIR__);
+$sendgrid_apikey = getenv('SG_KEY');
+$sendgrid = new Client($sendgrid_apikey);
+$response = $sendgrid->api_keys->patch("<API Key ID>", "Updated API Key Name");
+print("Status Code: " . $response->getStatusCode() . "\n");
+print("Body: " . $response->getBody() . "\n");
+```
+Revoke an existing API Key [DELETE]
+
+```php
+require 'vendor/autoload.php';
+Dotenv::load(__DIR__);
+$sendgrid_apikey = getenv('SG_KEY');
+$sendgrid = new Client($sendgrid_apikey);
+$response = $sendgrid->api_keys->delete("<API Key ID>");
+print("Status Code: " . $response->getStatusCode() . "\n");
+print("Body: " . $response->getBody() . "\n");
 
 [ASMGroups](https://sendgrid.com/docs/API_Reference/Web_API_v3/Suppression_Management/groups.html)
 
@@ -1030,6 +1064,15 @@ phpunit --bootstrap test/unit/bootstrap.php --filter test* test/unit
 ## Releasing
 
 To release a new version of this library, update the version in all locations, tag the version, and then push the tag up. Packagist.org takes care of the rest.
+
+1. Confirm tests pass
+2. Bump the version in composer.json, lib/Client.php, lib/SendGrid.php, test/unit/SendGridTest.php
+3. Update CHANGELOG.md
+4. Confirm tests pass
+5. Commit Version bump vX.X.X
+6. Push changes to GitHub
+7. Release tag on GitHub vX.X.X
+8. Packagist.org takes care of the rest
 
 #### Testing uploading to Amazon S3
 

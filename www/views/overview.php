@@ -4,6 +4,7 @@ if (!defined("IN_EXM")) exit(1);
 
 if ($login->isUserLoggedIn() === false) exit(1);
 
+// TODO FIX the table structure
 ?>
 
 <table cellpadding="10" cellspacing="0" border="0">
@@ -41,7 +42,13 @@ if ($login->isUserLoggedIn() === false) exit(1);
 <td width="25%" valign="top">
 
 <h2>Tasks</h2>
+<ul>
+  <li>
+    <a href="?view=createcourse">Create new course</a>
+  </li>
+</ul>
 
+<<<<<<< HEAD
 <a href="?view=assignreviewers&id=1">Assign reviewers</a>
 
 <br><br>
@@ -52,6 +59,9 @@ TASKTASKTATSK
 TASKTASKTATSK
 
 <br><br>
+=======
+</td>
+>>>>>>> dc7e2adb06cd1ea91d6c4b394b6c75d12cf7f30d
 
 <?php
 // Include the Shibboleth attributes you intend to test here

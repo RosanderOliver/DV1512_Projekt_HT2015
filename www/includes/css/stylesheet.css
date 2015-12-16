@@ -32,6 +32,9 @@ a, a:hover, a:visited {
   margin: auto;
   width: 50%;
   bottom: 0px;
+  background: rgb(251, 251, 251) none repeat scroll 0% 0%;
+  padding: 1em;
+  box-shadow: 1px 0px 10px;
 }
 
 .form_input{
@@ -105,7 +108,6 @@ a, a:hover, a:visited {
 /* Reviews */
 .review_box {
   padding: 0.1em 1em;
-  background: rgb(167, 186, 194) none repeat scroll 0% 0%;
   margin-top: 1em;
   border-radius: 1em;
 }
