@@ -18,8 +18,7 @@ $course = $user->getCourse($id);
 // List projects
 echo '<h2>Projects</h2>';
 
-echo '<form action="index.php?view=choosenprojects" method="POST">';
-
+echo '<form action="index.php?view=selectedprojects" method="POST">';
 echo '<ul>';
 foreach ($course->getProject() as $key => $value) {
   $project = $course->getProject($value);
@@ -27,7 +26,6 @@ foreach ($course->getProject() as $key => $value) {
   echo '<a href="?view=projectoverview&pid='.$project->id.'&cid='.$course->id.'">'.$project->subject.'</a> <input type="checkbox" name="ticked[]" value="'.$value.'">';
   echo '<input type="hidden" name="subject[]" value="'.$project->subject.'">';
   echo '</li>';
-
 }
 echo '</ul>';
 echo '<input type="submit" name="submit" value="Submit">';
