@@ -67,8 +67,8 @@ class User
 
     // Get user data
     // Prepare the statement
-    $sth_get = $this->dbh->prepare(SQL_SELECT_USER_WHERE_EPPN);
-    $sth_get->bindParam(':eppn', $user, PDO::PARAM_STR);
+    $sth_get = $this->dbh->prepare(SQL_SELECT_USER_WHERE_ID);
+    $sth_get->bindParam(':id', $user, PDO::PARAM_STR);
     $sth_get->execute();
     // Fetch the data
     $result = $sth_get->fetch(PDO::FETCH_OBJ);
