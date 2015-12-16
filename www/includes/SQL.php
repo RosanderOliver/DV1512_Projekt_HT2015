@@ -34,6 +34,7 @@ define("SQL_DELETE_SUBMISSION_WHERE_ID", "DELETE FROM `site`.`submissions` WHERE
 //Comments
 define("SQL_SELECT_COMMENT_WHERE_ID", "SELECT * FROM `site`.`comments` WHERE `id`=:id");
 define("SQL_INSERT_COMMENT", "INSERT INTO `site`.`comments` (`user`, `date`, `data`, `subcomments`) VALUES (:user, :date, :data, :subcomments)");
+define("SQL_DELETE_COMMENT_WHERE_ID", "DELETE FROM `site`.`comments` WHERE `id`=:id");
 
 //reviewer
 define("SQL_INSERT_REVIEW", "INSERT INTO `site`.`reviews`(`user`, `date`, `data`) VALUES(:user,:date,:data)");

@@ -56,8 +56,17 @@
    }
   public static function tearDownAfterClass()
   {
-      $project = new Project(self::$proid);
+
+      /*$project = new Project(self::$proid);
       foreach ($project->getSubmission() as $key => $value) {
+
+        $subtemp = new Submission($value);
+        foreach ($subtemp->getComments() as $key2 => $value2) {
+          $sth = self::$dbh->prepare(SQL_DELETE_COMMENT_WHERE_ID);
+          $sth->bindParam(":id", $value2->id, PDO::PARAM_INT);
+          $sth->execute();
+        }
+
         $sth = self::$dbh->prepare(SQL_DELETE_SUBMISSION_WHERE_ID);
         $sth->bindParam(":id", $value, PDO::PARAM_INT);
         $sth->execute();
@@ -66,6 +75,7 @@
       $sth = self::$dbh->prepare(SQL_DELETE_PROJECT_WHERE_ID);
       $sth->bindParam(":id", self::$proid, PDO::PARAM_INT);
       $sth->execute();
+*/
   }
    /**
     * Test projectFunctions
@@ -91,6 +101,7 @@
      //Create a submission to the project
      $pro->createSubmission();
      //Get the latest submission in the project
+     $sub;
      foreach ($pro->getSubmission() as $key => $value){
        $sub = new Submission($value);
      }
@@ -99,8 +110,28 @@
      $this->assertEquals(2, $sub->grade);
 
 
-     //Comment
-     
+     //Comments::
+     //Write a comment to the submission
+     $submissionCommentIndex = array();
+     $comment = "Some comment..";
+     $commentId = new Comment(null, $comment);
+
+     if ($commentId->id != -1){
+       $sub->comments[] = $commentId->id;
+       $submissionCommentIndex[] = $commentId->id;
+       $submissionCommentIndex = serialize($submissionCommentIndex);
+
+       $ssth = self::$dbh->prepare(SQL_UPDATE_SUBMISSION_COMMENTGRADE_WHERE_ID);
+       $ssth->bindParam(":comments", $submissionCommentIndex, PDO::PARAM_STR);
+       $ssth->bindParam(":grade", $sub->grade, PDO::PARAM_INT);
+       $ssth->bindParam(":id", $sub->id, PDO::PARAM_INT);
+       $ssth->execute();
+     }
+
+     //See if the comment was added
+     foreach ($sub->getComments() as $key => $value) {
+       $this->assertEquals('Some comment..', $value->data);
+     }
 
    }
  }
