@@ -37,6 +37,16 @@ a, a:hover, a:visited {
   box-shadow: 1px 0px 10px;
 }
 
+#projects {
+  float: left;
+  margin-left: 2em;
+}
+
+#tasks {
+  float: right;
+  margin-right: 2em;
+}
+
 .form_input{
   width: 100%;
   height: 100%;

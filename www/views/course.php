@@ -16,6 +16,7 @@ if (isset($_GET['id']) && intval($_GET['id']) > 0) {
 $course = $user->getCourse($id);
 
 // List projects
+echo '<div id="projects">';
 echo '<h2>Your projects</h2>';
 
 echo '<ul>';
@@ -26,3 +27,15 @@ foreach ($course->getProject() as $key => $value) {
   echo '</li>';
 }
 echo '</ul>';
+echo '</div>';
+
+
+// List tasks
+echo '<div id="tasks">';
+echo '<h2>Tasks</h2>';
+echo '<ul>';
+echo   '<li>';
+echo     '<a href="?view=createproject">Create new project</a>';
+echo   '</li>';
+echo '</ul>';
+echo '</div>';
