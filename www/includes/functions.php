@@ -51,34 +51,6 @@
   }
 
   /**
-  * @author Annika Hansson
-  * @param int, $rid, variable containing reviewer id
-  * @param PDO, $dbh, db connection
-  * @return void
-  */
-  function list_projects($rid,$dbh){
-    if($dbh != null){
-      $ssth = $dbh->prepare(SQL_SELECT_PROJECTS);
-      if($ssth->execute()){
-        echo "<ul>";
-        while($tmp = $ssth->fetchObject()){
-          $rIdArray = unserialize($tmp->reviewers);
-          for($i = 0; $i < sizeof($rIdArray); $i++){
-            if($rid == $rIdArray[$i]){
-              $projectName = $tmp->subject;
-              echo "<li>" . $projectName . "</li>";
-            }
-          }
-        }
-        echo "</ul>";
-      }
-    }
-    else{
-      echo "DB connection has failed. Try to login.</br>";
-    }
-  }
-
-  /**
   * Set data in database with currentdate and time
   * @author Oliver Rosander
   * @param int $user, string $comment, string $subcomment, PDO $dbh
