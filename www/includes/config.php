@@ -118,3 +118,29 @@ define("HASH_COST_FACTOR", "12");
  * PATH_CLASS: path to folder contatning all classes
  */
  define("PATH_CLASS", "includes/classes/");
+
+ /**
+  * Configuration for: maximum lengths
+  * Defines maximum lengths of data variables, this is limited by the database
+  *
+  * MAX_COMMENT_LENGTH: length of contents of comments
+  * MAX_COMMENT_DEPTH: maximum printed depth of comments and responses to comments
+  */
+  define("MAX_COMMENT_LENGTH", 256);
+  define("MAX_COMMENT_DEPTH", 3);
+
+  /**
+   * Configuration for: project stages
+   * Defines stages for the project
+   *
+   * STAGE_DRAFT: project is newly created and waiting for approval
+   * STAGE_PLAN: project plan needs to be submitted
+   * STAGE_RAPPORT: project rapport needs to be submitted
+   * STAGE_PEER_REVIEW: project is waiting to be reviewd by a Peer
+   * STAGE_FINISHED: project is finished and can't be edited
+   */
+   define("STAGE_DRAFT", "Draft");
+   define("STAGE_PLAN", "Plan");
+   define("STAGE_REPORT", "Rapport");
+   define("STAGE_PEER_REVIEW", "Peer Review");
+   define("STAGE_FINISHED", "Finished");
