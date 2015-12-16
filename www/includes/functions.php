@@ -185,12 +185,13 @@
         $ssth = $dbh->prepare(SQL_SELECT_PROJECTS_WHERE_SUBJECT);
         $ssth->bindParam(':subject', $subject, PDO::PARAM_STR);
         if($ssth->execute()){
-          $tmp = $ssth->fetchObject();
-          if($tmp->feasible_reviewers == null){
-            $tmp->feasible_reviewers = serialize($rid);
+          $tmp = $ssth->fetch(PDO::FETCH_OBJ);
+          $feasible_reviewers = unserialize($tmp->feasible_reviewers);
+
+          if(sizeof($feasible_reviewers) == 0){
+            array_push($feasible_reviewers,$rid);
           }
           else{
-            $feasible_reviewers = unserialize($tmp->feasible_reviewers);
             $ridExist = false;
             for($j = 0; $j < sizeof($feasible_reviewers); $j++){
               if($feasible_reviewers[$j] == $rid){
@@ -198,13 +199,13 @@
               }
             }
             if(!$ridExist){
-              $feasible_reviewers .= " " . $rid;
-              $tmp->feasible_reviewers = serialize($feasible_reviewers);
+              array_push($feasible_reviewers, $rid);
             }
           }
+
           $ssth = $dbh->prepare(SQL_UPDATE_USER_AS_FEASIBLE_REVIEWERS_WHERE_SUBJECT);
           $ssth->bindParam(':subject', $subject, PDO::PARAM_STR);
-          $ssth->bindParam(':feasible_reviewers', $tmp->feasible_reviewers, PDO::PARAM_STR);
+          $ssth->bindParam(':feasible_reviewers', serialize($feasible_reviewers), PDO::PARAM_STR);
           $ssth->execute();
         }
     }
