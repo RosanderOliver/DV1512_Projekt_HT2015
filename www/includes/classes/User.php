@@ -76,7 +76,7 @@ class User
     }
 
     // Add data to parameters
-    $this->id = intval($result->id);
+    $this->id = intval($result->user_id);
     $this->name = $result->user_name;
     $this->real_name = $result->user_real_name;
     $this->email = $result->user_email;
