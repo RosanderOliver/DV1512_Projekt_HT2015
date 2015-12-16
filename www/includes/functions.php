@@ -60,17 +60,17 @@
     if($dbh != null){
       $ssth = $dbh->prepare(SQL_SELECT_PROJECTS);
       if($ssth->execute()){
-        echo "<form action=\"\" method=\"POST\"><table>";
+        echo "<ul>";
         while($tmp = $ssth->fetchObject()){
           $rIdArray = unserialize($tmp->reviewers);
           for($i = 0; $i < sizeof($rIdArray); $i++){
             if($rid == $rIdArray[$i]){
               $projectName = $tmp->subject;
-              echo "<tr><td>" . $projectName . "</td><td><input type=\"checkbox\" name=\"$projectName\"></td></tr>";
+              echo "<li>" . $projectName . "</li>";
             }
           }
         }
-        echo "<tr><td><input type=\"submit\" value=\"Submit\"></td></tr></table>";
+        echo "</ul>";
       }
     }
     else{
