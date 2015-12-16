@@ -26,8 +26,21 @@
   * @return void
   */
   function printULLink( $list ) {
+    if ($list == null || $list == array()) {
+      return;
+    }
+
     echo '<ul>';
-    foreach ($list as list($label, $value)) {
+    foreach ($list as $key => $set) {
+
+      $label = $set[0];
+      if (isset($set[1])) {
+        $value = $set[1];
+      }
+      else {
+        $value = null;
+      }
+
       echo '<li>';
       if (is_array($value)) {
         echo "<a href=\"#\">$label</a>";

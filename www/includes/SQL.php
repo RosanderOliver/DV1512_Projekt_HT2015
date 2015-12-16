@@ -25,6 +25,7 @@ define("SQL_UPDATE_FILES_COMMENTGRADE_WHERE_ID", "UPDATE `site`.`files` SET `com
 
 // Submissions
 define("SQL_SELECT_SUBMISSION_WHERE_ID", "SELECT * FROM `site`.`submissions` WHERE `id`=:id");
+define("SQL_DELETE_SUBMISSION_WHERE_ID", "DELETE FROM `site`.`submissions` WHERE `id`=:id");
 define("SQL_UPDATE_SUBMISSION_COMMENTGRADE_WHERE_ID", "UPDATE `site`.`submissions` SET `comments`=:comments, `grade`=:grade WHERE `id`=:id");
 define("SQL_UPDATE_SUBMISSION_REVIEWS_WHERE_ID", "UPDATE `site`.`submissions` SET `reviews`=:reviews WHERE `id`=:id");
 define("SQL_INSERT_SUBMISSION", "INSERT INTO `site`.`submissions` (`user`, `date`, `files`, `reviews`, `comments`, `grade`, `stage`) VALUES (:user, :date, :files, :reviews, :comments, :grade, :stage)");
