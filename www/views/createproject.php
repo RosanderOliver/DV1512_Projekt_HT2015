@@ -36,9 +36,12 @@ else {
   ));
   $form->addElement(new Element\HTML('<legend>Create new project</legend>'));
   $form->addElement(new Element\Hidden("form", "createProject"));
-  $form->addElement(new Element\Textbox("Name:", "name", array(
+  $form->addElement(new Element\Textbox("Subject:", "subject", array(
+    "required" => 1
+  )));
+  $form->addElement(new Element\Select("Stage:", "stage", $stages, array(
     "required" => 1,
-    "longDesc" => "Name of the project"
+    "longDesc" => "Starting stage of the project"
   )));
   $form->addElement(new Element\Button("Create"));
   $form->addElement(new Element\Button("Cancel", "button", array(

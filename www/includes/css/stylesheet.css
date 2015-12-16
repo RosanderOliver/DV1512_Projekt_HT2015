@@ -39,12 +39,12 @@ a, a:hover, a:visited {
 
 #projects {
   float: left;
-  margin-left: 2em;
+  margin-left: 4em;
 }
 
 #tasks {
   float: right;
-  margin-right: 2em;
+  margin-right: 4em;
 }
 
 .form_input{
