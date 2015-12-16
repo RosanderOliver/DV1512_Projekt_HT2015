@@ -15,8 +15,7 @@ if (isset($_GET['id']) && intval($_GET['id']) > 0) {
 // Get current Course
 $course = $user->getCourse($id);
 
-
-if($course->select_projects == 0){
+if($course->select_project == 0){
   echo "<h2>Projects to review</h2></br>";
   echo "<ul>";
   foreach($course->getProject() as $key => $value){
@@ -30,7 +29,7 @@ if($course->select_projects == 0){
   }
   echo "</ul>";
 
-}else if($course->select_projects == 1) {
+}else if($course->select_project == 1) {
   // List projects
   echo '<h2>Select projects</h2>';
 

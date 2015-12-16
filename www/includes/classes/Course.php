@@ -76,7 +76,7 @@ class Course
     $this->name = $result->name;
     $this->deadlines = unserialize($result->deadlines);
     $this->projects = unserialize($result->projects);
-    $this->select_project = $result->select_project;
+    $this->select_project = intval($result->select_project);
     $this->admins = unserialize($result->admins);
   }
 

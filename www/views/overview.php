@@ -46,22 +46,12 @@ if ($login->isUserLoggedIn() === false) exit(1);
   <li>
     <a href="?view=createcourse">Create new course</a>
   </li>
+  <li>
+    <a href="?view=assignreviewers&id=1">Assign reviewers</a>
+  </li>
 </ul>
 
-<<<<<<< HEAD
-<a href="?view=assignreviewers&id=1">Assign reviewers</a>
-
-<br><br>
-
-TASKTASKTATSK
-
-<br><br>
-TASKTASKTATSK
-
-<br><br>
-=======
 </td>
->>>>>>> dc7e2adb06cd1ea91d6c4b394b6c75d12cf7f30d
 
 <?php
 // Include the Shibboleth attributes you intend to test here

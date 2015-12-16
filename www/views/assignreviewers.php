@@ -15,7 +15,7 @@ if (isset($_GET['id']) && intval($_GET['id']) > 0) {
 // Get current Course
 $course = $user->getCourse($id);
 echo $course->name . "</br>";
-echo "<ul>";
+echo '<form metod="POST" action="?view=assignedreviewers"><ul>';
 
 // List Projects
 foreach ($course->getProject() as $key => $value) {
@@ -23,7 +23,7 @@ foreach ($course->getProject() as $key => $value) {
   echo "<li>" . $project->subject . "</li>";
   for($i = 0; $i < sizeof($project->feasible_reviewers);$i++){
     $reviewer = new User($project->feasible_reviewers[$i]);
-    echo $reviewer->real_name . "</br>";
+    echo '<input type="checkbox" name="'.$project->id.'" value="'.$reviewer->id.'">'.$reviewer->real_name . "</br>";
   }
-  echo "</ul>";
+  echo '</ul><input type="submit" name="submit" value="Submit"></form>';
 }
