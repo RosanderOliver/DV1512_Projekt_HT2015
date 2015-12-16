@@ -134,4 +134,14 @@ class Project
 
     return $result;
   }
+
+  function addFeasibleReviewer(){
+    if(!in_array($_SESSION['user_id'],$this->feasible_reviewers)){
+      $this->feasible_reviewers[] = intval($_SESSION['user_id']);
+      $ssth = $this->dbh->prepare(SQL_UPDATE_PROJECT_FEASIBLE_REVIEWERS_WHERE_ID);
+      $ssth->bindParam(':id', $this->id, PDO::PARAM_INT);
+      $ssth->bindParam(':feasible_reviewers', serialize($this->feasible_reviewers), PDO::PARAM_STR);
+      $ssth->execute();
+    }
+  }
 }

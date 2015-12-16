@@ -40,7 +40,7 @@ if($course->select_projects == 0){
     $project = $course->getProject($value);
     echo '<li>';
     echo '<a href="?view=projectoverview&pid='.$project->id.'&cid='.$course->id.'">'.$project->subject.'</a> <input type="checkbox" name="ticked[]" value="'.$value.'">';
-    echo '<input type="hidden" name="subject[]" value="'.$project->subject.'">';
+    echo '<input type="hidden" name="id[]" value="'.$project->id.'">';
     echo '</li>';
   }
   echo '</ul>';

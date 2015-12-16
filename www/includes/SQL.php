@@ -38,4 +38,4 @@ define("SQL_SELECT_REVIEW_WHERE_ID_AND_USER","SELECT * FROM `site`.`reviews` WHE
 define("SQL_SELECT_REVIEW_WHERE_ID","SELECT * FROM `site`.`reviews` WHERE `id`=:rid");
 define("SQL_SELECT_PROJECTS","SELECT * FROM `site`.`projects`");
 define("SQL_SELECT_PROJECTS_WHERE_SUBJECT","SELECT * FROM `site`.`projects` WHERE `subject`=:subject");
-define("SQL_UPDATE_USER_AS_FEASIBLE_REVIEWERS_WHERE_SUBJECT","UPDATE `site`.`projects` SET `feasible_reviewers`=:feasible_reviewers WHERE `subject`=:subject");
+define("SQL_UPDATE_PROJECT_FEASIBLE_REVIEWERS_WHERE_ID","UPDATE `site`.`projects` SET `feasible_reviewers`=:feasible_reviewers WHERE `id`=:id");

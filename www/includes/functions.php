@@ -146,47 +146,6 @@
   }
 
   /**
-  * @author Annika Hansson
-  * @param PDO, $dbh, database connection
-  * @param int, $rid, variable containing reviewer id
-  * @param array string, $subject, array containging names of selected projects
-  * @return void
-  */
-  function add_feasible_reviewer($rid,$dbh,$subject){
-    if($dbh != null){
-        $ssth = $dbh->prepare(SQL_SELECT_PROJECTS_WHERE_SUBJECT);
-        $ssth->bindParam(':subject', $subject, PDO::PARAM_STR);
-        if($ssth->execute()){
-          $tmp = $ssth->fetch(PDO::FETCH_OBJ);
-          $feasible_reviewers = unserialize($tmp->feasible_reviewers);
-
-          if(sizeof($feasible_reviewers) == 0){
-            array_push($feasible_reviewers,$rid);
-          }
-          else{
-            $ridExist = false;
-            for($j = 0; $j < sizeof($feasible_reviewers); $j++){
-              if($feasible_reviewers[$j] == $rid){
-                $ridExist = true;
-              }
-            }
-            if(!$ridExist){
-              array_push($feasible_reviewers, $rid);
-            }
-          }
-
-          $ssth = $dbh->prepare(SQL_UPDATE_USER_AS_FEASIBLE_REVIEWERS_WHERE_SUBJECT);
-          $ssth->bindParam(':subject', $subject, PDO::PARAM_STR);
-          $ssth->bindParam(':feasible_reviewers', serialize($feasible_reviewers), PDO::PARAM_STR);
-          $ssth->execute();
-        }
-    }
-    else{
-      echo "DB connection has failed. Try to login.</br>";
-    }
-  }
-
-  /**
   * @var
   * @param int, $data, raw data from form
   * @return int, returned as valid number
