@@ -19,6 +19,9 @@ if(Form::isValid("createCourse")) {
     // Add the course to this user
     $user->addCourseID($dbh->lastInsertId());
 
+    $course = new Course($dbh->lastInsertId());
+    $course->addAdmin($_SESSION['user_id']);
+
     $form = new Form("success");
     $form->addElement(new Element\HTML('<legend>Success</legend>'));
     $form->addElement(new Element\Button("Done"));
