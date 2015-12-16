@@ -111,7 +111,7 @@
     }
   }
 
-/**
+ /**
  * getComment Retrives comments given a submission id
  * @author Oliver Rosander
  * @param PDO $dbh
@@ -159,7 +159,6 @@
   }
 
   /**
-  * @author Annika Hansson
   * @var
   * @param int, $data, raw data from form
   * @return int, returned as valid number

@@ -1,11 +1,12 @@
 CREATE DATABASE IF NOT EXISTS `site`;
 
 CREATE TABLE IF NOT EXISTS `site`.`courses` (
-    `id` INT NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
-    `role_table` INT NOT NULL COMMENT 'id of permissions table',
-    `name` VARCHAR(64) NOT NULL COMMENT 'name of the course',
-    `deadlines` VARCHAR(64) NOT NULL COMMENT 'array with the course\'s dates for dealines',
-    `projects` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'projects assosiated with the course',
+    `id`                    INT           NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
+    `role_table`            INT           NOT NULL COMMENT 'id of permissions table',
+		`name`									VARCHAR(64)		NOT NULL COMMENT 'name of the course',
+    `deadlines`             VARCHAR(64)   NOT NULL COMMENT 'array with the course''s dates for dealines',
+    `projects`              VARCHAR(128)  DEFAULT 'a:0:{}' COMMENT 'projects assosiated with the course',
+    `select_projcect`       INT           NOT NULL COMMENT 'decides if reviewers can select projects from course',
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='course projects and other data related to each course';
 

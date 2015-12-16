@@ -34,7 +34,11 @@ define("SQL_SELECT_COMMENT_WHERE_ID", "SELECT * FROM `site`.`comments` WHERE `id
 define("SQL_INSERT_COMMENT", "INSERT INTO `site`.`comments` (`user`, `date`, `data`, `subcomments`) VALUES (:user, :date, :data, :subcomments)");
 
 // Reviews
-define("SQL_INSERT_REVIEW", "INSERT INTO `site`.`reviews`(`user`, `date`, `data`) VALUES(:user,:date,:data)");
-define("SQL_SELECT_REVIEW_WHERE_ID_AND_USER", "SELECT * FROM `site`.`reviews` WHERE `id`=:id AND `user`=:user");
-define("SQL_SELECT_REVIEW_WHERE_ID", "SELECT * FROM `site`.`reviews` WHERE `id`=:id");
 define("SQL_UPDATE_REVIEW_COMMENTS_WHERE_ID", "UPDATE `site`.`reviews` SET `comments`=:comments WHERE `id`=:id");
+define("SQL_INSERT_REVIEW","INSERT INTO `site`.`reviews`(`user`, `date`, `data`) VALUES(:user,:date,:data)");
+define("SQL_SELECT_REVIEW_WHERE_ID_AND_USER","SELECT * FROM `site`.`reviews` WHERE `id`=:id AND `user`=:user");
+define("SQL_SELECT_REVIEW_WHERE_ID", "SELECT * FROM `site`.`reviews` WHERE `id`=:id");
+
+define("SQL_SELECT_PROJECTS","SELECT * FROM `site`.`projects`");
+define("SQL_SELECT_PROJECTS_WHERE_SUBJECT","SELECT * FROM `site`.`projects` WHERE `subject`=:subject");
+define("SQL_UPDATE_PROJECT_FEASIBLE_REVIEWERS_WHERE_ID","UPDATE `site`.`projects` SET `feasible_reviewers`=:feasible_reviewers WHERE `id`=:id");

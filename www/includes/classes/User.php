@@ -13,6 +13,10 @@
 class User
 {
   /**
+  * @var srting $user The usersname
+  */
+  public $user = "";
+  /**
   * @var object $dbh The database handler
   */
   private $dbh = null;
