@@ -26,8 +26,21 @@
   * @return void
   */
   function printULLink( $list ) {
+    if ($list == null || $list == array()) {
+      return;
+    }
+
     echo '<ul>';
-    foreach ($list as list($label, $value)) {
+    foreach ($list as $key => $set) {
+
+      $label = $set[0];
+      if (isset($set[1])) {
+        $value = $set[1];
+      }
+      else {
+        $value = null;
+      }
+
       echo '<li>';
       if (is_array($value)) {
         echo "<a href=\"#\">$label</a>";
@@ -237,7 +250,7 @@
  function length_date($data){
    if(strlen($data) > 10){
      $diff = 10 - strlen($data);
-     $rest = strlen($data, 0, $diff);
+     $rest = substr($data, 0, $diff);
      $data = $rest;
    }
    else if(strlen($data) < 0){
@@ -255,14 +268,14 @@
   function length_one($data){
     if(strlen($data) != 1){
       $diff = 1 - strlen($data);
-      $rest = strlen($data, 0, $diff);
+      $rest = substr($data, 0, $diff);
       $data = $rest;
     }
     return $data;
   }
 
   /**
-  * @author Annika Hansson
+  * @author Annika Hanssonstrlen
   * @var
   * @param string, $data, raw data from form
   * @return string, returned with a size that does not exceed the limit of 128 chars
@@ -270,7 +283,7 @@
   function input_length($data){
     if(strlen($data) > 128){
       $diff = 128 - strlen($data);
-      $rest = strlen($data, 0, $diff);
+      $rest = substr($data, 0, $diff);
       $data = $rest;
     }
     else if(strlen($data) < 0){
@@ -280,26 +293,63 @@
   }
 
   /**
-  * @author Oliver Rosander
+  * @author Oliver Rosander, Jim Ahlstrand
   * @param PDO $dbh
   * @return int, id of last input
-  * define("SQL_INSERT_SUBMISSION", "INSERT INTO `site`.`submissions` (`user`, `date`, `files`, `reviews`, `comments`, `grade`) VALUES (:user, :date, :files, :reviews, :comments, :grade)");
+  * @see define("SQL_INSERT_SUBMISSION", "INSERT INTO `site`.`submissions` (`user`, `date`, `files`, `reviews`, `comments`, `grade`, `stage`) VALUES (:user, :date, :files, :reviews, :comments, :grade, :stage)");
   */
   function createEmptySubmission($dbh) {
+    // TODO These should be input parameters
     $user = 0;
-    $date = date("Y-m-d H:i:s");
-    $files = "";
-    $reviews = "";
-    $comments = "";
     $grade = 0;
-    $ssth = $dbh->prepare(SQL_INSERT_SUBMISSION);                               //TODO Deadlines borde sättas här!
-    $ssth->bindParam(":user", $user, PDO::PARAM_INT);
-    $ssth->bindParam(':date', $date, PDO::PARAM_STR);
-    $ssth->bindParam(":files",$files, PDO::PARAM_STR);
-    $ssth->bindParam(":reviews", $reviews, PDO::PARAM_STR);
-    $ssth->bindParam(":comments", $comments, PDO::PARAM_STR);
-    $ssth->bindParam(":grade", $grade, PDO::PARAM_INT);
-    $ssth->execute();
+    $stage = 0;
+    // =============
+    $date = date("Y-m-d H:i:s");
+    $files = serialize(array());
+    $reviews = serialize(array());
+    $comments = serialize(array());
+    $sth = $dbh->prepare(SQL_INSERT_SUBMISSION);                               //TODO Deadlines borde sättas här!
+    $sth->bindParam(":user", $user, PDO::PARAM_INT);
+    $sth->bindParam(':date', $date, PDO::PARAM_STR);
+    $sth->bindParam(":files",$files, PDO::PARAM_STR);
+    $sth->bindParam(":reviews", $reviews, PDO::PARAM_STR);
+    $sth->bindParam(":comments", $comments, PDO::PARAM_STR);
+    $sth->bindParam(":grade", $grade, PDO::PARAM_INT);
+    $sth->bindParam(":stage", $stage, PDO::PARAM_INT);
+    $sth->execute();
 
     return intval($dbh->lastInsertId());
+  }
+
+  /** CreateTable
+  * @author Oliver Rosander, Jim Ahlstrand
+  * @param string array containing the column names
+  * @param string array containing the table data
+  */
+  function printTable( $head = null, $data )
+  {
+    echo '<table width=700px>';
+    // If head
+    if($head != null)
+    {
+      echo '<thead>';
+      echo '<tr>';
+      foreach ($head as $key => $value) {
+        echo '<td>'.$value.'</td>';
+      }
+      echo '</tr>';
+      echo '</thead>';
+    }
+    echo '<tdata>';
+    // for each row
+    foreach ($data as $key => $row) {
+      // for each column
+      echo '<tr>';
+      foreach ($row as $key2 => $column) {
+        echo '<td>'.$column.'</td>';
+      }
+      echo '</tr>';
+    }
+    echo '</tdata>';
+    echo '</table>';
   }

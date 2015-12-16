@@ -22,9 +22,8 @@ foreach ($course->getProject() as $key => $value) {
   $project = $course->getProject($value);
   echo "<li>" . $project->subject . "</li>";
   for($i = 0; $i < sizeof($project->feasible_reviewers);$i++){
-    echo $project->feasible_reviewers[$i];
     $reviewer = new User($project->feasible_reviewers[$i]);
-    echo $reviewer->given_name . "</br>";
+    echo $reviewer->real_name . "</br>";
   }
   echo "</ul>";
 }

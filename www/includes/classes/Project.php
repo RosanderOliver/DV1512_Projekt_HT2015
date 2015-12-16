@@ -3,7 +3,6 @@
 /**
 * Handles project data and functions regarding handling data
 * @author Jim Ahlstrand
-* TODO Add submissions class
 */
 class Project
 {
@@ -12,7 +11,7 @@ class Project
   */
   private $dbh = null;
   /**
-  * @var int $id The course's database id
+  * @var int $id The project's database id
   */
   public $id = null;
   /**
@@ -111,7 +110,8 @@ class Project
   * @return obj, stdClassObject
   * TODO return only submissions that the user own or has permission to view
   */
-  function getSubmission( $id = null ) {
+  public function getSubmission( $id = null )
+  {
     // If id is null return a list of all submissions listed for the project
     if ($id === null)
       return $this->submissions;
@@ -162,11 +162,60 @@ class Project
     function addReviewer($rid){
       if(!in_array($rid,$this->reviewers)){
         $this->reviewers[] = intval($rid);
-        $ssth = $this->dbh->prepare(SQL_UPDATE_PROJECT_FEASIBLE_REVIEWERS_WHERE_ID);
+        $ssth = $this->dbh->prepare(SQL_UPDATE_PROJECT_REVIEWERS_WHERE_ID);
         $ssth->bindParam(':id', $this->id, PDO::PARAM_INT);
         $ssth->bindParam(':feasible_reviewers', serialize($this->reviewers), PDO::PARAM_STR);
         $ssth->execute();
       }
     }
+
+
+  /**
+  * @author Oliver Rosander, Jim Ahlstrand
+  * @return void
+  */
+  public function createSubmission()
+  {
+    $user = 0;
+    $date = date("Y-m-d H:i:s");
+    $files = serialize(array());
+    $reviews = serialize(array());
+    $comments = serialize(array());
+    $grade = 0;
+
+    // Insert the new submission
+    // TODO This should be a class
+    $sth = $this->dbh->prepare(SQL_INSERT_SUBMISSION);
+    $sth->bindParam(":user", $user, PDO::PARAM_INT);
+    $sth->bindParam(':date', $date, PDO::PARAM_STR);
+    $sth->bindParam(":files",$files, PDO::PARAM_STR);
+    $sth->bindParam(":reviews", $reviews, PDO::PARAM_STR);
+    $sth->bindParam(":comments", $comments, PDO::PARAM_STR);
+    $sth->bindParam(":grade", $grade, PDO::PARAM_INT);
+    $sth->bindParam(":stage", $this->stage, PDO::PARAM_INT);
+    $sth->execute();
+
+    // Add the submission
+    $this->submissions[] = intval($this->dbh->lastInsertId());
+    // Update the Database
+    $submissions = serialize($this->submissions);
+    $sth = $this->dbh->prepare(SQL_UPDATE_PROJECT_SUBMISSION_WHERE_ID);
+    $sth->bindParam(":submissions", $submissions, PDO::PARAM_STR);
+    $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+    $sth->execute();
+  }
+
+  /**
+  * @author Oliver Rosander, Jim Ahlstrand
+  * @return void
+  */
+  public function updateStage()
+  {
+    $this->stage = $this->stage + 1;
+    $sth = $this->dbh->prepare(SQL_UPDATE_PROJECT_STAGE_WHERE_ID);
+    $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+    $sth->bindParam(":stage", $this->stage, PDO::PARAM_INT);
+    $sth->execute();
+  }
 
 }

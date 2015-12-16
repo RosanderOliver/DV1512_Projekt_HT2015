@@ -13,6 +13,7 @@
 
   // We need the definitions
   require_once('www/includes/config.php');
+  require_once('www/includes/SQL.php');
 
   if (version_compare(phpversion(), '5.1.2', '<')) {
     die('Autoloader requires PHP > 5.1.2');

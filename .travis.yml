@@ -8,17 +8,16 @@ php:
   - 5.5
   - 5.6
 
+before_install:
+  - composer global require 'phpunit/phpunit=4.3.*'
+
 before_script:
-<<<<<<< HEAD
+  - phpenv config-add phpmods.ini
   - mysql -uroot < database/clean.sql
   - mysql -uroot < database/exm_db_init.sql
-=======
-  - mysql < database/clean.sql
-  - mysql < database/exm_db_init.sql
->>>>>>> 8c11b6ff7d88ed62942b4d949fc1be87f2161df3
   - composer self-update
 
-script: 
+script:
   - phpunit --configuration phpunit.xml
 
 notifications:

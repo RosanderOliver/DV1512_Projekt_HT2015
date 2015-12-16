@@ -228,6 +228,7 @@ class Login
                         // declare user id, set the login status to true
                         $this->user_id = $result_row->user_id;
                         $this->user_name = $result_row->user_name;
+                        $this->user_real_name = $result_row->user_real_name;
                         $this->user_email = $result_row->user_email;
                         $this->user_is_logged_in = true;
 
@@ -297,7 +298,6 @@ class Login
             } else {
                 // write user data into PHP SESSION [a file on your server]
                 $_SESSION['user_id'] = $result_row->user_id;
-                $_SESSION['user_real_name'] = $result_row->user_real_name;
                 $_SESSION['user_name'] = $result_row->user_name;
                 $_SESSION['user_email'] = $result_row->user_email;
                 $_SESSION['user_logged_in'] = 1;
@@ -609,7 +609,7 @@ class Login
 
         // Set data to be sent
         $name   = array(EMAIL_PASSWORDRESET_FROM_NAME);
-        $link   = EMAIL_PASSWORDRESET_URL.'?user_name='.urlencode($user_name).'&verification_code='.urlencode($user_password_reset_hash);
+        $link   = EMAIL_PASSWORDRESET_URL.'&user_name='.urlencode($user_name).'&verification_code='.urlencode($user_password_reset_hash);
 
         // Create new mail
         $email = new SendGrid\Email();

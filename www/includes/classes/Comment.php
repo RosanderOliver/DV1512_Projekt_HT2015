@@ -34,6 +34,7 @@ class Comment
 
   /**
   * Constructor
+  * Gets a comment if id is set, creates and stores a comment if data is set
   * @param  int    $id    id of the comment to load
   * @param  string $data  data to be stored
   */
@@ -93,7 +94,7 @@ class Comment
       $this->data = $data;
 
       // Set subcomments to empty
-      $this->subcomments = Array();
+      $this->subcomments = array();
 
       // Insert comment and save the id
       $this->id = $this->insertComment();
@@ -114,14 +115,22 @@ class Comment
     $date = $this->date->format("Y-m-d H:i:s");
     $subcomments = serialize($this->subcomments);
 
-    $ssth = $this->dbh->prepare(SQL_INSERT_COMMENT);
-    $ssth->bindParam(":user", $this->user, PDO::PARAM_INT);
-    $ssth->bindParam(':date', $date, PDO::PARAM_STR);
-    $ssth->bindParam(":data", $this->data, PDO::PARAM_STR);
-    $ssth->bindParam(":subcomments", $subcomments, PDO::PARAM_STR);
-    $ssth->execute();
+    $sth = $this->dbh->prepare(SQL_INSERT_COMMENT);
+    $sth->bindParam(":user", $this->user, PDO::PARAM_INT);
+    $sth->bindParam(':date', $date, PDO::PARAM_STR);
+    $sth->bindParam(":data", $this->data, PDO::PARAM_STR);
+    $sth->bindParam(":subcomments", $subcomments, PDO::PARAM_STR);
+    $sth->execute();
 
     return $this->dbh->lastInsertId();
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @return array id's of subcomments
+  */
+  function getSubComments() {
+    return $this->subcomments;
   }
 
 }

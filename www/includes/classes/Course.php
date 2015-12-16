@@ -35,7 +35,7 @@ class Course
   /**
   * @var int $select_projects To see if projects in this course can be selected
   */
-  public $select_projects = null;
+  public $select_project = null;
   /**
   * Constructor
   * @param  int   $id   id of the course to load
@@ -71,7 +71,7 @@ class Course
     $this->name = $result->name;
     $this->deadlines = unserialize($result->deadlines);
     $this->projects = unserialize($result->projects);
-    $this->select_projects = $result->select_projects;
+    $this->select_project = $result->select_project;
   }
 
   /**

@@ -42,15 +42,13 @@ require_once('includes/autoloader.php');
 $login = new Login();
 
 // Create a user object
-$user;
 try {
  $user = new User();
 } catch (Exception $e) {
- echo $e->getMessage();
+ echo $e->getMessage(); // TODO Propper error handling
 }
 
 // Create new database handle
-$dbh = null;
 try {
   // Generate a database connection, using the PDO connector
   $dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
@@ -88,6 +86,7 @@ $views = [
   'edit',
   'course',
   'projectoverview',
+  'projectreviews',
   'examinatorgrading',
   'reviewplan',
   'reviewthesis',

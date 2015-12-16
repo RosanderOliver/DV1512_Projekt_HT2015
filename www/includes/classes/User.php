@@ -3,8 +3,8 @@
 // TODO: Check if session data is correct befor adding it to database
 // TODO: Create set functions to change user variables in user database
 // TODO: Create settings database and settings class directly liked to from this class
-// TODO: Create course class to directly link to course data
 // TODO: Be able to create object for any requested user ( if permitted )
+// TODO: Correctly fetch users instead of eppn, this is a work around for dual stacking IDM
 
 /**
  *  User object to handle user data
@@ -43,7 +43,7 @@ class User
 
   /**
   * Constructor
-  * @param  int   $id   id of the course to load
+  * @param  int   $id   id of the user to load
   * @param  obj   $dbh  database handle
   */
   public function __construct($id = null)
@@ -58,42 +58,33 @@ class User
     }
 
     // Set the user id
-    $user;
     if ($id == null) {
-      $user = $_SESSION['user_name'];
+      $user = $_SESSION['user_id'];
     } else {
-      $user = intval($id);
+      if (intval($id) > 0) {
+        $user = intval($id);
+      } else {
+        throw new Exception("Invalid user ID");
+      }
     }
 
     // Get user data
-    // Prepare the statement
-    $sth_get = $this->dbh->prepare(SQL_SELECT_USER_WHERE_ID);
-    $sth_get->bindParam(':id', $user, PDO::PARAM_STR);
-    $sth_get->execute();
-    // Fetch the data
-    $result = $sth_get->fetch(PDO::FETCH_OBJ);
-    // Check if result is empty then add the user if it's not a given user id
-    if (!$result && $id == null)
-    {
-      $sth_ins = $this->dbh->prepare(SQL_INSERT_USER);
-      $sth_ins->bindParam(':eppn', $user, PDO::PARAM_STR);
-      $sth_ins->bindParam(':email', $_SESSION['user_email'], PDO::PARAM_STR);
-      $sth_ins->execute();
-      // Try get the data agin
-      $sth_get->execute();
-      $result = $sth_get->fetch(PDO::FETCH_OBJ);
-      if(!$result) throw new Exception("Unable to add user!");
-    } else if (!$result) {
-      // If user was given and doeas not exist in db
+    $sth = $this->dbh->prepare(SQL_SELECT_USER_WHERE_ID);
+    $sth->bindParam(':id', $user, PDO::PARAM_INT);
+    $sth->execute();
+    $result = $sth->fetch(PDO::FETCH_OBJ);
+
+    if (!$result) {
+      // If user does not exist in db
       throw new Exception("Could not find requested user");
     }
 
     // Add data to parameters
-    $this->id = intval($result->id);
-    $this->eppn = $result->eppn;
-    $this->given_name = $result->given_name;
-    $this->email = $result->email;
-    $this->courses = unserialize($result->courses);
+    $this->id = intval($result->user_id);
+    $this->name = $result->user_name;
+    $this->real_name = $result->user_real_name;
+    $this->email = $result->user_email;
+    $this->courses = unserialize($result->user_courses);
   }
 
   /**
