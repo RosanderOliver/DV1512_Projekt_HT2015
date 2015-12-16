@@ -17,6 +17,8 @@ define("SQL_SELECT_PROJECT_WHERE_ID", "SELECT * FROM `site`.`projects` WHERE `id
 define("SQL_UPDATE_PROJECT_STAGE_WHERE_ID", "UPDATE `site`.`projects` SET stage=:stage WHERE id=:id");
 define("SQL_UPDATE_PROJECT_SUBMISSION_WHERE_ID", "UPDATE `site`.`projects` SET `submissions`=:submissions WHERE `id`=:id");
 define("SQL_UPDATE_PROJECT_STAGESUBMISSION_WHERE_ID", "UPDATE `site`.`projects` SET `stage`=:stage, `submissions`=:submissions WHERE `id`=:id");
+define("SQL_INSERT_PROJECT", "INSERT INTO `site`.`projects` (`subject`, `submissions`, `comments`, `grade`, `stage`, `deadline`, `examinators`, `students`) VALUES (:subject, :submissions, :comments, :grade, :stage, :deadline, :examinators, :students)");
+define("SQL_DELETE_PROJECT_WHERE_ID", "DELETE FROM `site`.`projects` WHERE `id`=:id");
 
 //Files
 define("SQL_SELECT_FILES_WHERE_ID", "SELECT * FROM `site`.`files` WHERE `id`=:id");
@@ -27,6 +29,7 @@ define("SQL_SELECT_SUBMISSION_WHERE_ID", "SELECT * FROM `site`.`submissions` WHE
 define("SQL_UPDATE_SUBMISSION_COMMENTGRADE_WHERE_ID", "UPDATE `site`.`submissions` SET `comments`=:comments, `grade`=:grade WHERE `id`=:id");
 define("SQL_UPDATE_SUBMISSION_REVIEWS_WHERE_ID", "UPDATE `site`.`submissions` SET `reviews`=:reviews WHERE `id`=:id");
 define("SQL_INSERT_SUBMISSION", "INSERT INTO `site`.`submissions` (`user`, `date`, `files`, `reviews`, `comments`, `grade`, `stage`) VALUES (:user, :date, :files, :reviews, :comments, :grade, :stage)");
+define("SQL_DELETE_SUBMISSION_WHERE_ID", "DELETE FROM `site`.`submissions` WHERE `id`=:id");
 
 //Comments
 define("SQL_SELECT_COMMENT_WHERE_ID", "SELECT * FROM `site`.`comments` WHERE `id`=:id");
