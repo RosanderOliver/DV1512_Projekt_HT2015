@@ -135,6 +135,13 @@ class Project
     return $result;
   }
 
+  /**
+  * @author Annika Hansson
+  * @param
+  * @return void
+  * @TODO adds feasible reviewers to database
+  */
+
   function addFeasibleReviewer(){
     if(!in_array($_SESSION['user_id'],$this->feasible_reviewers)){
       $this->feasible_reviewers[] = intval($_SESSION['user_id']);
@@ -144,4 +151,5 @@ class Project
       $ssth->execute();
     }
   }
+
 }
