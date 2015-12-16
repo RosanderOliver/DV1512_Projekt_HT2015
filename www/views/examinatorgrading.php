@@ -3,9 +3,24 @@
 	if (!defined("IN_EXM")) exit(1);
 	if ($login->isUserLoggedIn() === false) exit(1);
 
+	$tableTE = array(
+	  1 => 'Reviewer',
+	  2 => 'Process',
+	  3 => 'Content',
+	  4 => 'Contribution',
+	  5 => 'Presentation',
+	  6 => 'Grade' );
+
+	$tablePP = array(
+	  1 => 'Reviewer',
+	  2 => 'Process',
+	  3 => 'Content',
+	  4 => 'Presentation',
+	  5 => 'Grade' );
+
 	$dataSent = 0;
 	$correctgrade=false;
-	$projectId=intval($_GET["pid"]);																												//TODO CHECK IF USER IS ALLOWED TO VIEW THIS ID
+	$projectId = intval($_GET["pid"]); //TODO CHECK IF USER IS ALLOWED TO VIEW THIS ID
 	$lastSubmissionIndex = intval($_GET["sid"]);
 	$commentArr = array();
 	$reviewIdArr = array();
@@ -16,11 +31,13 @@
 	$displayData = array();
 	$projectClass = new Project($projectId);
 
+	// TODO Use project class instead
 	$ssth = $dbh->prepare(SQL_SELECT_PROJECT_WHERE_ID);
 	$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
 	$ssth->execute();
-	$project=$ssth->fetchObject();
+	$project = $ssth->fetchObject();
 
+	// TODO Use submission and review class instead
 	$ssth = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
 	$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);
 	$ssth->execute();

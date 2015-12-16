@@ -45,7 +45,7 @@ $login = new Login();
 try {
  $user = new User();
 } catch (Exception $e) {
- echo $e->getMessage();
+ echo $e->getMessage(); // TODO Propper error handling
 }
 
 // Create new database handle
@@ -77,21 +77,6 @@ $stages = array(
   3 => STAGE_REPORT,
   4 => STAGE_PEER_REVIEW,
   5 => STAGE_FINISHED );
-
-$tableTE = array(
-  1 => Reviewer,
-  2 => Process,
-  3 => Content,
-  4 => Contribution,
-  5 => Presentation,
-  6 => Grade );
-
-$tablePP = array(
-  1 => Reviewer,
-  2 => Process,
-  3 => Content,
-  4 => Presentation,
-  5 => Grade );
 
 // Set views
 $views = [

@@ -25,7 +25,7 @@ class Review
   /**
   * @var array $comments array with comment id
   */
-  public $comments = array();
+  private $comments = array();
   /**
   * @var PP|TE $data review data object
   */
@@ -77,5 +77,72 @@ class Review
       $comments[] = new Comment($value);
     }
     return $comments;
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param string $comment content of comment to be stored
+  * @return void
+  * TODO Add error message to error variable
+  */
+  function addComment($comment) {
+    try {
+      // Create the comment
+      $comment = new Comment(null, $comment);
+
+      // Update the database
+      $this->comments[] = intval($comment->id);
+      $comments = serialize($this->comments); // TODO Check so this actually fits in database
+
+      $sth = $this->dbh->prepare(SQL_UPDATE_REVIEW_COMMENTS_WHERE_ID);
+      $sth->bindParam(":comments", $comments, PDO::PARAM_STR);
+      $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+      $sth->execute();
+
+    } catch (Exception $e) {
+      echo $e->getMessage();
+    }
+  }
+
+  /**
+  * Recursively prints comments tree
+  * @author Jim Ahlstrand
+  * @param array $comments array with id of comments
+  * @return void
+  */
+  function printComments($comments = null, $depth = 1) {
+    // If we are at maximum comments depth or subcomments are empty
+    if ($depth > MAX_COMMENT_DEPTH || $comments === array())
+      return;
+
+    // If comments array is null get the current array associated with this review
+    if ($comments === null) {
+      $comments = $this->getComments();
+    }
+    // Else construct the array
+    else {
+      $tmp = $comments;
+      $comments = array();
+      foreach ($tmp as $key => $value) {
+        $comments[] = new Comment($value);
+      }
+    }
+
+    // Loop through all comments
+    foreach ($comments as $key => $comment) {
+
+      $author = new User($comment->user);
+
+      // main comment
+      echo '<div class="comment">
+        <p class="content">'.$comment->data.'</p>
+        <p class="author">'.$author->real_name.' - '.$comment->date->format('Y-m-d H:i:s').'</p>';
+
+      // subcomments
+      $this->printComments($comment->getSubComments(), $depth + 1);
+
+      echo '</div>';
+    }
+
   }
 }

@@ -21,26 +21,30 @@ foreach ($submission->reviews as $key => $value) {
   // Get review
   $review = new Review($id);
 
-  // If comment form was submitted
+  // If comment form was submitted add the comment
   $commentSubmitId = 'comment'.$review->id;
-  if ($_POST[$commentSubmitId]) {
-    //$review->addComment($_POST[$commentSubmitId]); //TODO fix this function
+  if (key_exists($commentSubmitId, $_POST)) {
+    $review->addComment($_POST[$commentSubmitId]);
   }
-
-  // Get the user associated with the review and print some data
-  $user = new User( $review->user );
 
   echo '<div class="review_box">';
-
-  // Name of reviewer
-  echo '<h4 style="margin-bottom:0em;">'.$user->real_name.'</h4>';
   echo '<p>';
+
   // Link to review
   if (get_class($review->data) == "TE"){
-    echo '<a href="?view=reviewthesis&sid='.$submission->id.'&uid='.$review->user.'">View Review</a><br/>';
+    echo '<a class="bold" href="?view=reviewthesis&sid='.$submission->id.'&uid='.$review->user.'">';
   } elseif (get_class($review->data) == "PP") {
-    echo '<a href="?view=reviewplan&sid='.$submission->id.'&uid='.$review->user.'">View review</a><br/>';
+    echo '<a class="bold" href="?view=reviewplan&sid='.$submission->id.'&uid='.$review->user.'">';
   }
+
+  // Is it your review or someone elses?
+  if ($review->user == $_SESSION['user_id']) {
+    echo '<h4 style="margin-bottom: 0em;">Your review</h4>';
+  } else {
+    echo '<h4 style="margin-bottom: 0em;">Read this review</h4>';
+  }
+
+  echo '</a><br/>';
 
   // Date
   echo 'Date: '.$review->date->format("Y-m-d H:i:s").'<br/>';
@@ -49,9 +53,9 @@ foreach ($submission->reviews as $key => $value) {
   echo 'Feedback: '.$review->data->feedback.'<br/>';
 
   // Comments
-  foreach ($review->getComments() as $key => $value) {
-    echo '<br/>Comment: '.$value->data;
-  }
+  echo '<div class="comments"><p>Comments:</p>';
+  $review->printComments();
+  echo '</div>';
 
   // Print form for submitting Comments
   print('
