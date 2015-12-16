@@ -97,6 +97,7 @@ class Submission
       $reviewID = intval($reviewID);
     }
 
+
     // Search for user in reviews array
     if (array_key_exists($_SESSION['user_id'], $this->reviews)) {
       $this->reviews[$_SESSION['user_id']][] = $reviewID;

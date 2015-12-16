@@ -3,9 +3,24 @@
 	if (!defined("IN_EXM")) exit(1);
 	if ($login->isUserLoggedIn() === false) exit(1);
 
+	$tableTE = array(
+	  1 => 'Reviewer',
+	  2 => 'Process',
+	  3 => 'Content',
+	  4 => 'Contribution',
+	  5 => 'Presentation',
+	  6 => 'Grade' );
+
+	$tablePP = array(
+	  1 => 'Reviewer',
+	  2 => 'Process',
+	  3 => 'Content',
+	  4 => 'Presentation',
+	  5 => 'Grade' );
+
 	$dataSent = 0;
 	$correctgrade=false;
-	$projectId=intval($_GET["pid"]);																												//TODO CHECK IF USER IS ALLOWED TO VIEW THIS ID
+	$projectId = intval($_GET["pid"]); //TODO CHECK IF USER IS ALLOWED TO VIEW THIS ID
 	$lastSubmissionIndex = intval($_GET["sid"]);
 	$commentArr = array();
 	$reviewIdArr = array();
@@ -13,13 +28,16 @@
 	$reviewArrData = array();
 	$submissionsIndexArray = array();
 	$submissionCommentIndex = array();
+	$displayData = array();
 	$projectClass = new Project($projectId);
 
+	// TODO Use project class instead
 	$ssth = $dbh->prepare(SQL_SELECT_PROJECT_WHERE_ID);
 	$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
 	$ssth->execute();
-	$project=$ssth->fetchObject();
+	$project = $ssth->fetchObject();
 
+	// TODO Use submission and review class instead
 	$ssth = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
 	$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);
 	$ssth->execute();
@@ -27,14 +45,16 @@
 	$reviewIdArr = unserialize($submission->reviews);
 	$submissionCommentIndex = unserialize($submission->comments);
 
-	for($x = 0; $x < sizeof($reviewIdArr); $x++) {
+
+	$x = 0;
+	foreach ($reviewIdArr as $key => $value) {
 		$ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID);
-		$ssth->bindParam(":rid", $reviewIdArr[$x], PDO::PARAM_INT);
+		$ssth->bindParam(":id", $reviewIdArr[$key][sizeof($value)-1], PDO::PARAM_INT);
 		$ssth->execute();
 		$reviewArr[$x] = $ssth->fetchObject();
 		$reviewArrData[$x] = unserialize($reviewArr[$x]->data);
+		$x = $x + 1;
 	}
-
 
 	if($_POST){
 		$grade = intval($_POST["grades"]);
@@ -87,42 +107,56 @@
 ?>
  <font color="darkred"><?php echo "Deadline "; echo $project->deadline; ?></font></font></h3>
 <?php
+
 	if (sizeof($reviewArr) > 0 ) {
 		if (get_class($reviewArrData[0]) == "TE") {
-			echo "&nbsp&nbspReviewer"."&nbsp&nbsp&nbsp"." Process"."&nbsp&nbsp"."Content"."&nbsp&nbsp"."Contribution"."&nbsp&nbsp"."Presentation"."&nbsp&nbsp"."Grade<br>";
-		} elseif (get_class($reviewArrData[0]) == "PP"){
-			echo "&nbsp&nbspReviewer"."&nbsp&nbsp&nbsp"." Process"."&nbsp&nbsp"."Content"."&nbsp&nbsp"."&nbsp&nbsp"."&nbsp&nbsp"."Grade<br>";
+			$thead = $tableTE;
+		} elseif (get_class($reviewArrData[0]) == "PP") {
+			$thead = $tablePP;
 		}
-		for($x=0; $x<sizeof($reviewArrData); $x++){
-			if (get_class($reviewArrData[$x]) == "TE") {
-				echo "&nbsp&nbsp&nbsp".$reviewArr[$x]->user."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";									//TODO Get reviewer name from correct table
-				echo $reviewArrData[$x]->s1."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-				echo $reviewArrData[$x]->s2."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-				echo $reviewArrData[$x]->s3."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-				echo $reviewArrData[$x]->s4."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-				echo $reviewArrData[$x]->s6."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-				echo "<br><br>";
-			} elseif (get_class($reviewArrData[$x]) == "PP") {
-				echo "&nbsp&nbsp&nbsp".$reviewArr[$x]->user."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";									//TODO Get reviewer name from correct table
-				echo $reviewArrData[$x]->s1."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-				echo $reviewArrData[$x]->s2."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-				echo $reviewArrData[$x]->s3."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-				echo $reviewArrData[$x]->s4."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-				echo "<br><br>";
+
+
+		foreach ($reviewArrData as $key => $value) {
+			if (get_class($reviewArrData[$key]) == "TE") {
+
+				$displayData[] = array(
+					1 => $reviewArr[$key]->user,
+					2 => $reviewArrData[$key]->s1,
+					3 => $reviewArrData[$key]->s2,
+					4 => $reviewArrData[$key]->s3,
+					5 => $reviewArrData[$key]->s4,
+					6 => $reviewArrData[$key]->s6	);
+
+
+			} elseif (get_class($reviewArrData[$key]) == "PP") {
+
+				$displayData[] = array(
+					1 => $reviewArr[$key]->user,
+					2 => $reviewArrData[$key]->s1,
+					3 => $reviewArrData[$key]->s2,
+					4 => $reviewArrData[$key]->s3,
+					5 => $reviewArrData[$key]->s4 );
 			}
 		}
-}
+
+		printTable($thead, $displayData);
+
+
+
+	}
 
 
 	$commentArr = getComment($dbh, $lastSubmissionIndex);
+	echo "<br><br>";
 	echo "Student comment: ".$commentArr[0];
-	echo "<br>Uploaded file: ";																										//TODO Name of uploaded files regarding this submission
+	echo "<br>Uploaded files: ";
+	echo "<br><br>";																								//TODO Name of uploaded files regarding this submission
 	for($x=0; $x < sizeof($reviewArr); $x++) {
 		echo "<br>Overall comments and feedback: ".$reviewArrData[$x]->feedback;
 		if (get_class($reviewArrData[$x]) == "TE"){
-			echo '<br><a target="_blank" href="?view=thesis&sid='.$lastSubmissionIndex.'&uid='.$reviewArr[$x]->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';							//TODO Link to formulary should be the name of the reviewer
+			echo '<br><a target="_blank" href="?view=reviewthesis&sid='.$lastSubmissionIndex.'&uid='.$reviewArr[$x]->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';							//TODO Link to formulary should be the name of the reviewer
 		} elseif (get_class($reviewArrData[$x]) == "PP") {
-			echo '<br><a target="_blank" href="?view=pp&sid='.$lastSubmissionIndex.'&uid='.$reviewArr[$x]->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';
+			echo '<br><a target="_blank" href="?view=reviewplan&sid='.$lastSubmissionIndex.'&uid='.$reviewArr[$x]->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';
 		}
 			echo "<br><br>";
 	}

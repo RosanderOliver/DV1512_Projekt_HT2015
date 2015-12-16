@@ -29,7 +29,8 @@ a, a:hover, a:visited {
 }
 
 #page {
-  width: 100%;
+  margin: auto;
+  width: 50%;
   bottom: 0px;
 }
 
@@ -99,6 +100,32 @@ a, a:hover, a:visited {
    color:#fff;
    background:#000;
    font-weight:bold;
+}
+
+/* Reviews */
+.review_box {
+  padding: 0.1em 1em;
+  background: rgb(167, 186, 194) none repeat scroll 0% 0%;
+  margin-top: 1em;
+  border-radius: 1em;
+}
+
+/* Comments */
+.comments {
+
+}
+.comment {
+  width: 50%;
+  background: #DED9B2 none repeat scroll 0% 0%;
+  padding: 0.1em 1em;
+  margin-bottom: 0.5em;
+  border-radius: 1em;
+}
+.comment .content {
+
+}
+.comment .author {
+  font-size: 0.8em;
 }
 
 /* Login page */

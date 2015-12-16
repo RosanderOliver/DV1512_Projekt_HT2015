@@ -176,10 +176,10 @@ class Project
   */
   public function updateStage()
   {
-    $stage = $this->stage + 1;
+    $this->stage = $this->stage + 1;
     $sth = $this->dbh->prepare(SQL_UPDATE_PROJECT_STAGE_WHERE_ID);
     $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
-    $sth->bindParam(":stage", $stage, PDO::PARAM_INT);
+    $sth->bindParam(":stage", $this->stage, PDO::PARAM_INT);
     $sth->execute();
   }
 }

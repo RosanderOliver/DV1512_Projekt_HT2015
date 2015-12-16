@@ -71,9 +71,8 @@
       <td colspan="3"><textarea type="text" maxlength="128" name="processcomment3" rows="2" class="form_input" required><?php if($data != null){echo $data->processcomment3;} ?></textarea></td>
     </tr>
     <tr>
-      <td></td><td><input type="text" name="s1" disabled="disabled" id="s1" class="form_input" maxlength="1" value="<?php if($data != null){echo $data->s1;} ?>" required></td><td></td>
+      <td></td><td><input type="text" name="s1" readonly id="s1" class="form_input" maxlength="1" value="<?php if($data != null){echo $data->s1;} ?>" required></td><td></td>
     </tr>
-dp_pp-eval-supervisor.php'
     <tr>
       <td><b>Content</b></td>
       <td><select name="content1" onchange="check(pp.content1.value, pp.content2.value, pp.content3.value, pp.content4.value)" required><option><?php if($data != null){echo $data->content1;} ?></option><option>-</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
@@ -99,7 +98,7 @@ dp_pp-eval-supervisor.php'
       <td colspan="3"><textarea type="text" name="contentcomment4" maxlength="128" rows="2" class="form_input" required><?php if($data != null){echo $data->contentcomment4;} ?></textarea></td>
     </tr>
     <tr>
-      <td></td><td><input type="text" name="s2" id="s2" disabled="disabled" class="form_input" maxlength="1" value="<?php if($data != null){echo $data->s2;} ?>" required></td><td></td>
+      <td></td><td><input type="text" name="s2" id="s2" readonly class="form_input" maxlength="1" value="<?php if($data != null){echo $data->s2;} ?>" required></td><td></td>
     </tr>
 
     <tr>
@@ -133,11 +132,11 @@ dp_pp-eval-supervisor.php'
       <td colspan="3"><textarea type="text" name="presentationcomment5" maxlength="128" rows="2" class="form_input" required><?php if($data != null){echo $data->presentationcomment5;} ?></textarea></td>
     </tr>
     <tr>
-      <td></td><td><input type="text" name="s3" id="s3" disabled="disabled" class="form_input" value="<?php if($data != null){echo $data->s3;} ?>" required></td><td></td>
+      <td></td><td><input type="text" name="s3" id="s3" readonly class="form_input" value="<?php if($data != null){echo $data->s3;} ?>" required></td><td></td>
     </tr>
 
     <tr>
-      <td><b>Grade:</b></td><td><input type="text" name="s4" id="s4" disabled="disabled" maxlength="1" class="form_input" value="<?php if($data != null){echo $data->s4;} ?>" required></td>
+      <td><b>Grade:</b></td><td><input type="text" name="s4" id="s4" readonly maxlength="1" class="form_input" value="<?php if($data != null){echo $data->s4;} ?>" required></td>
     </tr>
 
     <th colspan="3">Overall comments and feedback</th>
