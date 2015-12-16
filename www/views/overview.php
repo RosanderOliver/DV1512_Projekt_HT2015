@@ -42,7 +42,7 @@ if ($login->isUserLoggedIn() === false) exit(1);
 
 <h2>Tasks</h2>
 
-TASKTASKTATSK
+<a href="?view=assignreviewers&id=1">Assign reviewers</a>
 
 <br><br>
 

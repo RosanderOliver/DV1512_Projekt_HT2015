@@ -91,7 +91,8 @@ $views = [
   'examinatorgrading',
   'reviewplan',
   'reviewthesis',
-  'selectedprojects'
+  'selectedprojects',
+  'assignreviewers'
 ];
 
 /*
