@@ -18,7 +18,7 @@ $course = $user->getCourse($id);
 // List projects
 echo '<h2>Projects</h2>';
 
-echo '<form action="index.php?view=choosenprojects.php" method="POST">';
+echo '<form action="index.php?view=choosenprojects" method="POST">';
 echo '<ul>';
 foreach ($course->getProject() as $key => $value) {
   $project = $course->getProject($value);
@@ -29,5 +29,5 @@ foreach ($course->getProject() as $key => $value) {
 }
 echo '</ul>';
 
-echo '<input type="submit" value="Submit">';
+echo '<input type="submit" name="submit" value="Submit">';
 echo '</form>';

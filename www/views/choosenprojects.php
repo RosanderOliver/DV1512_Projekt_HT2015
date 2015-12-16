@@ -6,11 +6,10 @@ if(isset($_GET['sid'])){
 
 if(isset($_POST['submit'])){
   $temp;
-  $i = 0;
-  while($_POST["ticked'.$i'"]){
-    $temp = "ticked'.$i.'";
-    add_feasible_reviewer($submissionsId,$dbh,$temp);
-    $i++;
+  $i = 1;
+  echo "Submit pressed </br>";
+  foreach($_POST["ticked$i"] as $value){
+    echo $value . "</br>";
   }
 
   echo "Done.";
