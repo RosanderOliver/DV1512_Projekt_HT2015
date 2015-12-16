@@ -45,7 +45,7 @@ $login = new Login();
 try {
  $user = new User();
 } catch (Exception $e) {
- echo $e->getMessage();
+ echo $e->getMessage(); // TODO Propper error handling
 }
 
 // Create new database handle
