@@ -16,6 +16,9 @@ if(Form::isValid("createCourse")) {
     $sth->bindParam(":name", $_POST["name"], PDO::PARAM_STR);
     $sth->execute();
 
+    // Add the course to this user
+    $user->addCourseID($dbh->lastInsertId());
+
     $form = new Form("success");
     $form->addElement(new Element\HTML('<legend>Success</legend>'));
     $form->addElement(new Element\Button("Done"));
@@ -23,7 +26,6 @@ if(Form::isValid("createCourse")) {
 }
 // Else print the form
 else {
-
 
   $form = new Form("createCourse");
   $form->configure(array(
