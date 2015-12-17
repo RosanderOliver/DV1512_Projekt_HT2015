@@ -57,7 +57,8 @@ $views = [
   'course',
   'overview',
   'settings',
-  'edit'
+  'edit',
+  'accessdenied'
 ];
 
 /*
