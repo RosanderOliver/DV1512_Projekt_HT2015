@@ -1,7 +1,6 @@
 <?php
 
-// TODO: Check if session data is correct befor adding it to database
-// TODO: Create set functions to change user variables in user database
+// TODO: Check if session data is correct before adding it to database
 // TODO: Create settings database and settings class directly liked to from this class
 // TODO: Be able to create object for any requested user ( if permitted )
 // TODO: Correctly fetch users instead of eppn, this is a work around for dual stacking IDM
@@ -114,7 +113,7 @@ class User
   * @param int $id course id to add
   * TODO Check so course exists
   */
-  function addCourseID($id)
+  function addCourse($id)
   {
     if (intval($id) <= 0) {
       throw new Exception("Invalid ID");

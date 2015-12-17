@@ -14,11 +14,14 @@ define("SQL_UPDATET_USER_COURSES_WHERE_ID", "UPDATE `login`.`users` SET `user_co
 define("SQL_INSERT_COURSE", "INSERT INTO `site`.`courses`(`name`) VALUES(:name)");
 define("SQL_SELECT_COURSE_WHERE_ID", "SELECT * FROM `site`.`courses` WHERE `id`=:id");
 define("SQL_UPDATE_COURSE_ADMINS_WHERE_ID", "UPDATE `site`.`courses` SET `admins`=:admins WHERE `id`=:id");
+define("SQL_UPDATE_COURSE_PROJECTS_WHERE_ID", "UPDATE `site`.`courses` SET `projects`=:projects WHERE `id`=:id");
 
 // Projects
+define("SQL_INSERT_PROJECT", "INSERT INTO `site`.`projects`(`subject`, `stage`, `examinators`) VALUES(:subject, :stage, :examinators)");
 define("SQL_SELECT_PROJECT_WHERE_ID", "SELECT * FROM `site`.`projects` WHERE `id`=:id");
 define("SQL_UPDATE_PROJECT_STAGE_WHERE_ID", "UPDATE `site`.`projects` SET `stage`=:stage WHERE id=:id");
 define("SQL_UPDATE_PROJECT_SUBMISSION_WHERE_ID", "UPDATE `site`.`projects` SET `submissions`=:submissions WHERE `id`=:id");
+define("SQL_UPDATE_PROJECT_STUDENTS_WHERE_ID", "UPDATE `site`.`projects` SET `students`=:students WHERE `id`=:id");
 define("SQL_UPDATE_PROJECT_STAGESUBMISSION_WHERE_ID", "UPDATE `site`.`projects` SET `stage`=:stage, `submissions`=:submissions WHERE `id`=:id");
 
 // Files

@@ -322,7 +322,8 @@
     return intval($dbh->lastInsertId());
   }
 
-  /** CreateTable
+  /**
+  * CreateTable
   * @author Oliver Rosander, Jim Ahlstrand
   * @param string array containing the column names
   * @param string array containing the table data
@@ -353,4 +354,31 @@
     }
     echo '</tdata>';
     echo '</table>';
+  }
+
+  /**
+  * Find users from thier username
+  * @author Jim Ahlstrand
+  * @param string $uname User name of the user to search form
+  * @param string $dbh database handle
+  * @return int id of user or -1 if not found
+  */
+  function findUser( $uname, $dbh)
+  {
+    if (empty($uname)) {
+      return -1;
+    }
+
+    // Get the user from database
+    $sth = $dbh->prepare(SQL_SELECT_USER_WHERE_USER_NAME);
+    $sth->bindParam(":user_name", $uname, PDO::PARAM_STR);
+    $sth->execute();
+    $result = $sth->fetch(PDO::FETCH_OBJ);
+
+    // Check if user was found
+    if (!$result) {
+      return -1;
+    } else {
+      return $result->user_id;
+    }
   }

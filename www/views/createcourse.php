@@ -10,14 +10,14 @@ use PFBC\Element;
 use PFBC\Validation;
 
 // If form is submitted and correct
-if(Form::isValid("createCourse")) {
+if (!empty($_POST) && Form::isValid("createCourse")) {
 
     $sth = $dbh->prepare(SQL_INSERT_COURSE);
     $sth->bindParam(":name", $_POST["name"], PDO::PARAM_STR);
     $sth->execute();
 
     // Add the course to this user
-    $user->addCourseID($dbh->lastInsertId());
+    $user->addCourse($dbh->lastInsertId());
 
     $course = new Course($dbh->lastInsertId());
     $course->addAdmin($_SESSION['user_id']);

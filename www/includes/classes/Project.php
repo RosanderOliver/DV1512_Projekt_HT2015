@@ -182,4 +182,28 @@ class Project
     $sth->bindParam(":stage", $this->stage, PDO::PARAM_INT);
     $sth->execute();
   }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param int $id id of the student
+  * @return void
+  */
+  function addStudent($id)
+  {
+    $id = intval($id);
+    // Check for invalid id
+    if ($id <= 0) {
+      throw new Exception("Invalid parameter");
+    }
+
+    // Add project to projects array
+    $this->students[] = $id;
+    $students = serialize($this->students);
+
+    // Update database
+    $sth = $this->dbh->prepare(SQL_UPDATE_PROJECT_STUDENTS_WHERE_ID);
+    $sth->bindParam(":students", $students, PDO::PARAM_STR);
+    $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+    $sth->execute();
+  }
 }
