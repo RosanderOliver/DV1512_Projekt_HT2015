@@ -20,6 +20,14 @@ if ($login->isUserLoggedIn() === false) exit(1);
     echo '</li>';
   }
   echo '</ul>';
+
+if (TRUE) {                                                                     //TODO TEST PERMISSION
+  echo '<a href="?view=assignAdministrator"><h3>Assign administrators</h3></a>';
+}
+
+
+prettyPrint($user);
+
 ?>
 </td>
 

@@ -17,6 +17,7 @@ define("SQL_SELECT_PROJECT_WHERE_ID", "SELECT * FROM `site`.`projects` WHERE `id
 define("SQL_UPDATE_PROJECT_STAGE_WHERE_ID", "UPDATE `site`.`projects` SET stage=:stage WHERE id=:id");
 define("SQL_UPDATE_PROJECT_SUBMISSION_WHERE_ID", "UPDATE `site`.`projects` SET `submissions`=:submissions WHERE `id`=:id");
 define("SQL_UPDATE_PROJECT_STAGESUBMISSION_WHERE_ID", "UPDATE `site`.`projects` SET `stage`=:stage, `submissions`=:submissions WHERE `id`=:id");
+define("SQL_UPDATE_PROJECT_FEASIBLE_REVIEWERS_WHERE_ID","UPDATE `site`.`projects` SET `feasible_reviewers`=:feasible_reviewers WHERE `id`=:id");
 
 // Files
 define("SQL_SELECT_FILES_WHERE_ID", "SELECT * FROM `site`.`files` WHERE `id`=:id");
@@ -39,6 +40,6 @@ define("SQL_INSERT_REVIEW","INSERT INTO `site`.`reviews`(`user`, `date`, `data`)
 define("SQL_SELECT_REVIEW_WHERE_ID_AND_USER","SELECT * FROM `site`.`reviews` WHERE `id`=:id AND `user`=:user");
 define("SQL_SELECT_REVIEW_WHERE_ID", "SELECT * FROM `site`.`reviews` WHERE `id`=:id");
 
+//KOPIOR?????
 define("SQL_SELECT_PROJECTS","SELECT * FROM `site`.`projects`");
 define("SQL_SELECT_PROJECTS_WHERE_SUBJECT","SELECT * FROM `site`.`projects` WHERE `subject`=:subject");
-define("SQL_UPDATE_PROJECT_FEASIBLE_REVIEWERS_WHERE_ID","UPDATE `site`.`projects` SET `feasible_reviewers`=:feasible_reviewers WHERE `id`=:id");
