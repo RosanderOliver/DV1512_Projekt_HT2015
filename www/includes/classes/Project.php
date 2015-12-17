@@ -154,7 +154,7 @@ class Project
 
     /**
     * @author Annika Hansson
-    * @param
+    * @param int $rid Reviewer ID
     * @return void
     * @TODO adds reviewers to database
     */
