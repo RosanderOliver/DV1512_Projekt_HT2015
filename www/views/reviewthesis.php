@@ -83,13 +83,12 @@
 }
 else{
 
-  $reviewUserId = $_GET['uid'];
   $latestReviewIndex = sizeof($submission->reviews[$reviewUserId])-1;
   $latesReview = $submission->reviews[$reviewUserId][$latestReviewIndex];
 
   $sth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
   $sth->bindParam(':id', $latesReview, PDO::PARAM_INT);
-  $sth->bindParam(':user', $reviewUserId, PDO::PARAM_INT);
+  $sth->bindParam(':user', $sid, PDO::PARAM_INT);
   $sth->execute();
   $tmp = $sth->fetchObject();
   if($tmp != null){

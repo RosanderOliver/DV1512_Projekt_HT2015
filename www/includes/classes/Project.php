@@ -164,7 +164,7 @@ class Project
         $this->reviewers[] = intval($rid);
         $ssth = $this->dbh->prepare(SQL_UPDATE_PROJECT_REVIEWERS_WHERE_ID);
         $ssth->bindParam(':id', $this->id, PDO::PARAM_INT);
-        $ssth->bindParam(':feasible_reviewers', serialize($this->reviewers), PDO::PARAM_STR);
+        $ssth->bindParam(':reviewers', serialize($this->reviewers), PDO::PARAM_STR);
         $ssth->execute();
       }
     }
