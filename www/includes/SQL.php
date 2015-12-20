@@ -11,18 +11,19 @@ define("SQL_SELECT_USER_WHERE_USER_NAME", "SELECT * FROM `login`.`users` WHERE `
 define("SQL_UPDATET_USER_COURSES_WHERE_ID", "UPDATE `login`.`users` SET `user_courses`=:courses WHERE `user_id`=:id");
 
 // Courses
-define("SQL_INSERT_COURSE", "INSERT INTO `site`.`courses`(`name`) VALUES(:name)");
+define("SQL_INSERT_COURSE", "INSERT INTO `site`.`courses`(`name`, `permissions`) VALUES(:name, :permissions)");
 define("SQL_SELECT_COURSE_WHERE_ID", "SELECT * FROM `site`.`courses` WHERE `id`=:id");
 define("SQL_UPDATE_COURSE_ADMINS_WHERE_ID", "UPDATE `site`.`courses` SET `admins`=:admins WHERE `id`=:id");
 define("SQL_UPDATE_COURSE_PROJECTS_WHERE_ID", "UPDATE `site`.`courses` SET `projects`=:projects WHERE `id`=:id");
 
 // Projects
-define("SQL_INSERT_PROJECT", "INSERT INTO `site`.`projects`(`subject`, `stage`, `examinators`) VALUES(:subject, :stage, :examinators)");
 define("SQL_SELECT_PROJECT_WHERE_ID", "SELECT * FROM `site`.`projects` WHERE `id`=:id");
 define("SQL_UPDATE_PROJECT_STAGE_WHERE_ID", "UPDATE `site`.`projects` SET `stage`=:stage WHERE id=:id");
 define("SQL_UPDATE_PROJECT_SUBMISSION_WHERE_ID", "UPDATE `site`.`projects` SET `submissions`=:submissions WHERE `id`=:id");
 define("SQL_UPDATE_PROJECT_STUDENTS_WHERE_ID", "UPDATE `site`.`projects` SET `students`=:students WHERE `id`=:id");
 define("SQL_UPDATE_PROJECT_STAGESUBMISSION_WHERE_ID", "UPDATE `site`.`projects` SET `stage`=:stage, `submissions`=:submissions WHERE `id`=:id");
+define("SQL_INSERT_PROJECT", "INSERT INTO `site`.`projects` (`subject`, `stage`, `deadline`, `examinators`) VALUES (:subject, :stage, :deadline, :examinators)");
+define("SQL_DELETE_PROJECT_WHERE_ID", "DELETE FROM `site`.`projects` WHERE `id`=:id");
 
 // Files
 define("SQL_SELECT_FILES_WHERE_ID", "SELECT * FROM `site`.`files` WHERE `id`=:id");
@@ -30,14 +31,15 @@ define("SQL_UPDATE_FILES_COMMENTGRADE_WHERE_ID", "UPDATE `site`.`files` SET `com
 
 // Submissions
 define("SQL_SELECT_SUBMISSION_WHERE_ID", "SELECT * FROM `site`.`submissions` WHERE `id`=:id");
-define("SQL_DELETE_SUBMISSION_WHERE_ID", "DELETE FROM `site`.`submissions` WHERE `id`=:id");
 define("SQL_UPDATE_SUBMISSION_COMMENTGRADE_WHERE_ID", "UPDATE `site`.`submissions` SET `comments`=:comments, `grade`=:grade WHERE `id`=:id");
 define("SQL_UPDATE_SUBMISSION_REVIEWS_WHERE_ID", "UPDATE `site`.`submissions` SET `reviews`=:reviews WHERE `id`=:id");
 define("SQL_INSERT_SUBMISSION", "INSERT INTO `site`.`submissions` (`user`, `date`, `files`, `reviews`, `comments`, `grade`, `stage`) VALUES (:user, :date, :files, :reviews, :comments, :grade, :stage)");
+define("SQL_DELETE_SUBMISSION_WHERE_ID", "DELETE FROM `site`.`submissions` WHERE `id`=:id");
 
 // Comments
 define("SQL_SELECT_COMMENT_WHERE_ID", "SELECT * FROM `site`.`comments` WHERE `id`=:id");
 define("SQL_INSERT_COMMENT", "INSERT INTO `site`.`comments` (`user`, `date`, `data`, `subcomments`) VALUES (:user, :date, :data, :subcomments)");
+define("SQL_DELETE_COMMENT_WHERE_ID", "DELETE FROM `site`.`comments` WHERE `id`=:id");
 
 // Reviews
 define("SQL_INSERT_REVIEW", "INSERT INTO `site`.`reviews`(`user`, `date`, `data`) VALUES(:user,:date,:data)");

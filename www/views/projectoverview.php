@@ -34,7 +34,6 @@ foreach (array_reverse($project->getSubmission()) as $key => $value) {
   } elseif ($stages[$submission->stage] == STAGE_REPORT) {
     echo '<h2> Project report</h2>';
   }
-  echo 'Files: '.$submission->files;
   foreach ($submission->getComments() as $key => $value) {
     echo '<br>Comment: '.$value->data;
   }

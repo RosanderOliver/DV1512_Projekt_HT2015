@@ -15,7 +15,7 @@ if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
 use PFBC\Form;
 use PFBC\Element;
 use PFBC\Validation;
-
+prettyPrint($_POST); 
 // If form is submitted and correct
 if (!empty($_POST) && Form::isValid("createProject", false)) {
 
@@ -76,9 +76,14 @@ else {
   $form->addElement(new Element\Textbox("Student:", "student", array(
     //TODO The regex should use defined constants to more easily adapt
     //TODO a better regex should be implemented depending on acronym
-    "validation" => new Validation\RegExp("/^[\p{L}\d]{4,6}$/", "Error: The %element% field must contain an acronym on the form abcd99."),
+    "validation" => new Validation\RegExp("/^[a-z\d]{2,64}$/", "Error: The %element% field must contain a username."),
     "required" => 1,
     "longDesc" => "Assign a student to this project with it's acronym"
+  )));
+  $form->addElement(new Element\Date("Deadline:", "deadline", array(
+    "validation" => new Validation\RegExp("/^[\p{L}\d]{4,6}$/", "Error: The %element% field must contain a date."),
+    "required" => 1,
+    "longDesc" => "Select a deadline for this project"
   )));
   $form->addElement(new Element\Button("Create"));
   $form->addElement(new Element\Button("Cancel", "button", array(

@@ -2,9 +2,9 @@ CREATE DATABASE IF NOT EXISTS `site`;
 
 CREATE TABLE IF NOT EXISTS `site`.`courses` (
     `id` INT NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
-    `role_table` INT NOT NULL COMMENT 'id of permissions table',
+    `permissions` INT NOT NULL COMMENT 'id of permissions table',
     `name` VARCHAR(64) NOT NULL COMMENT 'name of the course',
-    `deadlines` VARCHAR(64) NOT NULL COMMENT 'array with the course\'s dates for dealines',
+    `deadlines` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'array with the course\'s dates for dealines',
     `projects` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'projects assosiated with the course',
     `admins` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'admin users for this course',
     PRIMARY KEY (`id`)
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `site`.`projects` (
     `submissions` VARCHAR(1024) DEFAULT 'a:0:{}' COMMENT 'submissions linked to the project',
     `comments` VARCHAR(1024) DEFAULT 'a:0:{}' COMMENT 'array with id\'s of comments',
     `deadline` DATETIME NOT NULL COMMENT 'next deadline for the project',
-    `students` VARCHAR(64) NOT NULL COMMENT 'students linked to the project',
+    `students` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'students linked to the project',
     `managers` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'managers linked to the project',
     `examinators` VARCHAR(64) NOT NULL COMMENT 'examinators linked to the project',
     `reviewers` VARCHAR(512) DEFAULT 'a:0:{}' COMMENT 'reviewers linked to the project',
@@ -105,8 +105,8 @@ CREATE TABLE IF NOT EXISTS `login`.`users` (
 )  ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='user data';
 
 /* TEST DATA FOR DEBUG ONLY */
-INSERT INTO `site`.`courses` (`role_table`, `name`, `deadlines`, `projects`) VALUES ('1', 'TestCourse DV1337', 'a:0:{}', 'a:1:{i:0;i:1;}');
-INSERT INTO `site`.`projects` (`subject`, `stage`, `submissions`, `students`, `managers`, `examinators`, `reviewers`) VALUES ('Test Project', '2', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}');
+INSERT INTO `site`.`courses` (`permissions`, `name`, `deadlines`, `projects`) VALUES ('1', 'TestCourse DV1337', 'a:0:{}', 'a:1:{i:0;i:1;}');
+INSERT INTO `site`.`projects` (`subject`, `stage`, `submissions`, `students`, `managers`, `examinators`, `reviewers`, `deadline`) VALUES ('Test Project', '2', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', 'a:1:{i:0;i:1;}', '2016-01-30 23:59');
 INSERT INTO `site`.`submissions` (`user`, `stage`) VALUES ('1', '2');
 
 INSERT INTO `login`.`users` (`user_real_name`, `user_name`, `user_courses`, `user_password_hash`, `user_email`, `user_active`)

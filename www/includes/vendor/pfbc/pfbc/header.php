@@ -14,7 +14,7 @@ $version = file_get_contents($pathPrefix . "version");
 function prettyprint($code) {
 	echo '<pre class="prettyprint linenums">', str_replace("\t", str_repeat("&nbsp", 4), htmlspecialchars($code)), '</pre>';
 }
-?>	
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +23,6 @@ function prettyprint($code) {
 		<title>PHP Form Builder Class</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<link href="<?php echo $pathPrefix; ?>PFBC/Resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<style type="text/css">
 			body {
 				padding-top: 60px;
@@ -33,17 +32,12 @@ function prettyprint($code) {
 				padding: 9px 0;
 			}
 		</style>
-		<link href="<?php echo $pathPrefix; ?>PFBC/Resources/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-		<link href="<?php echo $pathPrefix; ?>prettify/prettify.css" rel="stylesheet">
 
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
 			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 
-		<script type="text/javascript" src="<?php echo $pathPrefix; ?>PFBC/Resources/jquery.min.js"></script>
-		<script src="<?php echo $pathPrefix; ?>PFBC/Resources/bootstrap/js/bootstrap.min.js"></script>
-		<script src="<?php echo $pathPrefix; ?>prettify/prettify.js"></script>
 	</head>
 
 	<body onload="prettyPrint()">

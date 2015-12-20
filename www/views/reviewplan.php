@@ -11,19 +11,19 @@
   if (isset($_POST['submit'])) {
    $form = new PP();
 
-   $form->student1 = test_input($_POST["student1"]);
-   $form->s1email = test_input($_POST["s1email"]);
-   $form->pnr1 = test_input($_POST["pnr1"]);
+   $form->student1  = test_input($_POST["student1"]);
+   $form->s1email   = test_input($_POST["s1email"]);
+   $form->pnr1      = test_input($_POST["pnr1"]);
 
-   $form->student2 = test_input($_POST["student2"]);
-   $form->s2email = test_input($_POST["s2email"]);
-   $form->pnr2 = test_input($_POST["pnr2"]);
+   $form->student2  = test_input($_POST["student2"]);
+   $form->s2email   = test_input($_POST["s2email"]);
+   $form->pnr2      = test_input($_POST["pnr2"]);
 
-   $form->title = test_input($_POST["title"]);
-   $form->course = test_input($_POST["course"]);
+   $form->title     = test_input($_POST["title"]);
+   $form->course    = test_input($_POST["course"]);
    $form->supervisor = test_input($_POST["supervisor"]);
-   $form->term  = test_input($_POST["term"]);
-   $form->type = test_input($_POST["type"]);
+   $form->term      = test_input($_POST["term"]);
+   $form->type      = test_input($_POST["type"]);
 
    $form->process1 = test_input(test_num($_POST["process1"]));
    $form->processcomment1 = test_input($_POST["processcomment1"]);
@@ -62,28 +62,23 @@
    $form->s4 = test_num(test_input(test_num($_POST["s4"])));
    $form->feedback = test_input($_POST["feedback"]);
 
-   if (empty($data)) {
+   $user = $_SESSION['user_id'];
+   $sth = $dbh->prepare(SQL_INSERT_REVIEW);
+   $sth->bindParam(':user', $user, PDO::PARAM_INT);
+   $sth->bindParam(':date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
+   $sth->bindParam(':data', serialize($form), PDO::PARAM_STR);
+   $sth->execute();
+   $lastInsertId = $dbh->lastInsertId();
 
-     if($dbh != null) {
-       $user = $_SESSION['user_id'];
-       $sth = $dbh->prepare(SQL_INSERT_REVIEW);
-       $sth->bindParam(':user', $user, PDO::PARAM_INT);
-       $sth->bindParam(':date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
-       $sth->bindParam(':data', serialize($form), PDO::PARAM_STR);
-       $sth->execute();
-       $lastInsertId = $dbh->lastInsertId();
+   $submission->addReview($lastInsertId);
 
-       $submission->addReview($lastInsertId);
+   echo "Your form has been saved.</br>";
 
-      echo "Your form has been saved.</br>";
-    } else {
-        echo "Connection failed. Try to log in again.</br>";
-      }
+}
+// If no form was submitted print it
+else {
 
-      echo "end </br>";
-  }
-} else {
-
+  // TODO This is ugly, plz fix
   $reviewUserId = $_GET['uid'];
   $latestReviewIndex = sizeof($submission->reviews[$reviewUserId])-1;
   $latesReview = $submission->reviews[$reviewUserId][$latestReviewIndex];
@@ -96,7 +91,7 @@
   if($tmp != null){
     $data = unserialize($tmp->data);
   }
-
+  // =========
 
    include('includes/content/dp_pp-eval-supervisor.php');
- }
+}

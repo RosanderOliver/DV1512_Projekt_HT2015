@@ -31,6 +31,7 @@ a, a:hover, a:visited {
 #page {
   margin: auto;
   width: 50%;
+  min-width: 900px;
   bottom: 0px;
   background: rgb(251, 251, 251) none repeat scroll 0% 0%;
   padding: 1em;
@@ -52,13 +53,6 @@ a, a:hover, a:visited {
   height: 100%;
   border-style: none;
   border: #D0D0D0  1px solid;
-}
-
-.form_table{
-  width: 80%;
-  border: 1px solid #999;
-  margin: auto;
-  background-color: #fafafa;
 }
 
 /* Menu */

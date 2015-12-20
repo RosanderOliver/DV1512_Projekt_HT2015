@@ -17,9 +17,9 @@ class Course
   */
   public $id = null;
   /**
-  * @var int $role_table table id of permissions id
+  * @var int $permissions table id of permissions id
   */
-  public $role_table = null;
+  public $permissions = null;
   /**
   * @var string $name Name of the course
   */
@@ -69,7 +69,7 @@ class Course
     if (!$result) throw new Exception("Could not find requested course");
 
     $this->id = $result->id;
-    $this->role_table = $result->role_table;
+    $this->permissions = $result->permissions;
     $this->name = $result->name;
     $this->deadlines = unserialize($result->deadlines);
     $this->projects = unserialize($result->projects);
