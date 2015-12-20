@@ -4,6 +4,8 @@ if (!defined("IN_EXM")) exit(1);
 
 if ($login->isUserLoggedIn() === false) exit(1);
 
+echo '<div class="row">';
+echo '<div class="col-md-12">';
 ?>
 
 <!-- clean separation of HTML and PHP -->
@@ -39,3 +41,8 @@ if ($login->isUserLoggedIn() === false) exit(1);
 
 <!-- backlink -->
 <a href="index.php"><?php echo WORDING_BACK_TO_LOGIN; ?></a>
+
+<?php
+  echo '</div>';
+  echo '</div>';
+?>

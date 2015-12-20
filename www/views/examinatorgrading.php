@@ -88,12 +88,8 @@
 	}
  ?>
 
-<!-- ============ MIDDLE COLUMN (OVERVIEW) ============== -->
-<td width="55%" valign="top" bgcolor="#FAFAFA">
 
 <h2>Final Grade - Examinator</h2>
-<br>
-
 
 <h3><font color="darkblue">
 <?php echo $project->subject;
@@ -102,8 +98,6 @@
 			} elseif ($project->stage == 3) {
 				echo " | Project report |";
 			}
-
-
 ?>
  <font color="darkred"><?php echo "Deadline "; echo $project->deadline; ?></font></font></h3>
 <?php
@@ -148,7 +142,10 @@
 
 	$commentArr = getComment($dbh, $lastSubmissionIndex);
 	echo "<br><br>";
-	echo "Student comment: ".$commentArr[0];
+	echo "Student comment: ";
+	if (isset($commentArr[0])) {
+		echo $commentArr[0];
+	}
 	echo "<br>Uploaded files: ";
 	echo "<br><br>";																								//TODO Name of uploaded files regarding this submission
 	for($x=0; $x < sizeof($reviewArr); $x++) {
@@ -167,9 +164,6 @@
 
 <font color="#000000"><b>Final Grade Form</b></font>
 
-<div >
-
-			<br>
 			Comment: (max 256 characters)<br /><?php  if ($dataSent == 1) : ?>
 				<p> Data Sent </p>
 				<?php
@@ -207,4 +201,3 @@
 </form>
 <?php endif; ?>
 <br>
-</div>

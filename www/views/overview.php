@@ -4,15 +4,10 @@ if (!defined("IN_EXM")) exit(1);
 
 if ($login->isUserLoggedIn() === false) exit(1);
 
-// TODO FIX the table structure
-?>
+  echo '<div class="row">';
+  echo '<div class="col-md-3">';
+  echo '<h2>Active Courses</h2>';
 
-<table cellpadding="10" cellspacing="0" border="0">
-
-<!-- ============ LEFT COLUMN (COURSES) ============== -->
-<td width="20%" valign="top">
-<h2>Active Courses</h2>
-<?php
   echo '<ul>';
   foreach ($user->getCourse() as $key => $value) {
     $course = $user->getCourse($value);
@@ -21,34 +16,31 @@ if ($login->isUserLoggedIn() === false) exit(1);
     echo '</li>';
   }
   echo '</ul>';
-?>
-</td>
 
-<!-- ============ MIDDLE COLUMN (OVERVIEW) ============== -->
-<td width="55%" valign="top" bgcolor="#FAFAFA">
+  echo '</div>';
+  echo '<div class="col-md-6">';
 
-<h2>Overview</h2>
+  echo '<h2>Overview</h2>';
+  print('
+    <h3>Former BTH students among Swedens best developers.</h3>
+    <p>Lorem ipsum dolor sit amet, esse molestie reformidans has id, has purto audire graecis ut.</p>
+    <h3>Multicultural environment at BTH</h1>
+    <p>Life on campus is multicultural as we attract students and staff from many countries in the world. In addition to the large number of nationalities</p>
+    <h3>European Network Intelligent Conference 2015</h3>
+    <p>The European Network Intelligent Conference, ENIC 2015 was recently held at BTH in collaboration with several international partner universities.</p>
+    <br>
+  ');
 
-<h3>Former BTH students among Sweden's best developers.</h3>
-<p>Lorem ipsum dolor sit amet, esse molestie reformidans has id, has purto audire graecis ut.</p>
-<h3>Multicultural environment at BTH</h1>
-<p>Life on campus is multicultural as we attract students and staff from many countries in the world. In addition to the large number of nationalities</p>
-<h3>European Network Intelligent Conference 2015</h3>
-<p>The European Network Intelligent Conference, ENIC 2015 was recently held at BTH in collaboration with several international partner universities.</p>
-<br>
+  echo '</div>';
+  echo '<div class="md-col-3">';
+  print('
+    <h2>Tasks</h2>
+    <ul>
+      <li>
+        <a href="?view=createcourse">Create new course</a>
+      </li>
+    </ul>
+  ');
 
-</td>
-
-<td width="25%" valign="top">
-
-<h2>Tasks</h2>
-<ul>
-  <li>
-    <a href="?view=createcourse">Create new course</a>
-  </li>
-</ul>
-
-</td>
-
-</tr>
-</table>
+  echo '</div>';
+  echo '</div>';

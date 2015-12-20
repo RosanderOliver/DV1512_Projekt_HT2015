@@ -13,8 +13,22 @@
   ];
 
 if ($login->isUserLoggedIn() === true) {
-  echo '<div id="menu">';
-  echo '<div id="menu_logo"><a href="?view=overview"><img src="assets/images/EXM_SMALL.png"></a></div>';
+  echo '<div class="navbar navbar-default navbar-fixed-top">';
+  echo '<div class="container">';
+  print(
+    '<div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Menu</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">'.SITE_NAME.'</a>
+    </div>'
+  );
+  echo  '<div id="navbar" class="collapse navbar-collapse">';
   printMenu($navigation);
+  echo  '</div>';
+  echo '</div>';
   echo '</div>';
 }

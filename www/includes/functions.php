@@ -10,12 +10,43 @@
   * Prints a html menu
   * @author Jim Ahlstrand
   * @param  array  $navigation  An array containing the items and subitems
+  * @param  bool   $isDropdown  used internaly to indicate it's a drop down menu
   * @return void
   */
-  function printMenu($navigation) {
-    echo '<nav>';
-    printULLink( $navigation );
-    echo '</nav>';
+  function printMenu($navigation, $isDropdown = false) {
+    if ($navigation == null || $navigation == array()) {
+      return;
+    }
+
+    if ($isDropdown) {
+      echo '<ul class="dropdown-menu">';
+    } else {
+      echo '<ul class="nav navbar-nav">';
+    }
+    foreach ($navigation as $key => $set) {
+
+      $label = $set[0];
+      if (isset($set[1])) {
+        $value = $set[1];
+      }
+      else {
+        $value = null;
+      }
+
+      if (is_array($value)) {
+        echo '<li class="dropdown">';
+      } else {
+        echo '<li>';
+      }
+      if (is_array($value)) {
+        echo '<a href=\"#\" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">'.$label.'<span class="caret"></span></a>';
+        printMenu($value, true);
+      } else {
+        echo "<a href=\"$value\">$label</a>";
+      }
+      echo '</li>';
+    }
+    echo '</ul>';
   }
 
   /**

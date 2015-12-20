@@ -14,8 +14,10 @@ if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
 // Get current Course
 $course = $user->getCourse($id);
 
+echo '<div class="row">';
+
 // List projects
-echo '<div id="projects">';
+echo '<div class="col-md-8">';
 echo '<h2>Your projects</h2>';
 
 echo '<ul>';
@@ -30,11 +32,13 @@ echo '</div>';
 
 
 // List tasks
-echo '<div id="tasks">';
+echo '<div class="col-md-4">';
 echo '<h2>Tasks</h2>';
 echo '<ul>';
 echo   '<li>';
 echo     '<a href="?view=createproject&cid='.$course->id.'">Create new project</a>';
 echo   '</li>';
 echo '</ul>';
+echo '</div>';
+
 echo '</div>';

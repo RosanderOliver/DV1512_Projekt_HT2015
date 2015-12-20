@@ -9,6 +9,9 @@ use PFBC\Form;
 use PFBC\Element;
 use PFBC\Validation;
 
+echo '<div class="row">';
+echo '<div class="col-md-12">';
+
 // If form is submitted and correct
 if (!empty($_POST) && Form::isValid("createCourse")) {
 
@@ -26,10 +29,8 @@ if (!empty($_POST) && Form::isValid("createCourse")) {
     $course = new Course($dbh->lastInsertId());
     $course->addAdmin($_SESSION['user_id']);
 
-    $form = new Form("success");
-    $form->addElement(new Element\HTML('<legend>Success</legend>'));
-    $form->addElement(new Element\Button("Done"));
-    $form->render();
+
+    echo '<h3>Success!</h3><a href="?"><button class="btn btn-success">Go back</button></a>';
 }
 // Else print the form
 else {
@@ -54,3 +55,6 @@ else {
 
   $form->render();
 }
+
+echo '</div>';
+echo '</div>';
