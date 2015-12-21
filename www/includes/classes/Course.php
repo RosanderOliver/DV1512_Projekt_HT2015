@@ -37,7 +37,6 @@ class Course
   /**
   * Constructor
   * @param  int   $id   id of the course to load
-  * @param  obj   $dbh  database handle
   */
   public function __construct($id)
   {

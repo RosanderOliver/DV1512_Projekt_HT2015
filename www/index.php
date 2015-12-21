@@ -43,7 +43,7 @@ $login = new Login();
 
 // Create a user object
 try {
- $user = new User();
+ $user = new PrivilegedUser();
 } catch (Exception $e) {
  echo $e->getMessage(); // TODO Propper error handling
 }
