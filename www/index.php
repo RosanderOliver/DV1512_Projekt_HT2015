@@ -43,10 +43,12 @@ $login = new Login();
 
 // Create a user object
 try {
- $user = new User();
+ $user = new PrivilegedUser();
 } catch (Exception $e) {
  echo $e->getMessage(); // TODO Propper error handling
 }
+// Make it global
+$GLOBALS['user'] = $user;
 
 // Create new database handle
 try {
@@ -56,6 +58,8 @@ try {
   // If shit hits the fan
   throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
 }
+// Add the database to GLOBALS
+$GLOBALS['dbh'] = $dbh;
 
 // graders definitions
 $grades = array(
@@ -69,6 +73,8 @@ $grades = array(
   8  => 'E',
   9  => 'Fx',
   10 => 'F' );
+// Nake it global
+$GLOBALS['grades'] = $grades;
 
 // stage definitions
 $stages = array(
@@ -77,6 +83,8 @@ $stages = array(
   3 => STAGE_REPORT,
   4 => STAGE_PEER_REVIEW,
   5 => STAGE_FINISHED );
+// make it global
+$GLOBALS['stages'] = $stages;
 
 // Set views
 $views = [

@@ -51,13 +51,7 @@ class Submission
   public function __construct($id)
   {
     // Setup database handle
-    try {
-      // Generate a database connection, using the PDO connector
-      $this->dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
-    } catch (PDOException $e) {
-      // If shit hits the fan
-      throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
-    }
+    $this->dbh = $GLOBALS['dbh'];
 
     // Get the submission id
     $submission = intval($id);

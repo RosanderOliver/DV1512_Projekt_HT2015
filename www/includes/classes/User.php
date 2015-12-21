@@ -14,7 +14,7 @@ class User
   /**
   * @var object $dbh The database handler
   */
-  private $dbh = null;
+  protected $dbh = null;
   /**
   * @var int $id The user's database id
   */
@@ -39,7 +39,6 @@ class User
   /**
   * Constructor
   * @param  int   $id   id of the user to load
-  * @param  obj   $dbh  database handle
   */
   public function __construct($id = null)
   {

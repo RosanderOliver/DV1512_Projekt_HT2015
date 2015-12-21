@@ -31,8 +31,6 @@
    $form->processcomment2 = test_input($_POST["processcomment2"]);
    $form->process3 = test_input(test_num($_POST["process3"]));
    $form->processcomment3 = test_input($_POST["processcomment3"]);
-   $form->process4 = test_input(test_num($_POST["process4"]));
-   $form->processcomment4 = test_input($_POST["processcomment4"]);
 
    $form->s1 = test_num($_POST["s1"]);
 
@@ -62,15 +60,10 @@
    $form->s4 = test_num(test_input(test_num($_POST["s4"])));
    $form->feedback = test_input($_POST["feedback"]);
 
-   $user = $_SESSION['user_id'];
-   $sth = $dbh->prepare(SQL_INSERT_REVIEW);
-   $sth->bindParam(':user', $user, PDO::PARAM_INT);
-   $sth->bindParam(':date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
-   $sth->bindParam(':data', serialize($form), PDO::PARAM_STR);
-   $sth->execute();
-   $lastInsertId = $dbh->lastInsertId();
-
-   $submission->addReview($lastInsertId);
+   // Create the review
+   $review = Review::createReview($form);
+   // Add it to the submission
+   $submission->addReview($review->id);
 
    echo "Your form has been saved.</br>";
 

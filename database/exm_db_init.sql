@@ -118,6 +118,14 @@ CREATE TABLE IF NOT EXISTS `site`.`user_role` (
   FOREIGN KEY (`role_id`) REFERENCES `site`.`roles`(`role_id`)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+/* Set default roles */
+INSERT INTO `site`.`roles` (`role_id`, `role_name`) VALUES ('1', 'admin');
+INSERT INTO `site`.`roles` (`role_id`, `role_name`) VALUES ('2', 'examinator');
+INSERT INTO `site`.`roles` (`role_id`, `role_name`) VALUES ('3', 'reviewer');
+INSERT INTO `site`.`roles` (`role_id`, `role_name`) VALUES ('4', 'manager');
+INSERT INTO `site`.`roles` (`role_id`, `role_name`) VALUES ('5', 'student');
+INSERT INTO `site`.`roles` (`role_id`, `role_name`) VALUES ('6', 'course_admin');
+
 /* TEST DATA FOR DEBUG ONLY */
 INSERT INTO `site`.`users` (`user_real_name`, `user_name`, `user_courses`, `user_password_hash`, `user_email`, `user_active`)
 	VALUES ('Administrator', 'admin', 'a:0:{}', '\$2y\$15\$cDNpzTbhPCVVESl6NrvR4eBZPuqZRg9VxoS8Y4qy1D2hHemnT4e8O', 'administrator@localhost', '1');

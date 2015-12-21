@@ -9,9 +9,6 @@ use PFBC\Form;
 use PFBC\Element;
 use PFBC\Validation;
 
-echo '<div class="row">';
-echo '<div class="col-md-12">';
-
 // If form is submitted and correct
 if (!empty($_POST) && Form::isValid("createCourse")) {
 
@@ -51,6 +48,3 @@ else {
 
   $form->render();
 }
-
-echo '</div>';
-echo '</div>';

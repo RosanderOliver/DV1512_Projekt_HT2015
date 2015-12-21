@@ -29,11 +29,8 @@ foreach (array_reverse($project->getSubmission()) as $key => $value) {
   // Get the submission
   $submission = new Submission($value);
 
-  if ($stages[$submission->stage] == STAGE_PLAN) {
-    echo '<h4> Project plan</h4>';
-  } elseif ($stages[$submission->stage] == STAGE_REPORT) {
-    echo '<h4> Project report</h4>';
-  }
+  echo '<h4>'.$stages[$submission->stage].'</h4>';
+
   foreach ($submission->getComments() as $key => $value) {
     echo '<br>Comment: '.$value->data;
   }
