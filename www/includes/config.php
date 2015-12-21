@@ -29,7 +29,7 @@ define("SITE_NAME", "Exam Manager");
  * DB_PASS: the password of the above user
  */
 define("DB_HOST", "127.0.0.1");
-define("DB_NAME", "login");
+define("DB_NAME", "site");
 define("DB_USER", "exm");
 define("DB_PASS", "cisco12345");
 

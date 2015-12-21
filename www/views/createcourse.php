@@ -15,12 +15,8 @@ echo '<div class="col-md-12">';
 // If form is submitted and correct
 if (!empty($_POST) && Form::isValid("createCourse")) {
 
-    // TODO This should not be 0...
-    $permissions = 0;
-
     $sth = $dbh->prepare(SQL_INSERT_COURSE);
     $sth->bindParam(":name", $_POST["name"], PDO::PARAM_STR);
-    $sth->bindParam(":permissions", $permissions, PDO::PARAM_STR);
     $sth->execute();
 
     // Add the course to this user
