@@ -12,6 +12,7 @@
   <div class="login-page-box">
     <div class="table-wrapper">
       <div class="login-box ">
+        <h3>Register</h3>
         <form method="post" action="?view=register" name="registerform">
           <input id="real_name" type="text" name="real_name" required placeholder="<?php echo WORDING_REGISTRATION_REALNAME; ?>"/>
           <input id="user_name" type="text" pattern="[a-zA-Z0-9]{2,64}" name="user_name" required placeholder="<?php echo WORDING_REGISTRATION_USERNAME; ?>"/>
