@@ -6,7 +6,7 @@ if ($login->isUserLoggedIn() === false) exit(1);
 
 // Get course id
 if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
-  $id = intval($_GET['cid']);
+  $cid = intval($_GET['cid']);
 } else {
   exit('Invalid id!');
 }
@@ -16,20 +16,17 @@ use PFBC\Form;
 use PFBC\Element;
 use PFBC\Validation;
 
-echo '<div class="row">';
-echo '<div class="col-md-12">';
-
 // If form is submitted and correct
 if (!empty($_POST) && Form::isValid('createProject', false)) {
 
     $uid = findUser($_POST['student'], $dbh);
 
     // Get current Course
-    $course = $user->getCourse($id);
+    $course = $user->getCourse($cid);
 
     if( $uid == -1 ) {
       Form::setError('createProject', 'Error: Unable to find that user.');
-      header("Location: ?view=createproject&cid=$id");
+      header("Location: ?view=createproject&cid=$cid");
     } else {
       Form::clearValues('createProject');
     }
@@ -51,18 +48,20 @@ if (!empty($_POST) && Form::isValid('createProject', false)) {
     // Add the project to the course
     $course->addProject($dbh->lastInsertId());
 
-    // Add the student to the project
     $project = new Project($dbh->lastInsertId());
+    // Add the student to the project
     $project->addStudent($uid);
+    // Add a submission to the Project
+    $project->createSubmission();
 
-    echo '<h3>Success!</h3><a href="?view=course&cid='.$id.'"><button class="btn btn-success">Go back</button></a>';
+    echo '<h3>Success!</h3><a href="?view=course&cid='.$cid.'"><button class="btn btn-success">Go back</button></a>';
 }
 // Else print the form
 else {
 
   $form = new Form('createProject');
   $form->configure(array(
-      'action' => "?view=createproject&cid=$id"
+      'action' => "?view=createproject&cid=$cid"
   ));
   $form->addElement(new Element\HTML('<legend>Create new project</legend>'));
   $form->addElement(new Element\Hidden('form', 'createProject'));
@@ -97,6 +96,3 @@ else {
 
   $form->render();
 }
-
-echo '</div>';
-echo '</div>';
