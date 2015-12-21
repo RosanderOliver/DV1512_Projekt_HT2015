@@ -88,7 +88,7 @@ else {
   $form->addElement(new Element\DateTimeLocal('Deadline:', 'deadline', array(
     'validation' => new Validation\RegExp('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/', 'Error: The %element% field must contain a date.'),
     'required' => 1,
-    'longDesc' => 'Select a deadline for this project'
+    'longDesc' => 'Select a deadline for this project (Y-m-dTH:i)'
   )));
   $form->addElement(new Element\Button('Create'));
   $form->addElement(new Element\Button('Cancel', 'button', array(
