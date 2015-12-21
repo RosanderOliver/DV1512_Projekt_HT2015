@@ -14,7 +14,7 @@ class User
   /**
   * @var object $dbh The database handler
   */
-  private $dbh = null;
+  protected $dbh = null;
   /**
   * @var int $id The user's database id
   */

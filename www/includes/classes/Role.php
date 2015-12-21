@@ -38,20 +38,35 @@ class Role
     while ($result = $sth->fetch(PDO::FETCH_OBJ)) {
       // Build the object
       $perm = new stdClass;
-      $perm->perm_name = $result->perm_name;
       $perm->perm_desc = $result->perm_desc;
 
       // Add it to the array
-      $this->permissions[$result->perm_id] = $perm;
+      $this->permissions[$result->perm_name] = $perm;
     }
   }
 
   /**
   * Check if a permission is set
   * @author Jim Ahlstrand
-  * @param int $permission id of the permission to check for
+  * @param string $permission name of the permission to check
+  * @return bool true if user has permission
   */
   public function hasPerm($permission) {
     return key_exists($permission, $this->permissions);
+  }
+
+  /**
+  * Gets the description for the permission
+  * @author Jim Ahlstrand
+  * @param string $permission name of the permission to check
+  * @return string description of permission
+  */
+  public function getDesc($permission) {
+    // If the user has this permission
+    if (key_exists($permission, $this->permissions)) {
+      return $this->permissions[$permission];
+    }
+    // Else return generic description
+    return "The description is not availiable to this user.";
   }
 }

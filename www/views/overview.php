@@ -7,7 +7,6 @@ if ($login->isUserLoggedIn() === false) exit(1);
   echo '<div class="row">';
   echo '<div class="col-md-3">';
   echo '<h2>Active Courses</h2>';
-
   echo '<ul>';
   foreach ($user->getCourse() as $key => $value) {
     $course = $user->getCourse($value);
