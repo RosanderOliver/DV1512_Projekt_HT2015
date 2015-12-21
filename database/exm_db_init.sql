@@ -120,4 +120,4 @@ CREATE TABLE IF NOT EXISTS `site`.`user_role` (
 
 /* TEST DATA FOR DEBUG ONLY */
 INSERT INTO `site`.`users` (`user_real_name`, `user_name`, `user_courses`, `user_password_hash`, `user_email`, `user_active`)
-	VALUES ('Administrator', 'admin', 'a:1:{i:0;i:1;}', '\$2y\$15\$cDNpzTbhPCVVESl6NrvR4eBZPuqZRg9VxoS8Y4qy1D2hHemnT4e8O', 'administrator@localhost', '1');
+	VALUES ('Administrator', 'admin', 'a:0:{}', '\$2y\$15\$cDNpzTbhPCVVESl6NrvR4eBZPuqZRg9VxoS8Y4qy1D2hHemnT4e8O', 'administrator@localhost', '1');
