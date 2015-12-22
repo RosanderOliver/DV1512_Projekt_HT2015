@@ -146,9 +146,17 @@ class Submission
     if ($id <= 0)
       throw new Exception("Invalid parameter");
 
-    // Check so submission exists in the course
-    if (!in_array($id, $this->reviews))
-      throw new Exception("Invalid review request");
+    // Check so review exists in the submission
+    $exists = false;
+    foreach ($this->reviews as $key => $value) {
+      if (in_array($id, $value)) {
+        $exists = true;
+        break;
+      }
+    }
+    if (!$exists) {
+      throw new Exception("The requested review does not exist");
+    }
 
     return new Review($id);
   }

@@ -23,7 +23,7 @@ if ($login->isUserLoggedIn() === true) {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">'.SITE_NAME.'</a>
+      <p class="navbar-brand" style="margin-bottom:0;">'.SITE_NAME.'</p>
     </div>'
   );
   echo  '<div id="navbar" class="collapse navbar-collapse">';

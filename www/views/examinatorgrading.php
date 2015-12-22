@@ -38,11 +38,12 @@
 	$submission = $project->getSubmission($sid);
 	$reviews = array();
 	foreach ($submission->getReview() as $key => $value) {
-		$reviews[] = $submission->getReview($value);
+		$id = $submission->getLatestReview($key);
+		$reviews[] = $submission->getReview($id);
 	}
 
 	// Check form data
-	if (!empty($_POST)){
+	if (!empty($_POST)) {
 
 		$grade = intval($_POST["grades"]);
 		$comment = $_POST["comment"];
@@ -66,7 +67,9 @@
 		} else {
 			$dataSent = 0;
 		}
-	}
+
+		echo '<h3>Success!</h3><a href="?"><button class="btn btn-success">Go back</button></a>';
+	} else {
  ?>
 
 
@@ -87,35 +90,39 @@
 		$tdata = array();
 		foreach ($submission->getReview() as $key => $value) {
 			// Get the review
-			$review = $submission->getReview($value);
+			$id = $submission->getLatestReview($key);
+			$review = $submission->getReview($id);
+			$data = $review->data;
 
 			// Get the table header
-			if (get_class($review) == "TE") {
+			if (get_class($data) == "TE") {
 				$thead = $tableTE;
-			} elseif (get_class($review) == "PP") {
+			} elseif (get_class($data) == "PP") {
 				$thead = $tablePP;
 			}
 
+			$user = new User($review->user);
+
 			// Get the table data
-			if (get_class($review) == "TE") {
+			if (get_class($data) == "TE") {
 
 				$tdata[] = array(
-					1 => $review->user,
-					2 => $review->s1,
-					3 => $review->s2,
-					4 => $review->s3,
-					5 => $review->s4,
-					6 => $review->s6	);
+					1 => $user->real_name,
+					2 => $data->s1,
+					3 => $data->s2,
+					4 => $data->s3,
+					5 => $data->s4,
+					6 => $data->s6	);
 
 
-			} elseif (get_class($review) == "PP") {
+			} elseif (get_class($data) == "PP") {
 
 				$tdata[] = array(
-					1 => $review->user,
-					2 => $review->s1,
-					3 => $review->s2,
-					4 => $review->s3,
-					5 => $review->s4 );
+					1 => $user->real_name,
+					2 => $data->s1,
+					3 => $data->s2,
+					4 => $data->s3,
+					5 => $data->s4 );
 			}
 		}
 
@@ -133,9 +140,10 @@
 	echo "<br><br>";																								//TODO Name of uploaded files regarding this submission
 	foreach ($submission->getReview() as $key => $value) {
 		// Get the review
-		$review = $submission->getReview($value);
+		$id = $submission->getLatestReview($key);
+		$review = $submission->getReview($id);
 
-		echo "<br>Overall comments and feedback: ".$review->feedback;
+		echo "<br>Overall comments and feedback: ".$review->data->feedback;
 		if (get_class($review) == "TE"){
 			echo '<br><a target="_blank" href="?view=reviewthesis&sid='.$submission->id.'&uid='.$review->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';							//TODO Link to formulary should be the name of the reviewer
 		} elseif (get_class($review) == "PP") {
@@ -186,5 +194,4 @@
 	<input type='hidden' name="id" value='<?php echo $project->id; ?>' />
 		<input type="submit" value="Submit grade and comment">
 </form>
-<?php endif; ?>
-<br>
+<?php endif; } ?>

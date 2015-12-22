@@ -361,14 +361,14 @@
   */
   function printTable( $head = null, $data )
   {
-    echo '<table width=700px>';
+    echo '<table class="table">';
     // If head
     if($head != null)
     {
       echo '<thead>';
       echo '<tr>';
       foreach ($head as $key => $value) {
-        echo '<td>'.$value.'</td>';
+        echo '<th>'.$value.'</th>';
       }
       echo '</tr>';
       echo '</thead>';
