@@ -103,20 +103,28 @@ CREATE TABLE IF NOT EXISTS `site`.`permissions` (
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `site`.`role_perm` (
+  `role_perm_id` INT UNSIGNED NOT NULL,
   `role_id` INT UNSIGNED NOT NULL,
   `perm_id` INT UNSIGNED NOT NULL,
 
+  PRIMARY KEY (`role_perm_id`),
   FOREIGN KEY (`role_id`) REFERENCES `site`.`roles`(`role_id`),
   FOREIGN KEY (`perm_id`) REFERENCES `site`.`permissions`(`perm_id`)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `site`.`user_role` (
+  `user_role_id` INT UNSIGNED NOT NULL,
   `user_id` INT UNSIGNED NOT NULL,
   `role_id` INT UNSIGNED NOT NULL,
 
+  PRIMARY KEY (`user_role_id`),
   FOREIGN KEY (`user_id`) REFERENCES `site`.`users`(`user_id`),
   FOREIGN KEY (`role_id`) REFERENCES `site`.`roles`(`role_id`)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+/* Admin user */
+INSERT INTO `site`.`users` (`user_real_name`, `user_name`, `user_courses`, `user_password_hash`, `user_email`, `user_active`)
+	VALUES ('Administrator', 'admin', 'a:0:{}', '\$2y\$15\$cDNpzTbhPCVVESl6NrvR4eBZPuqZRg9VxoS8Y4qy1D2hHemnT4e8O', 'administrator@localhost', '1');
 
 /* Set default roles */
 INSERT INTO `site`.`roles` (`role_id`, `role_name`) VALUES ('1', 'admin');
@@ -126,6 +134,18 @@ INSERT INTO `site`.`roles` (`role_id`, `role_name`) VALUES ('4', 'manager');
 INSERT INTO `site`.`roles` (`role_id`, `role_name`) VALUES ('5', 'student');
 INSERT INTO `site`.`roles` (`role_id`, `role_name`) VALUES ('6', 'course_admin');
 
-/* TEST DATA FOR DEBUG ONLY */
-INSERT INTO `site`.`users` (`user_real_name`, `user_name`, `user_courses`, `user_password_hash`, `user_email`, `user_active`)
-	VALUES ('Administrator', 'admin', 'a:0:{}', '\$2y\$15\$cDNpzTbhPCVVESl6NrvR4eBZPuqZRg9VxoS8Y4qy1D2hHemnT4e8O', 'administrator@localhost', '1');
+/* Set default permissions */
+INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('1', 'canViewAllProjects', 'The user can view all projects in a course');
+INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('2', 'canViewPermissions', 'The user can view permissions');
+INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('3', 'canEditPermissions', 'The user can edit Permissions');
+INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('4', 'canCreateCourse', 'The user can create new courses');
+
+/* Set default role permissions */
+INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('2', '1');
+INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '1');
+INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '2');
+INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '3');
+INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '4');
+
+/* Set default roles for users */
+INSERT INTO `site`.`user_role` (`user_id`, `role_id`) VALUES ('1', '1');

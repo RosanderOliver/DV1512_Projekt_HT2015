@@ -4,6 +4,11 @@ if (!defined("IN_EXM")) exit(1);
 
 if ($login->isUserLoggedIn() === false) exit(1);
 
+// Test permissions
+if (!$user->hasPrivilege("canCreateCourse")) {
+  header("Location: ?view=accessdenied");
+}
+
 // Namespaces to use
 use PFBC\Form;
 use PFBC\Element;

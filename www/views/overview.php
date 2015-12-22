@@ -32,14 +32,16 @@ if ($login->isUserLoggedIn() === false) exit(1);
 
   echo '</div>';
   echo '<div class="md-col-3">';
-  print('
-    <h2>Tasks</h2>
-    <ul>
-      <li>
-        <a href="?view=createcourse">Create new course</a>
-      </li>
-    </ul>
-  ');
+  echo '<h2>Tasks</h2>';
+
+  $list = array();
+  if ($user->hasPrivilege("canCreateCourse")) {
+    $list[] = array('Create new course', '?view=createcourse');
+  }
+  if ($user->hasPrivilege("canViewPermissions")) {
+    $list[] = array('View permissions', '?view=permissions');
+  }
+  printULLink($list);
 
   echo '</div>';
   echo '</div>';

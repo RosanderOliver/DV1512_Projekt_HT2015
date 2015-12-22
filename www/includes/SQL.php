@@ -49,6 +49,7 @@ define("SQL_SELECT_REVIEW_WHERE_ID_AND_USER", "SELECT * FROM `site`.`reviews` WH
 define("SQL_SELECT_REVIEW_WHERE_ID", "SELECT * FROM `site`.`reviews` WHERE `id`=:id");
 define("SQL_UPDATE_REVIEW_COMMENTS_WHERE_ID", "UPDATE `site`.`reviews` SET `comments`=:comments WHERE `id`=:id");
 
-// roles
+// roles & permissions
+define("SQL_SELECT_PERMISSIONS", "SELECT * FROM `site`.`permissions`");
 define("SQL_SELECT_ROLE_JOIN_PERMISSIONS_WHERE_ID", "SELECT `perm`.`perm_id`, `perm_name`, `perm_desc` FROM `site`.`role_perm` AS `role` JOIN `site`.`permissions` AS `perm` ON `role`.`perm_id`=`perm`.`perm_id` WHERE `role`.`role_id`=:role_id");
 define("SQL_SELECT_USER_JOIN_ROLE_WHERE_ID", "SELECT `role`.`role_id`, `role`.`role_name` FROM `site`.`user_role` AS `user` JOIN `site`.`roles` AS `role` ON `user`.`role_id`=`role`.`role_id` WHERE `user`.`user_id`=:user_id");

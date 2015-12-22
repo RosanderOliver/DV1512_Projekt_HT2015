@@ -86,6 +86,18 @@ $stages = array(
 // make it global
 $GLOBALS['stages'] = $stages;
 
+// roles definitions
+$roles = array(
+  "Admin",
+  "Examinator",
+  "Reviewer",
+  "Manager",
+  "Student",
+  "Course Admin"
+);
+// Nake it global
+$GLOBALS['roles'] = $roles;
+
 // Set views
 $views = [
   'course',
@@ -100,7 +112,8 @@ $views = [
   'reviewplan',
   'reviewthesis',
   'createcourse',
-  'createproject'
+  'createproject',
+  'permissions'
 ];
 
 /*

@@ -85,6 +85,38 @@
   }
 
   /**
+  * Print Unordered list
+  * @author Jim Ahlstrand
+  * @param  array  $list   An array containing the list items and optional sublist
+  * @return void
+  */
+  function printUL( $list ) {
+    if ($list == null || $list == array()) {
+      return;
+    }
+
+    echo '<ul>';
+    foreach ($list as $key => $set) {
+
+      $label = $set[0];
+      if (isset($set[1])) {
+        $value = $set[1];
+      }
+      else {
+        $value = null;
+      }
+
+      echo '<li>';
+      echo $label;
+      if (is_array($value)) {
+        printULLink($value);
+      }
+      echo '</li>';
+    }
+    echo '</ul>';
+  }
+
+  /**
   * Pretty data dump
   * @author Jim Ahlstrand
   * @param  array|object  $var   An array or pbject with data to print
