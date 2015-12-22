@@ -46,6 +46,8 @@ foreach (array_reverse($project->getSubmission()) as $key => $value) {
       echo '<br><a href="?view=reviewthesis&sid='.$submission->id.'">Review this submission</a>';
     }
   }
+
+  echo '<hr/>';
 }
 
 echo '</div>';

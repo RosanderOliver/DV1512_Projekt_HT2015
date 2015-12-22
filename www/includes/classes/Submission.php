@@ -154,6 +154,20 @@ class Submission
 
   /**
   * @author Jim Ahlstrand
+  * @param int $id id of the reviewer to check for
+  * @return int id of the latest review, -1 if not present
+  */
+  public function getLatestReview($id)
+  {
+    if (!key_exists($id, $this->reviews)) {
+      return -1;
+    } else {
+      return $this->reviews[$id][count($this->reviews[$id]) - 1];
+    }
+  }
+
+  /**
+  * @author Jim Ahlstrand
   * @param string $comment content of comment to be stored
   * @return void
   */

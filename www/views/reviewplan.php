@@ -71,20 +71,13 @@
 // If no form was submitted print it
 else {
 
-  // TODO This is ugly, plz fix
-  $reviewUserId = $_GET['uid'];
-  $latestReviewIndex = sizeof($submission->reviews[$reviewUserId])-1;
-  $latesReview = $submission->reviews[$reviewUserId][$latestReviewIndex];
-
-  $sth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
-  $sth->bindParam(':id', $latesReview, PDO::PARAM_INT);
-  $sth->bindParam(':user', $reviewUserId, PDO::PARAM_INT);
-  $sth->execute();
-  $tmp = $sth->fetchObject();
-  if($tmp != null){
-    $data = unserialize($tmp->data);
+  $data;
+  $latestID = $submission->getLatestReview($user->id);
+  // If user already has a review
+  if ($latestID > -1) {
+    $review = new Review($latestID);
+    $data = $review->data;
   }
-  // =========
 
    include('includes/content/dp_pp-eval-supervisor.php');
 }
