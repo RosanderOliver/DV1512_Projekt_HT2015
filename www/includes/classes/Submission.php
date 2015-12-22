@@ -1,5 +1,6 @@
 <?php
 
+
 /**
 * Handles project data and functions regarding handling data
 * @author Jim Ahlstrand
