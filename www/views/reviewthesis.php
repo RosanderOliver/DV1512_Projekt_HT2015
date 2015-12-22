@@ -1,4 +1,8 @@
 <?php
+
+  if (!defined("IN_EXM")) exit(1);
+  if ($login->isUserLoggedIn() === false) exit(1);
+
   if (isset($_GET['sid'])) {
     $sid = intval($_GET['sid']);
   } else {
@@ -9,8 +13,7 @@
 
   if(isset($_POST['submit'])){
 
-    $notEmpty = true;
-
+    //TODO This should be stdClass and generalized
     $data = new TE();
 
     $data->student1 = input_length(test_input($_POST["student1"]));
@@ -59,41 +62,22 @@
     $data->date = length_date(test_input($_POST["date"]));
     $data->feedback = input_length(test_input($_POST["feedback"]));
 
-    $notEmpty = is_empty($data);
+    // Create the review
+    $review = Review::createReview($data);
+    // Add it to the submission
+    $submission->addReview($review->id);
 
-     if(notEmpty){
-
-       if($dbh != null){
-        $uid = $_SESSION['user_id'];
-        $ssth = $dbh->prepare(SQL_INSERT_REVIEW);
-        $ssth->bindParam(':user', $uid, PDO::PARAM_INT);
-        $ssth->bindParam(':date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
-        $ssth->bindParam(':data', serialize($data), PDO::PARAM_STR);
-        $ssth->execute();
-        $lastInsertId = $dbh->lastInsertId();
-
-        $submission->addReview($lastInsertId);
-
-        echo "Your form has been saved.</br>";
-       }
-       else{
-         echo "Connection failed. Try to log in again.</br>";
-       }
-     }
+    echo '<h3>Success!</h3><a href="?"><button class="btn btn-success">Go back</button></a>';
 }
+// Else print the fprm
 else{
 
-  $reviewUserId = $_GET['uid'];
-  $latestReviewIndex = sizeof($submission->reviews[$reviewUserId])-1;
-  $latesReview = $submission->reviews[$reviewUserId][$latestReviewIndex];
-
-  $sth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
-  $sth->bindParam(':id', $latesReview, PDO::PARAM_INT);
-  $sth->bindParam(':user', $reviewUserId, PDO::PARAM_INT);
-  $sth->execute();
-  $tmp = $sth->fetchObject();
-  if($tmp != null){
-    $data = unserialize($tmp->data);
+  $data;
+  $latestID = $submission->getLatestReview($user->id);
+  // If user already has a review
+  if ($latestID > -1) {
+    $review = new Review($latestID);
+    $data = $review->data;
   }
 
   include('includes/content/dp_thesis-eval_supervisor.php');

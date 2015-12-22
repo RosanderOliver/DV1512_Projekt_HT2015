@@ -1,5 +1,6 @@
 
   <?php //TODO a table in a form? this is confusing ?>
+  <?php //TODO Onmouseover.......... no ?>
   <form action="index.php?view=reviewplan&sid=<?php echo $sid?>" method="post" name="pp" onmouseover="pass(pp.s1.value, pp.s2.value, pp.s3.value)">
   <table class="form_table">
 

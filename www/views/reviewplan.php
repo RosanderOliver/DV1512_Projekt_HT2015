@@ -1,5 +1,8 @@
 <?php
 
+  if (!defined("IN_EXM")) exit(1);
+  if ($login->isUserLoggedIn() === false) exit(1);
+
   if (isset($_GET['sid']) && intval($_GET['sid']) > 0) {
     $sid = intval($_GET['sid']);
   } else {
@@ -65,7 +68,7 @@
    // Add it to the submission
    $submission->addReview($review->id);
 
-   echo "Your form has been saved.</br>";
+   echo '<h3>Success!</h3><a href="?"><button class="btn btn-success">Go back</button></a>';
 
 }
 // If no form was submitted print it
@@ -79,5 +82,5 @@ else {
     $data = $review->data;
   }
 
-   include('includes/content/dp_pp-eval-supervisor.php');
+  include('includes/content/dp_pp-eval-supervisor.php');
 }
