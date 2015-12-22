@@ -15,8 +15,14 @@ if ($login->isUserLoggedIn() === false) exit(1);
     echo '</li>';
   }
   echo '</ul>';
-
   echo '</div>';
+
+  //TODO IF PERMISSION == ADMINISTRATOR
+
+  if (TRUE) {
+    
+  }
+
   echo '<div class="col-md-6">';
 
   echo '<h2>Overview</h2>';
