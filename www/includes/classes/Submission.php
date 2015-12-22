@@ -30,7 +30,7 @@ class Submission
   /**
   * @var array $reviews array with review id
   */
-  public $reviews = array();
+  private $reviews = array();
   /**
   * @var array $comments array with comment id
   */
@@ -126,5 +126,73 @@ class Submission
       $comments[] = new Comment($value);
     }
     return $comments;
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param int, $id, Id of the review to be fetched defaults to null
+  * @return obj, stdClassObject
+  * TODO return only submissions that the user own or has permission to view
+  */
+  public function getReview( $id = null )
+  {
+    // If id is null return a list of all submissions listed for the project
+    if ($id === null)
+      return $this->reviews;
+
+    $id = intval($id);
+    // Check for invalid id
+    if ($id <= 0)
+      throw new Exception("Invalid parameter");
+
+    // Check so submission exists in the course
+    if (!in_array($id, $this->reviews))
+      throw new Exception("Invalid review request");
+
+    return new Review($id);
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param string $comment content of comment to be stored
+  * @return void
+  */
+  function addComment($comment) {
+    try {
+      // Create the comment
+      $comment = Comment::createComment($comment);
+
+      // Update the database
+      $this->comments[] = intval($comment->id);
+      $comments = serialize($this->comments); // TODO Check so this actually fits in database
+
+      $sth = $this->dbh->prepare(SQL_UPDATE_SUBMISSION_COMMENTS_WHERE_ID);
+      $sth->bindParam(":comments", $comments, PDO::PARAM_STR);
+      $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+      $sth->execute();
+
+    } catch (Exception $e) {
+      echo $e->getMessage();
+    }
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param int $grade integer with the grade
+  */
+  public function setGrade($grade)
+  {
+    // Check input
+    if (!key_exists($grade, $GLOBALS['grades'])) {
+      throw new Exception("Invalid grade");
+    }
+
+    // Update the database
+    $this->grade = $grade;
+
+    $sth = $this->dbh->prepare(SQL_UPDATE_SUBMISSION_GRADE_WHERE_ID);
+    $sth->bindParam(":grade", $this->grade, PDO::PARAM_INT);
+    $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+    $sth->execute();
   }
 }

@@ -77,12 +77,11 @@ class Review
   * @author Jim Ahlstrand
   * @param string $comment content of comment to be stored
   * @return void
-  * TODO Add error message to error variable
   */
   function addComment($comment) {
     try {
       // Create the comment
-      $comment = new Comment(null, $comment);
+      $comment = Comment::createComment($comment);
 
       // Update the database
       $this->comments[] = intval($comment->id);

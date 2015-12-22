@@ -19,7 +19,9 @@ use PFBC\Validation;
 // If form is submitted and correct
 if (!empty($_POST) && Form::isValid('createProject', false)) {
 
-    $uid = findUser($_POST['student'], $dbh);
+    // This functions is disabled until students get activated
+    //$uid = findUser($_POST['student']);
+    $uid = 0;
 
     // Get current Course
     $course = $user->getCourse($cid);
@@ -32,25 +34,18 @@ if (!empty($_POST) && Form::isValid('createProject', false)) {
     }
 
     // TODO here we assume the examinator is the current user...
-    $examinators = serialize(array(intval($_SESSION['user_id'])));
-
+    $examinators = array(intval($_SESSION['user_id']));
+    $subject = $_POST['subject'];
     $deadline = new DateTime($_POST['deadline']);
-    $deadline = $deadline->format('Y-m-d H:i:s');
     $stage = intval($_POST['stage']);
 
-    $sth = $dbh->prepare(SQL_INSERT_PROJECT);
-    $sth->bindParam(':subject', $_POST['subject'], PDO::PARAM_STR);
-    $sth->bindParam(':stage', $stage, PDO::PARAM_INT);
-    $sth->bindParam(':examinators', $examinators, PDO::PARAM_STR);
-    $sth->bindParam(':deadline', $deadline, PDO::PARAM_STR);
-    $sth->execute();
+    // Create Project
+    $project = Project::createProject($subject, $examinators, $deadline, $stage);
 
     // Add the project to the course
-    $course->addProject($dbh->lastInsertId());
-
-    $project = new Project($dbh->lastInsertId());
+    $course->addProject($project->id);
     // Add the student to the project
-    $project->addStudent($uid);
+    //$project->addStudent($uid);
     // Add a submission to the Project
     $project->createSubmission();
 
@@ -77,13 +72,13 @@ else {
     'required' => 1,
     'longDesc' => 'Starting stage of the project'
   )));
-  $form->addElement(new Element\Textbox('Student:', 'student', array(
+/*  $form->addElement(new Element\Textbox('Student:', 'student', array(
     //TODO The regex should use defined constants to more easily adapt
     //TODO a better regex should be implemented depending on acronym
     'validation' => new Validation\RegExp('/^[a-z\d]{2,64}$/', 'Error: The %element% field must contain a username.'),
     'required' => 1,
     'longDesc' => 'Assign a student to this project with it\'s acronym'
-  )));
+  )));*/
   $form->addElement(new Element\DateTimeLocal('Deadline:', 'deadline', array(
     'validation' => new Validation\RegExp('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/', 'Error: The %element% field must contain a date.'),
     'required' => 1,
