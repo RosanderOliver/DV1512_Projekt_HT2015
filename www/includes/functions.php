@@ -388,8 +388,8 @@
   /**
   * CreateTable
   * @author Oliver Rosander, Jim Ahlstrand
-  * @param string array containing the column names
-  * @param string array containing the table data
+  * @param array $head array containing the table header
+  * @param array $data array containing the table data
   */
   function printTable( $head = null, $data )
   {

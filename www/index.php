@@ -88,12 +88,12 @@ $GLOBALS['stages'] = $stages;
 
 // roles definitions
 $roles = array(
-  "Admin",
-  "Examinator",
-  "Reviewer",
-  "Manager",
-  "Student",
-  "Course Admin"
+  1 => "Admin",
+  2 => "Examinator",
+  3 => "Reviewer",
+  4 => "Manager",
+  5 => "Student",
+  6 => "Course Admin"
 );
 // Nake it global
 $GLOBALS['roles'] = $roles;
