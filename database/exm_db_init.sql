@@ -139,6 +139,8 @@ INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('
 INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('2', 'canViewPermissions', 'Can view permissions');
 INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('3', 'canEditPermissions', 'Can edit permissions');
 INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('4', 'canCreateCourse', 'Can create new courses');
+INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('5', 'canCreateProject', 'Can create a new project in a course');
+INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('6', 'canAssignCourseAdmin', 'Can assign a admin to a course');
 
 /* Set default role permissions */
 INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('2', '1');
@@ -146,6 +148,8 @@ INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '1');
 INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '2');
 INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '3');
 INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '4');
+INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '5');
+INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '6');
 
 /* Set default roles for users */
 INSERT INTO `site`.`user_role` (`user_id`, `role_id`) VALUES ('1', '1');

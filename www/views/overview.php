@@ -43,27 +43,5 @@ if ($login->isUserLoggedIn() === false) exit(1);
   }
   printULLink($list);
 
-  echo "Assign new courseadministrator";
-  //TODO IF PERMISSION == ADMINISTRATOR
-  if (TRUE) {
-  ?><form method='post' action="">
-
-      <INPUT TYPE = "Text" VALUE = "" NAME = "username">
-      <INPUT TYPE = "Submit" VALUE = "Search for username">
-
-    </form><?php
-    if (isset($_POST['username'])) {
-      if ($newAdmin = findUser($_POST['username']) != -1) {
-        echo "User id: ".$newAdmin;
-
-        //TODO Assign $newAdmin courseadmin privileges.
-      }
-      else {
-        echo "Could not find user!";
-      }
-    }
-
-  }
-
   echo '</div>';
   echo '</div>';

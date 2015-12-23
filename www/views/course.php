@@ -6,13 +6,13 @@ if ($login->isUserLoggedIn() === false) exit(1);
 
 // Get course id
 if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
-  $id = intval($_GET['cid']);
+  $cid = intval($_GET['cid']);
 } else {
   exit("Invalid id!");
 }
 
 // Get current Course
-$course = $user->getCourse($id);
+$course = $user->getCourse($cid);
 
 echo '<div class="row">';
 
@@ -24,7 +24,7 @@ echo '<ul>';
 foreach ($course->getProject() as $key => $value) {
   $project = $course->getProject($value);
   echo '<li>';
-  echo '<a href="?view=projectoverview&pid='.$project->id.'&cid='.$course->id.'">'.$project->subject.'</a>';
+  echo '<a href="?view=projectoverview&pid='.$project->id.'&cid='.$cid.'">'.$project->subject.'</a>';
   echo '</li>';
 }
 echo '</ul>';
@@ -32,13 +32,17 @@ echo '</div>';
 
 
 // List tasks
-echo '<div class="col-md-4">';
+echo '<div class="md-col-3">';
 echo '<h2>Tasks</h2>';
-echo '<ul>';
-echo   '<li>';
-echo     '<a href="?view=createproject&cid='.$course->id.'">Create new project</a>';
-echo   '</li>';
-echo '</ul>';
-echo '</div>';
 
+$list = array();
+if ($user->hasPrivilege("canCreateProject")) {
+  $list[] = array('Create new project', '?view=createproject&cid='.$cid);
+}
+if ($user->hasPrivilege("canAssignCourseAdmin")) {
+  $list[] = array('Assign admin', '?view=assigncourseadmin&cid='.$cid);
+}
+printULLink($list);
+
+echo '</div>';
 echo '</div>';

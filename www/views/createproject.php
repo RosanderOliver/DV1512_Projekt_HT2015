@@ -4,6 +4,11 @@ if (!defined('IN_EXM')) exit(1);
 
 if ($login->isUserLoggedIn() === false) exit(1);
 
+// Test permissions
+if (!$user->hasPrivilege("canCreateProject")) {
+  header("Location: ?view=accessdenied");
+}
+
 // Get course id
 if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
   $cid = intval($_GET['cid']);

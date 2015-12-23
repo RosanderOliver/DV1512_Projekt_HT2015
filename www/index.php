@@ -113,7 +113,8 @@ $views = [
   'reviewthesis',
   'createcourse',
   'createproject',
-  'permissions'
+  'permissions',
+  'assigncourseadmin'
 ];
 
 /*
