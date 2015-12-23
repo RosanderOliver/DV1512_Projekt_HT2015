@@ -17,16 +17,12 @@ use PFBC\Validation;
 // If form is submitted and correct
 if (!empty($_POST) && Form::isValid("createCourse")) {
 
-    $sth = $dbh->prepare(SQL_INSERT_COURSE);
-    $sth->bindParam(":name", $_POST["name"], PDO::PARAM_STR);
-    $sth->execute();
+    $course = Course::createCourse($_POST['name']);
 
     // Add the course to this user
-    $user->addCourse($dbh->lastInsertId());
-
-    $course = new Course($dbh->lastInsertId());
+    $user->addCourse($course->id);
+    // Add current user as admin
     $course->addAdmin($_SESSION['user_id']);
-
 
     echo '<h3>Success!</h3><a href="?"><button class="btn btn-success">Go back</button></a>';
 }

@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `site`.`permissions` (
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `site`.`role_perm` (
-  `role_perm_id` INT UNSIGNED NOT NULL,
+  `role_perm_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `role_id` INT UNSIGNED NOT NULL,
   `perm_id` INT UNSIGNED NOT NULL,
 
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `site`.`role_perm` (
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `site`.`user_role` (
-  `user_role_id` INT UNSIGNED NOT NULL,
+  `user_role_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
   `role_id` INT UNSIGNED NOT NULL,
 

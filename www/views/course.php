@@ -20,14 +20,12 @@ echo '<div class="row">';
 echo '<div class="col-md-8">';
 echo '<h2>Your projects</h2>';
 
-echo '<ul>';
+$list = array();
 foreach ($course->getProject() as $key => $value) {
   $project = $course->getProject($value);
-  echo '<li>';
-  echo '<a href="?view=projectoverview&pid='.$project->id.'&cid='.$cid.'">'.$project->subject.'</a>';
-  echo '</li>';
+  $list[] = array($project->subject, '?view=projectoverview&pid='.$project->id.'&cid='.$cid);
 }
-echo '</ul>';
+printULLink($list);
 echo '</div>';
 
 

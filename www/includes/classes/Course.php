@@ -41,13 +41,7 @@ class Course
   public function __construct($id)
   {
     // Setup database handle
-    try {
-      // Generate a database connection, using the PDO connector
-      $this->dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
-    } catch (PDOException $e) {
-      // If shit hits the fan
-      throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
-    }
+    $this->dbh = $GLOBALS['dbh'];
 
     // Get the course id
     $course = intval($id);
@@ -141,5 +135,24 @@ class Course
     $sth->bindParam(":projects", $projects, PDO::PARAM_STR);
     $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
     $sth->execute();
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param string $name name of the Course
+  * @return Course the newly created course class
+  */
+  public static function createCourse($name)
+  {
+    // Check params
+    if (empty($name) || strlen($name) > MAX_COURSE_NAME_LENGTH) {
+      throw new Exception("Invalid course name");
+    }
+
+    $sth = $GLOBALS['dbh']->prepare(SQL_INSERT_COURSE);
+    $sth->bindParam(":name", $name, PDO::PARAM_STR);
+    $sth->execute();
+
+    return new Course($GLOBALS['dbh']->lastInsertId());
   }
 }

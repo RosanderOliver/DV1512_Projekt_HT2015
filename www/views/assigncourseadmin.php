@@ -4,16 +4,17 @@ if (!defined("IN_EXM")) exit(1);
 
 if ($login->isUserLoggedIn() === false) exit(1);
 
+// Test permissions
+if (!$user->hasPrivilege("canAssignCourseAdmin")) {
+  header("Location: ?view=accessdenied");
+  exit();
+}
+
 // Get course id
 if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
   $cid = intval($_GET['cid']);
 } else {
   exit('Invalid id!');
-}
-
-// Test permissions
-if (!$user->hasPrivilege("canAssignCourseAdmin")) {
-  header("Location: ?view=accessdenied");
 }
 
 // Namespaces to use
@@ -42,7 +43,6 @@ if (!empty($_POST) && Form::isValid("assignCourseAdmin", false)) {
 }
 // Else print the form
 else {
-
   $form = new Form("assignCourseAdmin");
   $form->configure(array(
       "action" => "?view=assigncourseadmin&cid=$cid"
