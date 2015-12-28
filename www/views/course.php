@@ -43,6 +43,9 @@ if ($user->hasPrivilege("canAssignCourseAdmin")) {
 if ($user->hasPrivilege("canAssignReviewers")) {
   $list[] = array('Assign reviewers', '?view=assignreviewers&cid='.$cid);
 }
+if ($user->hasPrivilege("canSelectProjectsToReview")) {
+  $list[] = array('Select projects to review', '?view=selectprojects&cid='.$cid);
+}
 printULLink($list);
 
 echo '</div>';

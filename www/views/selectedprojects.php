@@ -2,7 +2,7 @@
 
 if(isset($_POST['submit'])){
 
-  $temp = $_POST['id'];
+  $temp = $_POST['pid'];
 
   if(isset($_POST['ticked'])){
     foreach($_POST['ticked'] as $value){
