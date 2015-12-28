@@ -19,157 +19,146 @@
 	  5 => 'Grade' );
 
 	$dataSent = 0;
-	$correctgrade=false;
-	$projectId = intval($_GET["pid"]); //TODO CHECK IF USER IS ALLOWED TO VIEW THIS ID
-	$lastSubmissionIndex = intval($_GET["sid"]);
-	$commentArr = array();
-	$reviewIdArr = array();
-	$reviewArr = array();
-	$reviewArrData = array();
-	$submissionsIndexArray = array();
-	$submissionCommentIndex = array();
-	$displayData = array();
-	$projectClass = new Project($projectId);
 
-	// TODO Use project class instead
-	$ssth = $dbh->prepare(SQL_SELECT_PROJECT_WHERE_ID);
-	$ssth->bindParam(":id", $projectId, PDO::PARAM_INT);
-	$ssth->execute();
-	$project = $ssth->fetchObject();
-
-	// TODO Use submission and review class instead
-	$ssth = $dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
-	$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);
-	$ssth->execute();
-	$submission = $ssth->fetchObject();
-	$reviewIdArr = unserialize($submission->reviews);
-	$submissionCommentIndex = unserialize($submission->comments);
-
-
-	$x = 0;
-	foreach ($reviewIdArr as $key => $value) {
-		$ssth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID);
-		$ssth->bindParam(":id", $reviewIdArr[$key][sizeof($value)-1], PDO::PARAM_INT);
-		$ssth->execute();
-		$reviewArr[$x] = $ssth->fetchObject();
-		$reviewArrData[$x] = unserialize($reviewArr[$x]->data);
-		$x = $x + 1;
+	// Get project id
+	if (isset($_GET['pid']) && intval($_GET['pid']) > 0) {
+	  $pid = intval($_GET['pid']);
+	} else {
+	  exit('Invalid id!');
 	}
 
-	if($_POST){
+	// Get submission id
+	if (isset($_GET['sid']) && intval($_GET['sid']) > 0) {
+		$sid = intval($_GET['sid']);
+	} else {
+		exit('Invalid id!');
+	}
+
+	$project = new Project($pid);
+	$submission = $project->getSubmission($sid);
+	$reviews = array();
+	foreach ($submission->getReview() as $key => $value) {
+		$id = $submission->getLatestReview($key);
+		$reviews[] = $submission->getReview($id);
+	}
+
+	// Check form data
+	if (!empty($_POST)) {
+
 		$grade = intval($_POST["grades"]);
 		$comment = $_POST["comment"];
-		$newcomments;
 
+		// TODO define stages with regards to defenitions for easier reading
 		if( $grade < 11 || $grade > 0 ) {
-			$commentId=createComment($dbh);
-			if ($commentId != -1){
-				$dataSent=1;
-				$submissionCommentIndex[] = $commentId;
-				$submissionCommentIndex = serialize($submissionCommentIndex);
 
-				$ssth = $dbh->prepare(SQL_UPDATE_SUBMISSION_COMMENTGRADE_WHERE_ID);
-				$ssth->bindParam(":comments", $submissionCommentIndex, PDO::PARAM_STR);
-				$ssth->bindParam(":grade", $grade, PDO::PARAM_INT);
-				$ssth->bindParam(":id", $lastSubmissionIndex, PDO::PARAM_INT);
-				$ssth->execute();
+			$dataSent = 1;
 
-				if ($grade > 2 && $grade < 9) {
-					$projectClass->updateStage();
-				}
+			$submission->addComment($comment);
+			$submission->setGrade($grade);
 
-				if ($grade < 4 || $grade > 8) {
-					$projectClass->createSubmission();
-				}
+			if ($grade > 2 && $grade < 9) {
+				$project->updateStage();
 			}
+
+			if ($grade < 4 || $grade > 8) {
+				$project->createSubmission();
+			}
+
 		} else {
-			$dataSent=0;
+			$dataSent = 0;
 		}
-	}
+
+		echo '<h3>Success!</h3><a href="?"><button class="btn btn-success">Go back</button></a>';
+	} else {
  ?>
 
-<!-- ============ MIDDLE COLUMN (OVERVIEW) ============== -->
-<td width="55%" valign="top" bgcolor="#FAFAFA">
 
 <h2>Final Grade - Examinator</h2>
-<br>
-
 
 <h3><font color="darkblue">
-<?php echo $project->subject;
-			if($project->stage == 2) {
-				echo " | Project plan |";
-			} elseif ($project->stage == 3) {
-				echo " | Project report |";
-			}
-
-
-?>
- <font color="darkred"><?php echo "Deadline "; echo $project->deadline; ?></font></font></h3>
 <?php
 
-	if (sizeof($reviewArr) > 0 ) {
-		if (get_class($reviewArrData[0]) == "TE") {
-			$thead = $tableTE;
-		} elseif (get_class($reviewArrData[0]) == "PP") {
-			$thead = $tablePP;
-		}
+		echo $project->subject;
+		echo ' | '.$GLOBALS['stages'][$project->stage].' |';
+
+ 		echo '<font color="darkred">';
+	 	echo " Deadline ";
+		echo $project->deadline->format("Y-m-d H:m:s");
+		echo '</font></font></h3>';
+
+		$thead = array();
+		$tdata = array();
+		foreach ($submission->getReview() as $key => $value) {
+			// Get the review
+			$id = $submission->getLatestReview($key);
+			$review = $submission->getReview($id);
+			$data = $review->data;
+
+			// Get the table header
+			if (get_class($data) == "TE") {
+				$thead = $tableTE;
+			} elseif (get_class($data) == "PP") {
+				$thead = $tablePP;
+			}
+
+			$user = new User($review->user);
+
+			// Get the table data
+			if (get_class($data) == "TE") {
+
+				$tdata[] = array(
+					1 => $user->real_name,
+					2 => $data->s1,
+					3 => $data->s2,
+					4 => $data->s3,
+					5 => $data->s4,
+					6 => $data->s6	);
 
 
-		foreach ($reviewArrData as $key => $value) {
-			if (get_class($reviewArrData[$key]) == "TE") {
+			} elseif (get_class($data) == "PP") {
 
-				$displayData[] = array(
-					1 => $reviewArr[$key]->user,
-					2 => $reviewArrData[$key]->s1,
-					3 => $reviewArrData[$key]->s2,
-					4 => $reviewArrData[$key]->s3,
-					5 => $reviewArrData[$key]->s4,
-					6 => $reviewArrData[$key]->s6	);
-
-
-			} elseif (get_class($reviewArrData[$key]) == "PP") {
-
-				$displayData[] = array(
-					1 => $reviewArr[$key]->user,
-					2 => $reviewArrData[$key]->s1,
-					3 => $reviewArrData[$key]->s2,
-					4 => $reviewArrData[$key]->s3,
-					5 => $reviewArrData[$key]->s4 );
+				$tdata[] = array(
+					1 => $user->real_name,
+					2 => $data->s1,
+					3 => $data->s2,
+					4 => $data->s3,
+					5 => $data->s4 );
 			}
 		}
 
-		printTable($thead, $displayData);
+	// Print table
+	printTable($thead, $tdata);
 
-
-
-	}
-
-
-	$commentArr = getComment($dbh, $lastSubmissionIndex);
+	// Print comments
+	$comments = $submission->getComments();
 	echo "<br><br>";
-	echo "Student comment: ".$commentArr[0];
+	echo "Student comment: ";
+	if (isset($comments[0])) {
+		echo $comments[0]->data;
+	}
 	echo "<br>Uploaded files: ";
 	echo "<br><br>";																								//TODO Name of uploaded files regarding this submission
-	for($x=0; $x < sizeof($reviewArr); $x++) {
-		echo "<br>Overall comments and feedback: ".$reviewArrData[$x]->feedback;
-		if (get_class($reviewArrData[$x]) == "TE"){
-			echo '<br><a target="_blank" href="?view=reviewthesis&sid='.$lastSubmissionIndex.'&uid='.$reviewArr[$x]->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';							//TODO Link to formulary should be the name of the reviewer
-		} elseif (get_class($reviewArrData[$x]) == "PP") {
-			echo '<br><a target="_blank" href="?view=reviewplan&sid='.$lastSubmissionIndex.'&uid='.$reviewArr[$x]->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';
+	foreach ($submission->getReview() as $key => $value) {
+		// Get the review
+		$id = $submission->getLatestReview($key);
+		$review = $submission->getReview($id);
+
+		echo "<br>Overall comments and feedback: ".$review->data->feedback;
+		if (get_class($review) == "TE"){
+			echo '<br><a target="_blank" href="?view=reviewthesis&sid='.$submission->id.'&uid='.$review->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';							//TODO Link to formulary should be the name of the reviewer
+		} elseif (get_class($review) == "PP") {
+			echo '<br><a target="_blank" href="?view=reviewplan&sid='.$submission->id.'&uid='.$review->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';
 		}
 			echo "<br><br>";
 	}
 
+//TODO form needs cleanup, use form class
 ?>
 
 <hr>
 
 <font color="#000000"><b>Final Grade Form</b></font>
 
-<div >
-
-			<br>
 			Comment: (max 256 characters)<br /><?php  if ($dataSent == 1) : ?>
 				<p> Data Sent </p>
 				<?php
@@ -180,18 +169,18 @@
 				<p> Wrong input!!! </p>
 				<?php echo $grade; ?>
 			<?php  else : ?>
-	<form method='post' action="?view=examinatorgrading&pid=<?php echo $projectId; ?>&sid=<?php echo $lastSubmissionIndex; ?>">
-		<?php if($project->stage == 3) : ?>
+	<form method='post' action="?view=examinatorgrading&pid=<?php echo $project->id; ?>&sid=<?php echo $submission->id; ?>">
+		<?php if($project->stage >= 3) : ?>
 			<select name="grades">
 		    <option value="4">A</option>
 		    <option value="5">B</option>
 		    <option value="6">C</option>
-		    <option value="7">D</option>//MISSING USER AND SUBCOMMENT
+		    <option value="7">D</option>
 		    <option value="8">E</option>
 				<option value="9">Fx</option>
 		    <option value="10">F</option>
 		  </select>
-		<?php elseif($project->stage == 2): ?>
+		<?php else: ?>
 			<select name="grades">
 				<option value="3">G</option>
 				<option value="2">Ux</option>
@@ -202,9 +191,7 @@
 	<br>
 	<br>
 	<textarea name='comment' id='comment'></textarea><br /><br><br>
-	<input type='hidden' name="id" value='<?php echo $projectId; ?>' />
+	<input type='hidden' name="id" value='<?php echo $project->id; ?>' />
 		<input type="submit" value="Submit grade and comment">
 </form>
-<?php endif; ?>
-<br>
-</div>
+<?php endif; } ?>

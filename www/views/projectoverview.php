@@ -1,7 +1,6 @@
 <?php
 
 // Get course id
-$cid;
 if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
   $cid = intval($_GET['cid']);
 } else {
@@ -9,7 +8,6 @@ if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
 }
 
 // Get project id
-$pid;
 if (isset($_GET['pid']) && intval($_GET['pid']) > 0) {
   $pid = intval($_GET['pid']);
 } else {
@@ -21,7 +19,9 @@ $course = $user->getCourse($cid);
 // Get project
 $project = $course->getProject($pid);
 
-echo '<h1>  Project overview  </h1>';
+echo '<div class="row">';
+echo '<div class="col-md-3">';
+echo '<h2>  Project overview  </h2>';
 
 // List all submissions
 foreach (array_reverse($project->getSubmission()) as $key => $value) {
@@ -29,12 +29,8 @@ foreach (array_reverse($project->getSubmission()) as $key => $value) {
   // Get the submission
   $submission = new Submission($value);
 
-  if ($stages[$submission->stage] == STAGE_PLAN) {
-    echo '<h2> Project plan</h2>';
-  } elseif ($stages[$submission->stage] == STAGE_REPORT) {
-    echo '<h2> Project report</h2>';
-  }
-  echo 'Files: '.$submission->files;
+  echo '<h4>'.$stages[$submission->stage].'</h4>';
+
   foreach ($submission->getComments() as $key => $value) {
     echo '<br>Comment: '.$value->data;
   }
@@ -50,4 +46,9 @@ foreach (array_reverse($project->getSubmission()) as $key => $value) {
       echo '<br><a href="?view=reviewthesis&sid='.$submission->id.'">Review this submission</a>';
     }
   }
+
+  echo '<hr/>';
 }
+
+echo '</div>';
+echo '</div>';

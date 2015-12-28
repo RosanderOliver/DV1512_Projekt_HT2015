@@ -10,12 +10,43 @@
   * Prints a html menu
   * @author Jim Ahlstrand
   * @param  array  $navigation  An array containing the items and subitems
+  * @param  bool   $isDropdown  used internaly to indicate it's a drop down menu
   * @return void
   */
-  function printMenu($navigation) {
-    echo '<nav>';
-    printULLink( $navigation );
-    echo '</nav>';
+  function printMenu($navigation, $isDropdown = false) {
+    if ($navigation == null || $navigation == array()) {
+      return;
+    }
+
+    if ($isDropdown) {
+      echo '<ul class="dropdown-menu">';
+    } else {
+      echo '<ul class="nav navbar-nav">';
+    }
+    foreach ($navigation as $key => $set) {
+
+      $label = $set[0];
+      if (isset($set[1])) {
+        $value = $set[1];
+      }
+      else {
+        $value = null;
+      }
+
+      if (is_array($value)) {
+        echo '<li class="dropdown">';
+      } else {
+        echo '<li>';
+      }
+      if (is_array($value)) {
+        echo '<a href=\"#\" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">'.$label.'<span class="caret"></span></a>';
+        printMenu($value, true);
+      } else {
+        echo "<a href=\"$value\">$label</a>";
+      }
+      echo '</li>';
+    }
+    echo '</ul>';
   }
 
   /**
@@ -47,6 +78,38 @@
         printULLink($value);
       } else {
         echo "<a href=\"$value\">$label</a>";
+      }
+      echo '</li>';
+    }
+    echo '</ul>';
+  }
+
+  /**
+  * Print Unordered list
+  * @author Jim Ahlstrand
+  * @param  array  $list   An array containing the list items and optional sublist
+  * @return void
+  */
+  function printUL( $list ) {
+    if ($list == null || $list == array()) {
+      return;
+    }
+
+    echo '<ul>';
+    foreach ($list as $key => $set) {
+
+      $label = $set[0];
+      if (isset($set[1])) {
+        $value = $set[1];
+      }
+      else {
+        $value = null;
+      }
+
+      echo '<li>';
+      echo $label;
+      if (is_array($value)) {
+        printULLink($value);
       }
       echo '</li>';
     }
@@ -321,21 +384,22 @@
     return intval($dbh->lastInsertId());
   }
 
-  /** CreateTable
+  /**
+  * CreateTable
   * @author Oliver Rosander, Jim Ahlstrand
-  * @param string array containing the column names
-  * @param string array containing the table data
+  * @param array $head array containing the table header
+  * @param array $data array containing the table data
   */
   function printTable( $head = null, $data )
   {
-    echo '<table width=700px>';
+    echo '<table class="table">';
     // If head
     if($head != null)
     {
       echo '<thead>';
       echo '<tr>';
       foreach ($head as $key => $value) {
-        echo '<td>'.$value.'</td>';
+        echo '<th>'.$value.'</th>';
       }
       echo '</tr>';
       echo '</thead>';
@@ -352,4 +416,30 @@
     }
     echo '</tdata>';
     echo '</table>';
+  }
+
+  /**
+  * Find users from thier username
+  * @author Jim Ahlstrand
+  * @param string $uname User name of the user to search form
+  * @return int id of user or -1 if not found
+  */
+  function findUser( $uname )
+  {
+    if (empty($uname)) {
+      return -1;
+    }
+
+    // Get the user from database
+    $sth = $GLOBALS['dbh']->prepare(SQL_SELECT_USER_WHERE_USER_NAME);
+    $sth->bindParam(":user_name", $uname, PDO::PARAM_STR);
+    $sth->execute();
+    $result = $sth->fetch(PDO::FETCH_OBJ);
+
+    // Check if user was found
+    if (!$result) {
+      return -1;
+    } else {
+      return $result->user_id;
+    }
   }

@@ -1,5 +1,8 @@
 <?php
 
+  if (!defined("IN_EXM")) exit(1);
+  if ($login->isUserLoggedIn() === false) exit(1);
+
   if (isset($_GET['sid']) && intval($_GET['sid']) > 0) {
     $sid = intval($_GET['sid']);
   } else {
@@ -11,19 +14,19 @@
   if (isset($_POST['submit'])) {
    $form = new PP();
 
-   $form->student1 = test_input($_POST["student1"]);
-   $form->s1email = test_input($_POST["s1email"]);
-   $form->pnr1 = test_input($_POST["pnr1"]);
+   $form->student1  = test_input($_POST["student1"]);
+   $form->s1email   = test_input($_POST["s1email"]);
+   $form->pnr1      = test_input($_POST["pnr1"]);
 
-   $form->student2 = test_input($_POST["student2"]);
-   $form->s2email = test_input($_POST["s2email"]);
-   $form->pnr2 = test_input($_POST["pnr2"]);
+   $form->student2  = test_input($_POST["student2"]);
+   $form->s2email   = test_input($_POST["s2email"]);
+   $form->pnr2      = test_input($_POST["pnr2"]);
 
-   $form->title = test_input($_POST["title"]);
-   $form->course = test_input($_POST["course"]);
+   $form->title     = test_input($_POST["title"]);
+   $form->course    = test_input($_POST["course"]);
    $form->supervisor = test_input($_POST["supervisor"]);
-   $form->term  = test_input($_POST["term"]);
-   $form->type = test_input($_POST["type"]);
+   $form->term      = test_input($_POST["term"]);
+   $form->type      = test_input($_POST["type"]);
 
    $form->process1 = test_input(test_num($_POST["process1"]));
    $form->processcomment1 = test_input($_POST["processcomment1"]);
@@ -31,8 +34,6 @@
    $form->processcomment2 = test_input($_POST["processcomment2"]);
    $form->process3 = test_input(test_num($_POST["process3"]));
    $form->processcomment3 = test_input($_POST["processcomment3"]);
-   $form->process4 = test_input(test_num($_POST["process4"]));
-   $form->processcomment4 = test_input($_POST["processcomment4"]);
 
    $form->s1 = test_num($_POST["s1"]);
 
@@ -62,39 +63,25 @@
    $form->s4 = test_num(test_input(test_num($_POST["s4"])));
    $form->feedback = test_input($_POST["feedback"]);
 
-   if (empty($data)) {
+   // Create the review
+   $review = Review::createReview($form);
+   // Add it to the submission
+   $submission->addReview($review->id);
 
-     if($dbh != null) {
-       $user = $_SESSION['user_id'];
-       $sth = $dbh->prepare(SQL_INSERT_REVIEW);
-       $sth->bindParam(':user', $user, PDO::PARAM_INT);
-       $sth->bindParam(':date', date("Y-m-d H:i:s"), PDO::PARAM_STR);
-       $sth->bindParam(':data', serialize($form), PDO::PARAM_STR);
-       $sth->execute();
-       $lastInsertId = $dbh->lastInsertId();
+   echo '<h3>Success!</h3><a href="?"><button class="btn btn-success">Go back</button></a>';
 
-       $submission->addReview($lastInsertId);
+}
+// If no form was submitted print it
+else {
 
-      echo "Your form has been saved.</br>";
-    } else {
-        echo "Connection failed. Try to log in again.</br>";
-      }
-
-      echo "end </br>";
-  }
-} else {
-  $latestReviewIndex = sizeof($submission->reviews[$reviewUserId])-1;
-  $latesReview = $submission->reviews[$reviewUserId][$latestReviewIndex];
-
-  $sth = $dbh->prepare(SQL_SELECT_REVIEW_WHERE_ID_AND_USER);
-  $sth->bindParam(':id', $latesReview, PDO::PARAM_INT);
-  $sth->bindParam(':user', $sid, PDO::PARAM_INT);
-  $sth->execute();
-  $tmp = $sth->fetchObject();
-  if($tmp != null){
-    $data = unserialize($tmp->data);
+  $data;
+  $latestID = $submission->getLatestReview($user->id);
+  // If user already has a review
+  if ($latestID > -1) {
+    $review = new Review($latestID);
+    $data = $review->data;
   }
 
 
-   include('includes/content/dp_pp-eval-supervisor.php');
- }
+  include('includes/content/dp_pp-eval-supervisor.php');
+}

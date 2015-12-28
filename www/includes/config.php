@@ -29,7 +29,7 @@ define("SITE_NAME", "Exam Manager");
  * DB_PASS: the password of the above user
  */
 define("DB_HOST", "127.0.0.1");
-define("DB_NAME", "login");
+define("DB_NAME", "site");
 define("DB_USER", "exm");
 define("DB_PASS", "cisco12345");
 
@@ -123,11 +123,15 @@ define("HASH_COST_FACTOR", "12");
   * Configuration for: maximum lengths
   * Defines maximum lengths of data variables, this is limited by the database
   *
-  * MAX_COMMENT_LENGTH: length of contents of comments
+  * MAX_COMMENT_LENGTH: Maximum length allowed in the database
   * MAX_COMMENT_DEPTH: maximum printed depth of comments and responses to comments
+  * MAX_PROJECT_SUBJECT_LENGTH: Maximum length allowed in the database
+  * MAX_COURSE_NAME_LENGTH: Maximum length allowed in the database
   */
   define("MAX_COMMENT_LENGTH", 256);
   define("MAX_COMMENT_DEPTH", 3);
+  define("MAX_PROJECT_SUBJECT_LENGTH", 64);
+  define("MAX_COURSE_NAME_LENGTH", 64);
 
   /**
    * Configuration for: project stages

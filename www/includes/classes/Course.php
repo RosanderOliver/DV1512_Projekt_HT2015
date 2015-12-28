@@ -17,10 +17,6 @@ class Course
   */
   public $id = null;
   /**
-  * @var int $role_table table id of permissions id
-  */
-  public $role_table = null;
-  /**
   * @var string $name Name of the course
   */
   public $name = "";
@@ -44,18 +40,11 @@ class Course
   /**
   * Constructor
   * @param  int   $id   id of the course to load
-  * @param  obj   $dbh  database handle
   */
   public function __construct($id)
   {
     // Setup database handle
-    try {
-      // Generate a database connection, using the PDO connector
-      $this->dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
-    } catch (PDOException $e) {
-      // If shit hits the fan
-      throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
-    }
+    $this->dbh = $GLOBALS['dbh'];
 
     // Get the course id
     $course = intval($id);
@@ -72,7 +61,6 @@ class Course
     if (!$result) throw new Exception("Could not find requested course");
 
     $this->id = $result->id;
-    $this->role_table = $result->role_table;
     $this->name = $result->name;
     $this->deadlines = unserialize($result->deadlines);
     $this->projects = unserialize($result->projects);
@@ -127,5 +115,48 @@ class Course
     $sth->bindParam(":admins", $admins, PDO::PARAM_STR);
     $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
     $sth->execute();
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param int $id id of the project to add
+  * @return void
+  */
+  function addProject($id)
+  {
+    $id = intval($id);
+    // Check for invalid id
+    if ($id <= 0) {
+      throw new Exception("Invalid parameter");
+    }
+
+    // Add project to projects array
+    $this->projects[] = $id;
+    $projects = serialize($this->projects);
+
+    // Update database
+    $sth = $this->dbh->prepare(SQL_UPDATE_COURSE_PROJECTS_WHERE_ID);
+    $sth->bindParam(":projects", $projects, PDO::PARAM_STR);
+    $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+    $sth->execute();
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param string $name name of the Course
+  * @return Course the newly created course class
+  */
+  public static function createCourse($name)
+  {
+    // Check params
+    if (empty($name) || strlen($name) > MAX_COURSE_NAME_LENGTH) {
+      throw new Exception("Invalid course name");
+    }
+
+    $sth = $GLOBALS['dbh']->prepare(SQL_INSERT_COURSE);
+    $sth->bindParam(":name", $name, PDO::PARAM_STR);
+    $sth->execute();
+
+    return new Course($GLOBALS['dbh']->lastInsertId());
   }
 }

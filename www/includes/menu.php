@@ -9,14 +9,29 @@
         [ "Edit", "?view=edit" ],
         [ "Form1", "?view=reviewplan&sid=1&rid=1" ],
         [ "Form2", "?view=reviewthesis&sid=1&rid=1" ],
-        [ "Course", "?view=course&id=1" ]
+        [ "Course", "?view=course&id=1" ],
+        [ "Access denied","?view=accessdenied"]
     ]],
     [ "Logout", "?logout" ]
   ];
 
 if ($login->isUserLoggedIn() === true) {
-  echo '<div id="menu">';
-  echo '<div id="menu_logo"><a href="?view=overview"><img src="assets/images/EXM_SMALL.png"></a></div>';
+  echo '<div class="navbar navbar-default navbar-fixed-top">';
+  echo '<div class="container">';
+  print(
+    '<div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Menu</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <p class="navbar-brand" style="margin-bottom:0;">'.SITE_NAME.'</p>
+    </div>'
+  );
+  echo  '<div id="navbar" class="collapse navbar-collapse">';
   printMenu($navigation);
+  echo  '</div>';
+  echo '</div>';
   echo '</div>';
 }

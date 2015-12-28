@@ -38,13 +38,7 @@ class Review
   public function __construct($id)
   {
     // Setup database handle
-    try {
-      // Generate a database connection, using the PDO connector
-      $this->dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
-    } catch (PDOException $e) {
-      // If shit hits the fan
-      throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
-    }
+    $this->dbh = $GLOBALS['dbh'];
 
     // Get the review id
     $review = intval($id);
@@ -83,12 +77,11 @@ class Review
   * @author Jim Ahlstrand
   * @param string $comment content of comment to be stored
   * @return void
-  * TODO Add error message to error variable
   */
   function addComment($comment) {
     try {
       // Create the comment
-      $comment = new Comment(null, $comment);
+      $comment = Comment::createComment($comment);
 
       // Update the database
       $this->comments[] = intval($comment->id);
@@ -143,6 +136,32 @@ class Review
 
       echo '</div>';
     }
+  }
 
+  /**
+  * Creates a review and saves it in the DATABASE
+  * @author Jim Ahlstrand
+  * @param PP|TE $data object with data to serialize
+  * @return Review an object with the created review
+  */
+  public static function createReview($data)
+  {
+    // Get the current user
+    $user = $_SESSION['user_id'];
+    // Get the current date
+    $date = date("Y-m-d H:i:s");
+    // Serialize the data
+    //TODO Check so it's not too long
+    $data = serialize($data);
+
+    // Add it to the database
+    $sth = $GLOBALS['dbh']->prepare(SQL_INSERT_REVIEW);
+    $sth->bindParam(':user', $user, PDO::PARAM_INT);
+    $sth->bindParam(':date', $date, PDO::PARAM_STR);
+    $sth->bindParam(':data', $data, PDO::PARAM_STR);
+    $sth->execute();
+
+    // Return the newly created review
+    return new Review($GLOBALS['dbh']->lastInsertId());
   }
 }

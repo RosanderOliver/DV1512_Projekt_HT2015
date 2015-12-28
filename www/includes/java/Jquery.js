@@ -1,6 +1,10 @@
 
 var pageSize = function() {
-    $("#page").height($(document).height() - 125);
+  if ($("#menu").length) {
+    $("#page").height($(document).innerHeight() - 125);
+  } else {
+    $("#page").height($(document).innerHeight() - 0);
+  }
 }
 
 $(function() {

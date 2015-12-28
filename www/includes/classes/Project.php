@@ -67,13 +67,7 @@ class Project
   public function __construct($id, $dbh = null)
   {
     // Setup database handle
-    try {
-      // Generate a database connection, using the PDO connector
-      $this->dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
-    } catch (PDOException $e) {
-      // If shit hits the fan
-      throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
-    }
+    $this->dbh = $GLOBALS['dbh'];
 
     // Get the project id
     $project = intval($id);
@@ -107,7 +101,7 @@ class Project
   * Get submission data
   * @author Jim Ahlstrand
   * @param int, $id, Id of the submission to be fetched defaults to null
-  * @return obj, stdClassObject
+  * @return Submission|array
   * TODO return only submissions that the user own or has permission to view
   */
   public function getSubmission( $id = null )
@@ -125,14 +119,7 @@ class Project
     if (!in_array($id, $this->submissions))
       throw new Exception("Invalid submission request");
 
-    $sth = $this->dbh->prepare(SQL_SELECT_SUBMISSION_WHERE_ID);
-    $sth->bindParam(':id', $id, PDO::PARAM_INT);
-    $sth->execute();
-    $result = $sth->fetch(PDO::FETCH_OBJ);
-    if (!$result)
-      throw new Exception("Project was not found");
-
-    return $result;
+    return new Submission($id);
   }
 
   /**
@@ -218,4 +205,63 @@ class Project
     $sth->execute();
   }
 
+<<<<<<< HEAD
+=======
+  /**
+  * @author Jim Ahlstrand
+  * @param int $id id of the student
+  * @return void
+  */
+  function addStudent($id)
+  {
+    $id = intval($id);
+    // Check for invalid id
+    if ($id <= 0) {
+      throw new Exception("Invalid parameter");
+    }
+
+    // Add project to projects array
+    $this->students[] = $id;
+    $students = serialize($this->students);
+
+    // Update database
+    $sth = $this->dbh->prepare(SQL_UPDATE_PROJECT_STUDENTS_WHERE_ID);
+    $sth->bindParam(":students", $students, PDO::PARAM_STR);
+    $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+    $sth->execute();
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param string $subject subject of the project
+  * @param array $examinators array with id of examinators
+  * @param DateTime $deadline deadline of the project
+  * @param int $stage starting stage of the project
+  * @return Project
+  */
+  public static function createProject($subject, $examinators, $deadline, $stage)
+  {
+    // Check input
+    if (empty($subject) || strlen($subject) > MAX_PROJECT_SUBJECT_LENGTH) {
+      throw new Exception("Invalid parameter");
+    }
+    if (!is_array($examinators)) {
+      throw new Exception("Invalid parameter");
+    }
+    if (!key_exists($stage, $GLOBALS['stages'])) {
+      throw new Exception("Invalid parameter");
+    }
+    $examinators = serialize($examinators);
+    $deadline = $deadline->format('Y-m-d H:i:s');
+
+    $sth = $GLOBALS['dbh']->prepare(SQL_INSERT_PROJECT);
+    $sth->bindParam(':subject', $subject, PDO::PARAM_STR);
+    $sth->bindParam(':stage', $stage, PDO::PARAM_INT);
+    $sth->bindParam(':examinators', $examinators, PDO::PARAM_STR);
+    $sth->bindParam(':deadline', $deadline, PDO::PARAM_STR);
+    $sth->execute();
+
+    return new Project($GLOBALS['dbh']->lastInsertId());
+  }
+>>>>>>> 6f004f86a162f0fec161eaa3c064f4f6f72cf987
 }

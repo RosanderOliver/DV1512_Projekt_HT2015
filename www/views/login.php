@@ -2,9 +2,10 @@
 
 if (!defined("IN_EXM")) exit(1);
 
+echo '<div class="row">';
+echo '<div class="col-md-12">';
 ?>
 
-<div id="wrapper_login">
     <div class="logo">
       <img src="/assets/images/EXM_Logo.png" /></br></br>
       <img src="/assets/images/EXM_Long_Logo.png" />
@@ -33,4 +34,7 @@ if (!defined("IN_EXM")) exit(1);
       }
   ?>
 
-</div>
+<?php
+  echo '</div>';
+  echo '</div>';
+?>

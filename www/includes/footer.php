@@ -5,9 +5,11 @@
 
 ?>
       </div>
-    <div id="footer">
-      <?php echo date("F j, Y, g:i a"); ?> | &copy; <?php echo date("Y"); echo SITE_NAME; ?>
-    </div>
+    <footer class="navbar navbar-fixed-bottom footer">
+      <div class="container">
+        <p class="text-muted"><?php echo date("F j, Y, g:i a"); ?> | &copy; <?php echo date("Y "); echo SITE_NAME; ?></p>
+      </div>
+    </footer>
   </body>
 </html>
 
