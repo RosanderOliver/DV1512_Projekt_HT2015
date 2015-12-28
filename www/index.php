@@ -111,17 +111,10 @@ $views = [
   'examinatorgrading',
   'reviewplan',
   'reviewthesis',
-<<<<<<< HEAD
-  'selectedprojects',
-  'assignreviewers',
-  'createcourse',
-  'assignedreviewers'
-=======
   'createcourse',
   'createproject',
   'permissions',
   'assigncourseadmin'
->>>>>>> 6f004f86a162f0fec161eaa3c064f4f6f72cf987
 ];
 
 /*
