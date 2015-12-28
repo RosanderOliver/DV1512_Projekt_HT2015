@@ -114,7 +114,9 @@ $views = [
   'createcourse',
   'createproject',
   'permissions',
-  'assigncourseadmin'
+  'assigncourseadmin',
+  'assignreviewers',
+  'assignedreviewers'
 ];
 
 /*

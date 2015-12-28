@@ -4,16 +4,21 @@ if (!defined("IN_EXM")) exit(1);
 
 if ($login->isUserLoggedIn() === false) exit(1);
 
+// Test permissions
+if (!$user->hasPrivilege("canAssignReviewers")) {
+  header("Location: ?view=accessdenied");
+  exit();
+}
+
 // Get course id
-$id;
-if (isset($_GET['id']) && intval($_GET['id']) > 0) {
-  $id = intval($_GET['id']);
+if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
+  $cid = intval($_GET['cid']);
 } else {
   exit("Invalid id!");
 }
 
 // Get current Course
-$course = $user->getCourse($id);
+$course = $user->getCourse($cid);
 echo $course->name . "</br>";
 echo '<form action="index.php?view=assignedreviewers" method="POST">';
 echo '<ul>';
@@ -23,10 +28,11 @@ foreach ($course->getProject() as $key => $value) {
   echo "<li>" . $project->subject . "</li>";
   for($i = 0; $i < sizeof($project->feasible_reviewers);$i++){
     $reviewer = new User($project->feasible_reviewers[$i]);
-    echo '<input type="checkbox" name="ticked[]" value="'.$reviewer->id.'">' .$reviewer->real_name . '</br>';
+    echo '<input type="checkbox" name="ticked[]" value="'.$reviewer->id.'">' .$reviewer->real_name. '</br>';
     echo '<input type="hidden" name="project[]" value="'.$project->id.'">';
   }
   echo '</ul>';
   echo '<input type="submit" name="submit" value="Submit">';
+
   echo '</form>';
 }
