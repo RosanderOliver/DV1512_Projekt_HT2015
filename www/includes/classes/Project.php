@@ -205,8 +205,6 @@ class Project
     $sth->execute();
   }
 
-<<<<<<< HEAD
-=======
   /**
   * @author Jim Ahlstrand
   * @param int $id id of the student
@@ -263,5 +261,5 @@ class Project
 
     return new Project($GLOBALS['dbh']->lastInsertId());
   }
->>>>>>> 6f004f86a162f0fec161eaa3c064f4f6f72cf987
+
 }
