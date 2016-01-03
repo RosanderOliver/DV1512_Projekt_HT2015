@@ -159,4 +159,23 @@ class Course
 
     return new Course($GLOBALS['dbh']->lastInsertId());
   }
+  /**
+  * @author Annika Hansson
+  * @param
+  * @return
+  */
+  function setSelectProject(){
+    if($this->select_project == 0){
+      $this->select_project = 1;
+    }
+    else{
+      $this->select_project = 0;
+    }
+
+    //Update select_project
+    $sth = $this->dbh->prepare(SQL_UPDATE_COURSE_SELECT_PROJECTS_WHERE_ID);
+    $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+    $sth->bindParam(":select_project", $this->select_project ,PDO::PARAM_INT);
+    $sth->execute();
+  }
 }

@@ -23,7 +23,9 @@ echo '<h2>Your projects</h2>';
 $list = array();
 foreach ($course->getProject() as $key => $value) {
   $project = $course->getProject($value);
-  $list[] = array($project->subject, '?view=projectoverview&pid='.$project->id.'&cid='.$cid);
+  if(in_array($user->id,$project->examinators) || in_array($user->id,$project->reviewers)){
+    $list[] = array($project->subject, '?view=projectoverview&pid='.$project->id.'&cid='.$cid);
+  }
 }
 printULLink($list);
 echo '</div>';
@@ -46,6 +48,15 @@ if ($user->hasPrivilege("canAssignReviewers") && $course->select_project == 0) {
 if ($user->hasPrivilege("canSelectProjectsToReview")) {
   $list[] = array('Select projects to review', '?view=selectprojects&cid='.$cid);
 }
+if($user->hasPrivilege("canViewAllProjects")){
+  if($course->select_project == 0){
+   $list[] = array('Let reviewers selects projects','?view=openclose&cid='.$cid);
+  }
+  else{
+   $list[] = array('Do not let reviewers select projects','?view=openclose&cid='.$cid);
+  }
+}
+
 printULLink($list);
 
 echo '</div>';
