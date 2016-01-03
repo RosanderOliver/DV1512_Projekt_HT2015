@@ -32,7 +32,7 @@ echo '</div>';
 
 
 // List tasks
-echo '<div class="md-col-3">';
+echo '<div class="col-md-3">';
 echo '<h2>Tasks</h2>';
 
 $list = array();
@@ -60,4 +60,4 @@ if($user->hasPrivilege("canViewAllProjects")){
 printULLink($list);
 
 echo '</div>';
-echo '</div>';
+//echo '</div>';
