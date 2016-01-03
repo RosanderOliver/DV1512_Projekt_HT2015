@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `site`.`courses` (
     `name` VARCHAR(64) NOT NULL COMMENT 'name of the course',
     `deadlines` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'array with the course\'s dates for dealines',
     `projects` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'projects assosiated with the course',
-    `select_project`       INT           NOT NULL COMMENT 'decides if reviewers can select projects from course',
+    `select_project` INT          NOT NULL COMMENT 'decides if reviewers can select projects from course',
     `admins` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'admin users for this course',
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='course projects and other data related to each course';
@@ -144,6 +144,7 @@ INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('
 INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('6', 'canAssignCourseAdmin', 'Can assign a admin to a course');
 INSERT INTO `site`.`permissions` (`prem_id`, `perm_name`, `perm_desc`) VALUES ('7', 'canAssignReviewers', 'Can assign reviewers to a project');
 INSERT INTO `site`.`permissions` (`prem_id`, `perm_name`, `perm_desc`) VALUES ('8', 'canSelectProjectsToReview', 'Can assign projects to review');
+INSERT INTO `site`.`permissions` (`prem_id`, `perm_name`, `perm_desc`) VALUES ('9', 'canGradeProjects', 'Can grade projects');
 
 /* Set default role permissions */
 INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('2', '1');
@@ -155,6 +156,7 @@ INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '5');
 INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '6');
 INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('2', '7');
 INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('3', '8');
+INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('2', '9');
 
 /* Set default roles for users */
 INSERT INTO `site`.`user_role` (`user_id`, `role_id`) VALUES ('1', '1');
