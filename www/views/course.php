@@ -40,7 +40,7 @@ if ($user->hasPrivilege("canCreateProject")) {
 if ($user->hasPrivilege("canAssignCourseAdmin")) {
   $list[] = array('Assign admin', '?view=assigncourseadmin&cid='.$cid);
 }
-if ($user->hasPrivilege("canAssignReviewers")) {
+if ($user->hasPrivilege("canAssignReviewers") && $course->select_project == 0) {
   $list[] = array('Assign reviewers', '?view=assignreviewers&cid='.$cid);
 }
 if ($user->hasPrivilege("canSelectProjectsToReview")) {
