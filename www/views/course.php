@@ -19,9 +19,8 @@ echo '<div class="row">';
 
 // List projects
 echo '<div class="col-md-8">';
-echo '<h1>Course name: '.$course->name.'</h1>';
 
-echo '<h2>Your projects</h2>';
+echo '<h2>Your projects in '.$course->name.'</h2>';
 
 $list = array();
 
