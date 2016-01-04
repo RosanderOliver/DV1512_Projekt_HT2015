@@ -44,9 +44,9 @@ foreach (array_reverse($project->getSubmission()) as $key => $value) {
     if ($submission->userHasReviewed()) {
       echo '<br><a href="?view=projectreviews&sid='.$submission->id.'">View reviews</a>';
     }
-    if ($stages[$submission->stage] == STAGE_PLAN) {
+    if ($stages[$submission->stage] == STAGE_PLAN && $user->hasPrivilege("canSelectProjectsToReview")) {
       echo '<br><a href="?view=reviewplan&sid='.$submission->id.'">Review this submission</a>';
-    } else if ($stages[$submission->stage] == STAGE_REPORT) {
+    } else if ($stages[$submission->stage] == STAGE_REPORT && $user->hasPrivilege("canSelectProjectsToReview")) {
       echo '<br><a href="?view=reviewthesis&sid='.$submission->id.'">Review this submission</a>';
     }
   }
