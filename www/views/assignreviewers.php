@@ -31,8 +31,8 @@ foreach ($course->getProject() as $key => $value) {
     echo '<input type="checkbox" name="ticked[]" value="'.$reviewer->id.'">' .$reviewer->real_name. '</br>';
     echo '<input type="hidden" name="project[]" value="'.$project->id.'">';
   }
-  echo '</ul>';
-  echo '<input type="submit" name="submit" value="Submit">';
-
-  echo '</form>';
 }
+echo '</ul>';
+echo '<input type="submit" name="submit" value="Submit">';
+
+echo '</form>';
