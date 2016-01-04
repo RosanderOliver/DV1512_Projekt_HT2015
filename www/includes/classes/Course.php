@@ -162,7 +162,7 @@ class Course
   /**
   * @author Annika Hansson
   * @param
-  * @return
+  * @return updates if reviewers can select projects
   */
   function setSelectProject(){
     if($this->select_project == 0){
@@ -178,4 +178,5 @@ class Course
     $sth->bindParam(":select_project", $this->select_project ,PDO::PARAM_INT);
     $sth->execute();
   }
+  
 }

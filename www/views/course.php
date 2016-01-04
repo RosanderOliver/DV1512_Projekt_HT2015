@@ -42,19 +42,19 @@ echo '<div class="col-md-3">';
 echo '<h2>Tasks</h2>';
 
 $list = array();
-if ($user->hasPrivilege("canCreateProject")) {
+if ($user->hasPrivilege("canCreateProject")) { //admin
   $list[] = array('Create new project', '?view=createproject&cid='.$cid);
 }
-if ($user->hasPrivilege("canAssignCourseAdmin")) {
+if ($user->hasPrivilege("canAssignCourseAdmin")) { //admin
   $list[] = array('Assign admin', '?view=assigncourseadmin&cid='.$cid);
 }
-if ($user->hasPrivilege("canAssignReviewers") && $course->select_project == 0) {
+if ($user->hasPrivilege("canAssignReviewers") && $course->select_project == 0) { //examinator
   $list[] = array('Assign reviewers', '?view=assignreviewers&cid='.$cid);
 }
-if ($user->hasPrivilege("canSelectProjectsToReview")) {
+if ($user->hasPrivilege("canSelectProjectsToReview")) { //reviewers
   $list[] = array('Select projects to review', '?view=selectprojects&cid='.$cid);
 }
-if($user->hasPrivilege("canViewAllProjects")){
+if($user->hasPrivilege("canViewAllProjects")){ //admin, examinator
   if($course->select_project == 0){
    $list[] = array('Let reviewers selects projects','?view=openclose&cid='.$cid);
   }
