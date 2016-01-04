@@ -30,12 +30,13 @@ foreach (array_reverse($project->getSubmission()) as $key => $value) {
   $submission = new Submission($value);
 
   echo '<h4>'.$stages[$submission->stage].'</h4>';
+  echo 'Date: '.$submission->date->format('Y-m-d H:i');
 
   foreach ($submission->getComments() as $key => $value) {
-    echo '<br>Comment: '.$value->data;
+    echo '</br>Comment: '.$value->data;
   }
   if ($submission->grade > 0 && $submission->grade < count($grades)) {
-    echo '<br>Grade: '.$grades[$submission->grade];
+    echo '</br>Grade: '.$grades[$submission->grade];
   } else if ($submission->grade == 0) {
     if($user->hasPrivilege("canGradeProjects")){
       echo '<br><a href="?view=examinatorgrading&pid='.$project->id.'&sid='.$submission->id.'">Grade this submission</a>';
