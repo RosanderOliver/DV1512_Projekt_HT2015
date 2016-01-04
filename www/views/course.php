@@ -21,12 +21,16 @@ echo '<div class="col-md-8">';
 echo '<h2>Your projects</h2>';
 
 $list = array();
-foreach ($course->getProject() as $key => $value) {
-  $project = $course->getProject($value);
-  if(in_array($user->id,$project->examinators) || in_array($user->id,$project->reviewers)){
-    $list[] = array($project->subject, '?view=projectoverview&pid='.$project->id.'&cid='.$cid);
+
+  foreach ($course->getProject() as $key => $value) {
+    $project = $course->getProject($value);
+    if(in_array($user->id,$project->examinators)){
+      $list[] = array($project->subject, '?view=projectoverview&pid='.$project->id.'&cid='.$cid);
+    }else if(in_array($user->id,$project->reviewers)){
+      $list[] = array($project->subject, '?view=projectoverview&pid='.$project->id.'&cid='.$cid);
+    }
   }
-}
+
 printULLink($list);
 echo '</div>';
 
