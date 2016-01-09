@@ -14,8 +14,9 @@ if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
 // Get current Course
 $course = $user->getCourse($cid);
 
-echo '<div class="row">';
+// TODO Check if user can access this course
 
+echo '<div class="row">';
 
 // List projects
 echo '<div class="col-md-8">';
@@ -26,7 +27,7 @@ $list = array();
 
   foreach ($course->getProject() as $key => $value) {
     $project = $course->getProject($value);
-    if(in_array($user->id,$project->examinators)){
+    if(in_array($user->id, $project->examinators)){ // TODO use permissions instead..
       $list[] = array($project->subject, '?view=projectoverview&pid='.$project->id.'&cid='.$cid);
     }else if(in_array($user->id,$project->reviewers)){
       $list[] = array($project->subject, '?view=projectoverview&pid='.$project->id.'&cid='.$cid);
@@ -54,6 +55,7 @@ if ($user->hasPrivilege("canAssignReviewers") && $course->select_project == 0) {
 if ($user->hasPrivilege("canSelectProjectsToReview")) { //reviewers
   $list[] = array('Select projects to review', '?view=selectprojects&cid='.$cid);
 }
+// TODO Create seperate permission for this do not use an existing one!
 if($user->hasPrivilege("canViewAllProjects")){ //admin, examinator
   if($course->select_project == 0){
    $list[] = array('Let reviewers selects projects','?view=openclose&cid='.$cid);

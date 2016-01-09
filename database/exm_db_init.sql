@@ -1,6 +1,7 @@
 CREATE DATABASE IF NOT EXISTS `site`;
+USE `site`;
 
-CREATE TABLE IF NOT EXISTS `site`.`users` (
+CREATE TABLE IF NOT EXISTS `users` (
     `user_id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing user_id of each user, unique index',
     `user_real_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s real name',
     `user_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s name, unique',
@@ -21,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `site`.`users` (
     UNIQUE KEY `user_email` (`user_email`)
 ) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data';
 
-CREATE TABLE IF NOT EXISTS `site`.`courses` (
+CREATE TABLE IF NOT EXISTS `courses` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
     `name` VARCHAR(64) NOT NULL COMMENT 'name of the course',
     `deadlines` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'array with the course\'s dates for dealines',
@@ -31,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `site`.`courses` (
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='course projects and other data related to each course';
 
-CREATE TABLE IF NOT EXISTS `site`.`projects` (
+CREATE TABLE IF NOT EXISTS `projects` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
     `subject` VARCHAR(64) NOT NULL COMMENT 'subject of the project',
     `stage` INT UNSIGNED DEFAULT '0' COMMENT 'stage of project ex start and finished',
@@ -47,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `site`.`projects` (
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='data about all uploaded files';
 
-CREATE TABLE IF NOT EXISTS `site`.`submissions` (
+CREATE TABLE IF NOT EXISTS `submissions` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
     `user` INT UNSIGNED NOT NULL COMMENT 'user id of the uploader',
     `date` DATETIME DEFAULT '0000-00-00 00:00:00' COMMENT 'date and time of the upload',
@@ -59,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `site`.`submissions` (
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='data about each submission and it\'s files';
 
-CREATE TABLE IF NOT EXISTS `site`.`files` (
+CREATE TABLE IF NOT EXISTS `files` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
     `name` VARCHAR(64) NOT NULL COMMENT 'name of the file',
     `user` INT UNSIGNED NOT NULL COMMENT 'user id of the uploader',
@@ -70,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `site`.`files` (
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='data about all uploaded files';
 
-CREATE TABLE IF NOT EXISTS `site`.`comments` (
+CREATE TABLE IF NOT EXISTS `comments` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
     `user` INT UNSIGNED NOT NULL COMMENT 'id of user submitting the comment',
     `date` DATETIME DEFAULT '0000-00-00 00:00:00' COMMENT 'date and time of submission',
@@ -79,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `site`.`comments` (
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='data about comments';
 
-CREATE TABLE IF NOT EXISTS `site`.`reviews` (
+CREATE TABLE IF NOT EXISTS `reviews` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
     `user` INT UNSIGNED NOT NULL COMMENT 'id of user submitting the review',
     `date` DATETIME DEFAULT '0000-00-00 00:00:00' COMMENT 'date and time of submission',
@@ -88,14 +89,14 @@ CREATE TABLE IF NOT EXISTS `site`.`reviews` (
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='data from and about forms submitted by reviewers';
 
-CREATE TABLE IF NOT EXISTS `site`.`roles` (
+CREATE TABLE IF NOT EXISTS `roles` (
   `role_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `role_name` VARCHAR(50) NOT NULL,
 
   PRIMARY KEY (`role_id`)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `site`.`permissions` (
+CREATE TABLE IF NOT EXISTS `permissions` (
   `perm_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `perm_name` VARCHAR(50) NOT NULL,
   `perm_desc` VARCHAR(100) NOT NULL,
@@ -103,60 +104,60 @@ CREATE TABLE IF NOT EXISTS `site`.`permissions` (
   PRIMARY KEY (`perm_id`)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `site`.`role_perm` (
+CREATE TABLE IF NOT EXISTS `role_perm` (
   `role_perm_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `role_id` INT UNSIGNED NOT NULL,
   `perm_id` INT UNSIGNED NOT NULL,
 
   PRIMARY KEY (`role_perm_id`),
-  FOREIGN KEY (`role_id`) REFERENCES `site`.`roles`(`role_id`),
-  FOREIGN KEY (`perm_id`) REFERENCES `site`.`permissions`(`perm_id`)
+  FOREIGN KEY (`role_id`) REFERENCES `roles`(`role_id`),
+  FOREIGN KEY (`perm_id`) REFERENCES `permissions`(`perm_id`)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `site`.`user_role` (
+CREATE TABLE IF NOT EXISTS `user_role` (
   `user_role_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
   `role_id` INT UNSIGNED NOT NULL,
 
   PRIMARY KEY (`user_role_id`),
-  FOREIGN KEY (`user_id`) REFERENCES `site`.`users`(`user_id`),
-  FOREIGN KEY (`role_id`) REFERENCES `site`.`roles`(`role_id`)
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`),
+  FOREIGN KEY (`role_id`) REFERENCES `roles`(`role_id`)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /* Admin user */
-INSERT INTO `site`.`users` (`user_real_name`, `user_name`, `user_courses`, `user_password_hash`, `user_email`, `user_active`)
+INSERT INTO `users` (`user_real_name`, `user_name`, `user_courses`, `user_password_hash`, `user_email`, `user_active`)
 	VALUES ('Administrator', 'admin', 'a:0:{}', '\$2y\$15\$cDNpzTbhPCVVESl6NrvR4eBZPuqZRg9VxoS8Y4qy1D2hHemnT4e8O', 'administrator@localhost', '1');
 
 /* Set default roles */
-INSERT INTO `site`.`roles` (`role_id`, `role_name`) VALUES ('1', 'admin');
-INSERT INTO `site`.`roles` (`role_id`, `role_name`) VALUES ('2', 'examinator');
-INSERT INTO `site`.`roles` (`role_id`, `role_name`) VALUES ('3', 'reviewer');
-INSERT INTO `site`.`roles` (`role_id`, `role_name`) VALUES ('4', 'manager');
-INSERT INTO `site`.`roles` (`role_id`, `role_name`) VALUES ('5', 'student');
-INSERT INTO `site`.`roles` (`role_id`, `role_name`) VALUES ('6', 'course_admin');
+INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'admin');
+INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('2', 'examinator');
+INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('3', 'reviewer');
+INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('4', 'manager');
+INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('5', 'student');
+INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('6', 'course_admin');
 
 /* Set default permissions */
-INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('1', 'canViewAllProjects', 'Can view all projects in a course');
-INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('2', 'canViewPermissions', 'Can view permissions');
-INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('3', 'canEditPermissions', 'Can edit permissions');
-INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('4', 'canCreateCourse', 'Can create new courses');
-INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('5', 'canCreateProject', 'Can create a new project in a course');
-INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('6', 'canAssignCourseAdmin', 'Can assign a admin to a course');
-INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('7', 'canAssignReviewers', 'Can assign reviewers to a project');
-INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('8', 'canSelectProjectsToReview', 'Can assign projects to review');
-INSERT INTO `site`.`permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('9', 'canGradeProjects', 'Can grade projects');
+INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('1', 'canViewAllProjects', 'Can view all projects in a course');
+INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('2', 'canViewPermissions', 'Can view permissions');
+INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('3', 'canEditPermissions', 'Can edit permissions');
+INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('4', 'canCreateCourse', 'Can create new courses');
+INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('5', 'canCreateProject', 'Can create a new project in a course');
+INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('6', 'canAssignCourseAdmin', 'Can assign a admin to a course');
+INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('7', 'canAssignReviewers', 'Can assign reviewers to a project');
+INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('8', 'canSelectProjectsToReview', 'Can assign projects to review');
+INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('9', 'canGradeProjects', 'Can grade projects');
 
 /* Set default role permissions */
-INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('2', '1');
-INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '1');
-INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '2');
-INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '3');
-INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '4');
-INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '5');
-INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('1', '6');
-INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('2', '7');
-INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('3', '8');
-INSERT INTO `site`.`role_perm` (`role_id`, `perm_id`) VALUES ('2', '9');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('2', '1');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '1');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '2');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '3');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '4');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '5');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '6');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('2', '7');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('3', '8');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('2', '9');
 
 /* Set default roles for users */
-INSERT INTO `site`.`user_role` (`user_id`, `role_id`) VALUES ('1', '1');
+INSERT INTO `user_role` (`user_id`, `role_id`) VALUES ('1', '1');

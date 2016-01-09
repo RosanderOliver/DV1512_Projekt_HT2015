@@ -5,14 +5,6 @@
 
   $navigation = [
     [ "Overview", "?view=overview" ],
-    [ "DEBUG", [
-        [ "Edit", "?view=edit" ],
-        [ "Form1", "?view=reviewplan&sid=1&rid=1" ],
-        [ "Form2", "?view=reviewthesis&sid=1&rid=1" ],
-        [ "Course", "?view=course&id=1" ],
-        [ "Access denied","?view=accessdenied"],
-        [ "Assign rev","?view=assignreviewers&cid=1"]
-    ]],
     [ "Logout", "?logout" ]
   ];
 
