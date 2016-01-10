@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `courses` (
     `projects` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'projects assosiated with the course',
     `select_project` INT          NOT NULL COMMENT 'decides if reviewers can select projects from course',
     `admins` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'admin users for this course',
+    `active` INT          NOT NULL DEFAULT '1' COMMENT 'decides if reviewers can select projects from course',
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='course projects and other data related to each course';
 
