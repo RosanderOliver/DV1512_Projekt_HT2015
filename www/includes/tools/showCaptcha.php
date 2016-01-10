@@ -59,7 +59,7 @@ for($i=0;$i<1000;$i++) {
 for ($i=0; $i < $iCaptchaLength; $i++) {
     $text_color = imagecolorallocate($im, rand(0, 100), rand(10, 100), rand(0, 100));
     // font-path relative to this file
-    imagefttext($im, 35, rand(-10, 10), 20 + ($i * 30) + rand(-5, +5), 35 + rand(10, 30), $text_color, 'fonts/times_new_yorker.ttf', $str_captcha[$i]);
+    imagefttext($im, 35, rand(-10, 10), 20 + ($i * 30) + rand(-5, +5), 35 + rand(10, 30), $text_color, '../fonts/times_new_yorker.ttf', $str_captcha[$i]);
 }
 
 // send http-header to prevent image caching (so we always see a fresh captcha image)

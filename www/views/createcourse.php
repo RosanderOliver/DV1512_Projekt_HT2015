@@ -7,6 +7,7 @@ if ($login->isUserLoggedIn() === false) exit(1);
 // Test permissions
 if (!$user->hasPrivilege("canCreateCourse")) {
   header("Location: ?view=accessdenied");
+  exit();
 }
 
 // Namespaces to use

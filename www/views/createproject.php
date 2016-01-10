@@ -7,6 +7,7 @@ if ($login->isUserLoggedIn() === false) exit(1);
 // Test permissions
 if (!$user->hasPrivilege("canCreateProject")) {
   header("Location: ?view=accessdenied");
+  exit();
 }
 
 // Get course id

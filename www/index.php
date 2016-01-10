@@ -107,6 +107,7 @@ $views = [
   'accessdenied',
   'course',
   'projectoverview',
+  'addusertocourse',
   'projectreviews',
   'examinatorgrading',
   'reviewplan',

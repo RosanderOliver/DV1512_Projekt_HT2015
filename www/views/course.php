@@ -43,16 +43,19 @@ echo '<div class="col-md-3">';
 echo '<h2>Tasks</h2>';
 
 $list = array();
-if ($user->hasPrivilege("canCreateProject")) { //admin
+if ($user->hasPrivilege("canCreateProject")) {
   $list[] = array('Create new project', '?view=createproject&cid='.$cid);
 }
-if ($user->hasPrivilege("canAssignCourseAdmin")) { //admin
+if ($user->hasPrivilege("canAddUserToCourse")) {
+  $list[] = array('Add user', '?view=addusertocourse&cid='.$cid);
+}
+if ($user->hasPrivilege("canAssignCourseAdmin")) {
   $list[] = array('Assign admin', '?view=assigncourseadmin&cid='.$cid);
 }
-if ($user->hasPrivilege("canAssignReviewers") && $course->select_project == 0) { //examinator
+if ($user->hasPrivilege("canAssignReviewers") && $course->select_project == 0) {
   $list[] = array('Assign reviewers', '?view=assignreviewers&cid='.$cid);
 }
-if ($user->hasPrivilege("canSelectProjectsToReview")) { //reviewers
+if ($user->hasPrivilege("canSelectProjectsToReview")) {
   $list[] = array('Select projects to review', '?view=selectprojects&cid='.$cid);
 }
 // TODO Create seperate permission for this do not use an existing one!

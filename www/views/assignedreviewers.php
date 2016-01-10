@@ -7,10 +7,9 @@ if(isset($_POST['submit'])){
 
 if(sizeof($rid) != 0){
     if(isset($_POST['ticked'])){
-      foreach($_POST['ticked'] as $value){
-        echo $pid[$value-1];
-        $project = new Project($pid[$value-1]);
-        $project->addReviewer($rid[$value-1]);
+      foreach($_POST['ticked'] as $key => $value){
+        $project = new Project($pid[$key]);
+        $project->addReviewer($rid[$key]);
       }
     }
   }
