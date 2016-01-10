@@ -8,6 +8,11 @@
   } else {
     exit("Invalid submission");
   }
+  if (isset($_GET['uid']) && intval($_GET['uid']) > 0) {
+    $uid = intval($_GET['uid']);
+  }
+
+
 
   $submission = new Submission($sid);
 
@@ -75,7 +80,12 @@
 else {
 
   $data;
-  $latestID = $submission->getLatestReview($user->id);
+  if(isset($uid)) {
+    $latestID = $submission->getLatestReview($uid);
+  }
+  else {
+    $latestID = $submission->getLatestReview($user->id);
+  }
   // If user already has a review
   if ($latestID > -1) {
     $review = new Review($latestID);
