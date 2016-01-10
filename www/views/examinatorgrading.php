@@ -140,13 +140,13 @@
 	echo "<br><br>";																								//TODO Name of uploaded files regarding this submission
 	foreach ($submission->getReview() as $key => $value) {
 		// Get the review
+
 		$id = $submission->getLatestReview($key);
 		$review = $submission->getReview($id);
-
 		echo "<br>Overall comments and feedback: ".$review->data->feedback;
-		if (get_class($review) == "TE"){
+		if (get_class($review->data) == "TE"){
 			echo '<br><a target="_blank" href="?view=reviewthesis&sid='.$submission->id.'&uid='.$review->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';							//TODO Link to formulary should be the name of the reviewer
-		} elseif (get_class($review) == "PP") {
+		} elseif (get_class($review->data) == "PP") {
 			echo '<br><a target="_blank" href="?view=reviewplan&sid='.$submission->id.'&uid='.$review->user.'">Link to REVIEWS NAMES REVIEW FORMULARY</a>';
 		}
 			echo "<br><br>";
