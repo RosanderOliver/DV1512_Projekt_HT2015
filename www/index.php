@@ -121,7 +121,8 @@ $views = [
   'selectprojects',
   'selectedprojects',
   'openclose',
-  'activate'
+  'activate',
+  'archive'
 ];
 
 /*

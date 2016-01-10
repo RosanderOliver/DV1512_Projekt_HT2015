@@ -5,6 +5,7 @@
 
   $navigation = [
     [ "Overview", "?view=overview" ],
+    [ "Archive","?view=archive" ],
     [ "Logout", "?logout" ]
   ];
 
