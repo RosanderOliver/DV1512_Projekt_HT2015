@@ -146,18 +146,25 @@ INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('6', 'ca
 INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('7', 'canAssignReviewers', 'Can assign reviewers to a project');
 INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('8', 'canSelectProjectsToReview', 'Can assign projects to review');
 INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('9', 'canGradeProjects', 'Can grade projects');
+INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('10', 'canAddUserToCourse', 'Can add users to a course');
 
 /* Set default role permissions */
-INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('2', '1');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '1');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '2');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '3');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '4');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '5');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '6');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '10');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('2', '1');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('2', '7');
-INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('3', '8');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('2', '9');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('3', '8');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '1');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '5');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '6');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '7');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '10');
 
 /* Set default roles for users */
 INSERT INTO `user_role` (`user_id`, `role_id`) VALUES ('1', '1');

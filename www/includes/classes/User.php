@@ -118,7 +118,9 @@ class User
   */
   function addCourse($id)
   {
-    if (intval($id) <= 0) {
+    $id = intval($id);
+    // Check for invalid id
+    if ($id <= 0) {
       throw new Exception("Invalid ID");
     }
 
