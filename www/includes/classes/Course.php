@@ -183,4 +183,24 @@ class Course
     $sth->execute();
   }
 
+  /**
+  * @author Annika Hansson
+  * @param
+  * @return updates if course is active or not
+  */
+  function setActiveCourse(){
+    if($this->active == 0){
+      $this->active = 1;
+    }
+    else{
+      $this->active = 0;
+    }
+
+    //Update select_project
+    $sth = $this->dbh->prepare(SQL_UPDATE_COURSE_ACTIVE_WHERE_ID);
+    $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+    $sth->bindParam(":active", $this->active ,PDO::PARAM_INT);
+    $sth->execute();
+  }
+
 }

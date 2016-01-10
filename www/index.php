@@ -119,7 +119,8 @@ $views = [
   'assignedreviewers',
   'selectprojects',
   'selectedprojects',
-  'openclose'
+  'openclose',
+  'activate'
 ];
 
 /*
