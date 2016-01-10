@@ -11,9 +11,11 @@ if ($login->isUserLoggedIn() === false) exit(1);
 
   foreach ($user->getCourse() as $key => $value) {
     $course = $user->getCourse($value);
-    echo '<li>';
-    echo '<a href="?view=course&cid='.$course->id.'">'.$course->name."</a>";
-    echo '</li>';
+    if($course->active == 1){
+      echo '<li>';
+      echo '<a href="?view=course&cid='.$course->id.'">'.$course->name."</a>";
+      echo '</li>';
+    }
   }
 
   echo '</ul>';

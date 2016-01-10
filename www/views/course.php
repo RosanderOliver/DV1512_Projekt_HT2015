@@ -66,6 +66,12 @@ if($user->hasPrivilege("canViewAllProjects")){ //admin, examinator
   else{
    $list[] = array('Do not let reviewers select projects','?view=openclose&cid='.$cid);
   }
+  if($course->active == 0){
+   $list[] = array('Reactivate course','?view=activate&cid='.$cid);
+  }
+  else{
+   $list[] = array('Inactivate course','?view=activate&cid='.$cid);
+  }
 }
 
 printULLink($list);

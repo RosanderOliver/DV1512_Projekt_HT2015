@@ -16,6 +16,7 @@ define("SQL_SELECT_COURSE_WHERE_ID", "SELECT * FROM `site`.`courses` WHERE `id`=
 define("SQL_UPDATE_COURSE_ADMINS_WHERE_ID", "UPDATE `site`.`courses` SET `admins`=:admins WHERE `id`=:id");
 define("SQL_UPDATE_COURSE_PROJECTS_WHERE_ID", "UPDATE `site`.`courses` SET `projects`=:projects WHERE `id`=:id");
 define("SQL_UPDATE_COURSE_SELECT_PROJECTS_WHERE_ID","UPDATE `site`.`courses` SET `select_project`=:select_project WHERE `id`=:id");
+define("SQL_UPDATE_COURSE_ACTIVE_WHERE_ID","UPDATE `site`.`courses` SET `active`=:active WHERE `id`=:id");
 define("SQL_DELETE_COURSE_WHERE_ID","DELETE FROM `site`.`courses` WHERE `id`=:id");
 
 // Projects
