@@ -36,7 +36,10 @@ class Course
   * @var array $admins Admin users for this course
   */
   private $admins = Array();
-
+  /**
+  * @var int $active To see if course is active
+  */
+  public $active = null;
   /**
   * Constructor
   * @param  int   $id   id of the course to load
@@ -66,6 +69,7 @@ class Course
     $this->projects = unserialize($result->projects);
     $this->select_project = intval($result->select_project);
     $this->admins = unserialize($result->admins);
+    $this->active = intval($result->active);
   }
 
   /**
@@ -178,5 +182,5 @@ class Course
     $sth->bindParam(":select_project", $this->select_project ,PDO::PARAM_INT);
     $sth->execute();
   }
-  
+
 }

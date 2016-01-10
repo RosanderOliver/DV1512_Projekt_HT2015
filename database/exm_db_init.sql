@@ -158,6 +158,9 @@ INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '6');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('2', '7');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('3', '8');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('2', '9');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '1');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '5');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '6');
 
 /* Set default roles for users */
 INSERT INTO `user_role` (`user_id`, `role_id`) VALUES ('1', '1');
