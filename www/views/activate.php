@@ -1,5 +1,7 @@
 <?php
 
+// TODO This is not a view! It's a script.. that can be inbedded into course view..
+
 if (!defined("IN_EXM")) exit(1);
 
 if ($login->isUserLoggedIn() === false) exit(1);

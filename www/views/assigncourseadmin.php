@@ -37,7 +37,8 @@ if (!empty($_POST) && Form::isValid("assignCourseAdmin", false)) {
     Form::clearValues('assignCourseAdmin');
   }
 
-  // TODO Add user to course
+  // Add user to admins
+  $course->addAdmin($uid);
 
   echo '<h3>Success!</h3><a href="?view=course&cid='.$cid.'"><button class="btn btn-success">Go back</button></a>';
 }

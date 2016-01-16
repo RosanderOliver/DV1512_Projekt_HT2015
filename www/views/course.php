@@ -51,28 +51,26 @@ if ($user->hasPrivilege("canAddUserToCourse")) {
 if ($user->hasPrivilege("canAssignCourseAdmin")) {
   $list[] = array('Assign admin', '?view=assigncourseadmin&cid='.$cid);
 }
-if ($user->hasPrivilege("canAssignReviewers") && $course->select_project == 0) {
+if ($user->hasPrivilege("canAssignReviewers")) {
   $list[] = array('Assign reviewers', '?view=assignreviewers&cid='.$cid);
 }
-if ($user->hasPrivilege("canSelectProjectsToReview")) {
-  $list[] = array('Select projects to review', '?view=selectprojects&cid='.$cid);
-}
-// TODO Create seperate permission for this do not use an existing one!
-if($user->hasPrivilege("canViewAllProjects")){ //admin, examinator
-  if($course->select_project == 0){
+if($user->hasPrivilege("canToggleReviewSelection")) {
+  if ( $course->select_project == 0 ){
    $list[] = array('Let reviewers selects projects','?view=openclose&cid='.$cid);
-  }
-  else{
+  } else {
    $list[] = array('Do not let reviewers select projects','?view=openclose&cid='.$cid);
   }
-  if($course->active == 0){
+}
+if($user->hasPrivilege("canToggleCourseActive")) {
+  if ( $course->active == 0 ){
    $list[] = array('Reactivate course','?view=activate&cid='.$cid);
-  }
-  else{
+  } else {
    $list[] = array('Inactivate course','?view=activate&cid='.$cid);
   }
 }
-$list[] = array('Participants','?view=participants&cid='.$cid);
+if ($user->hasPrivilege("canViewParticipants")) {
+  $list[] = array('Participants','?view=participants&cid='.$cid);
+}
 
 printULLink($list);
 echo '</div>';

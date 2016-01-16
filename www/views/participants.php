@@ -4,6 +4,12 @@ if (!defined("IN_EXM")) exit(1);
 
 if ($login->isUserLoggedIn() === false) exit(1);
 
+// Test permissions
+if (!$user->hasPrivilege("canViewParticipants")) {
+  header("Location: ?view=accessdenied");
+  exit();
+}
+
 // Get course id
 if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
   $cid = intval($_GET['cid']);
@@ -27,7 +33,8 @@ if (empty($course->getAdmin())) {
 } else {
   foreach ($course->getAdmin() as $key => $value) {
     $admin = $course->getAdmin($value);
-    echo '<li>'.$user->real_name.'</li>';
+    echo '<li>'.$admin->real_name.'</li>';
   }
 }
 echo '</ul>';
+echo '<a href="?view=course&cid='.$cid.'"><button class="btn btn-default">Go back</button></a>';
