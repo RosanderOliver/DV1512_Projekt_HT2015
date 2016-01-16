@@ -11,32 +11,31 @@ if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
   exit("Invalid id!");
 }
 
+// Check if user has access to this course
+if (!in_array($cid, $user->getCourse())) {
+  header("Location: ?view=accessdenied");
+  exit();
+}
+
 // Get current Course
 $course = $user->getCourse($cid);
-
-// TODO Check if user can access this course
 
 echo '<div class="row">';
 
 // List projects
 echo '<div class="col-md-8">';
-
 echo '<h2>Your projects in '.$course->name.'</h2>';
-
 $list = array();
-
-  foreach ($course->getProject() as $key => $value) {
-    $project = $course->getProject($value);
-    if(in_array($user->id, $project->examinators)){ // TODO use permissions instead..
-      $list[] = array($project->subject, '?view=projectoverview&pid='.$project->id.'&cid='.$cid);
-    }else if(in_array($user->id,$project->reviewers)){
-      $list[] = array($project->subject, '?view=projectoverview&pid='.$project->id.'&cid='.$cid);
-    }
+foreach ($course->getProject() as $key => $value) {
+  $project = $course->getProject($value);
+  if(in_array($user->id, $project->examinators)){ // TODO use permissions instead..
+    $list[] = array($project->subject, '?view=projectoverview&pid='.$project->id.'&cid='.$cid);
+  } else if(in_array($user->id,$project->reviewers)){
+    $list[] = array($project->subject, '?view=projectoverview&pid='.$project->id.'&cid='.$cid);
   }
-
+}
 printULLink($list);
 echo '</div>';
-
 
 // List tasks
 echo '<div class="col-md-3">';
@@ -73,8 +72,9 @@ if($user->hasPrivilege("canViewAllProjects")){ //admin, examinator
    $list[] = array('Inactivate course','?view=activate&cid='.$cid);
   }
 }
+$list[] = array('Participants','?view=participants&cid='.$cid);
 
 printULLink($list);
+echo '</div>';
 
 echo '</div>';
-//echo '</div>';

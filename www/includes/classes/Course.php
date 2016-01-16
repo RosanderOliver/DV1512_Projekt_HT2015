@@ -102,7 +102,7 @@ class Course
   * @param int $id id of the user to add as admin
   * @return void
   */
-  function addAdmin($id)
+  function addAdmin( $id )
   {
     $id = intval($id);
     // Check for invalid id
@@ -119,6 +119,26 @@ class Course
     $sth->bindParam(":admins", $admins, PDO::PARAM_STR);
     $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
     $sth->execute();
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param int $id id of the admin to get
+  * @return array|User
+  */
+  function getAdmin( $id = null )
+  {
+    // If no admin requested return whole array
+    if ($id === null)
+      return $this->admins;
+
+    $id = intval($id);
+    // Check for invalid id
+    if ($id <= 0 || !in_array($id, $this->admins)) {
+      throw new Exception("Invalid parameter");
+    }
+
+    return new User($id);
   }
 
   /**

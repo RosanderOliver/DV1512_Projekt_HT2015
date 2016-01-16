@@ -93,7 +93,6 @@ class User
   */
   function getCourse( $id = null )
   {
-
     // If id is null return a list of all courses listed for the User
     if ($id === null)
       return $this->courses;
