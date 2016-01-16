@@ -47,10 +47,6 @@ class Project
   */
   public $managers = Array();
   /**
-  * @var array $examinators array with id of examinators related to the project
-  */
-  public $examinators = Array();
-  /**
   * @var array $reviewers array with id of the reviewers related to the project
   */
   public $reviewers = Array();
@@ -92,7 +88,6 @@ class Project
     $this->deadline = new DateTime($result->deadline);
     $this->students = unserialize($result->students);
     $this->managers = unserialize($result->managers);
-    $this->examinators = unserialize($result->examinators);
     $this->reviewers = unserialize($result->reviewers);
     $this->feasible_reviewers = unserialize($result->feasible_reviewers);
   }
@@ -139,23 +134,22 @@ class Project
     }
   }
 
-    /**
-    * @author Annika Hansson
-    * @param int $rid Reviewer ID
-    * @return void
-    * @TODO adds reviewers to database
-    */
+  /**
+  * @author Annika Hansson
+  * @param int $rid Reviewer ID
+  * @return void
+  * @TODO adds reviewers to database
+  */
 
-    function addReviewer($rid){
-      if(!in_array($rid,$this->reviewers)){
-        $this->reviewers[] = intval($rid);
-        $ssth = $this->dbh->prepare(SQL_UPDATE_PROJECT_REVIEWERS_WHERE_ID);
-        $ssth->bindParam(':id', $this->id, PDO::PARAM_INT);
-        $ssth->bindParam(':reviewers', serialize($this->reviewers), PDO::PARAM_STR);
-        $ssth->execute();
-      }
+  function addReviewer($rid){
+    if(!in_array($rid,$this->reviewers)){
+      $this->reviewers[] = intval($rid);
+      $ssth = $this->dbh->prepare(SQL_UPDATE_PROJECT_REVIEWERS_WHERE_ID);
+      $ssth->bindParam(':id', $this->id, PDO::PARAM_INT);
+      $ssth->bindParam(':reviewers', serialize($this->reviewers), PDO::PARAM_STR);
+      $ssth->execute();
     }
-
+  }
 
   /**
   * @author Oliver Rosander, Jim Ahlstrand
@@ -232,30 +226,24 @@ class Project
   /**
   * @author Jim Ahlstrand
   * @param string $subject subject of the project
-  * @param array $examinators array with id of examinators
   * @param DateTime $deadline deadline of the project
   * @param int $stage starting stage of the project
   * @return Project
   */
-  public static function createProject($subject, $examinators, $deadline, $stage)
+  public static function createProject($subject, $deadline, $stage)
   {
     // Check input
     if (empty($subject) || strlen($subject) > MAX_PROJECT_SUBJECT_LENGTH) {
       throw new Exception("Invalid parameter");
     }
-    if (!is_array($examinators)) {
-      throw new Exception("Invalid parameter");
-    }
     if (!key_exists($stage, $GLOBALS['stages'])) {
       throw new Exception("Invalid parameter");
     }
-    $examinators = serialize($examinators);
     $deadline = $deadline->format('Y-m-d H:i:s');
 
     $sth = $GLOBALS['dbh']->prepare(SQL_INSERT_PROJECT);
     $sth->bindParam(':subject', $subject, PDO::PARAM_STR);
     $sth->bindParam(':stage', $stage, PDO::PARAM_INT);
-    $sth->bindParam(':examinators', $examinators, PDO::PARAM_STR);
     $sth->bindParam(':deadline', $deadline, PDO::PARAM_STR);
     $sth->execute();
 

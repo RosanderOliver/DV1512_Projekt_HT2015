@@ -27,9 +27,11 @@ CREATE TABLE IF NOT EXISTS `courses` (
     `name` VARCHAR(64) NOT NULL COMMENT 'name of the course',
     `deadlines` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'array with the course\'s dates for dealines',
     `projects` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'projects assosiated with the course',
-    `select_project` INT          NOT NULL COMMENT 'decides if reviewers can select projects from course',
-    `admins` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'admin users for this course',
-    `active` INT          NOT NULL DEFAULT '1' COMMENT 'decides if reviewers can select projects from course',
+    `select_project` INT NOT NULL COMMENT 'decides if reviewers can select projects from course',
+    `admins` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'admin users for this course',
+    `examinators` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'examinators linked to the course',
+    `users` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'users assigned to this course',
+    `active` INT NOT NULL DEFAULT '1' COMMENT 'decides if reviewers can select projects from course',
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='course projects and other data related to each course';
 
@@ -43,7 +45,6 @@ CREATE TABLE IF NOT EXISTS `projects` (
     `deadline` DATETIME NOT NULL COMMENT 'next deadline for the project',
     `students` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'students linked to the project',
     `managers` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'managers linked to the project',
-    `examinators` VARCHAR(64) NOT NULL COMMENT 'examinators linked to the project',
     `reviewers` VARCHAR(512) DEFAULT 'a:0:{}' COMMENT 'reviewers linked to the project',
     `feasible_reviewers` VARCHAR(1024) DEFAULT 'a:0:{}' COMMENT 'feasible reviewers who can be linked to the project',
     PRIMARY KEY (`id`)

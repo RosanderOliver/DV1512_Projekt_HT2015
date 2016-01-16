@@ -33,6 +33,9 @@ if (!empty($_POST) && Form::isValid("addUser", false)) {
   if( $uid == -1 ) {
     Form::setError('addUser', 'Error: Unable to find that user.');
     header("Location: ?view=addusertocourse&cid=$cid");
+  } else if ($course->userIsAssigned($uid)) {
+    Form::setError('addUser', 'Error: That user is already assigned to this course.');
+    header("Location: ?view=addusertocourse&cid=$cid");
   } else {
     Form::clearValues('addUser');
   }
@@ -40,6 +43,9 @@ if (!empty($_POST) && Form::isValid("addUser", false)) {
   // Add course to user
   $newUser = new User($uid);
   $newUser->addCourse($course->id);
+
+  // Add user to course
+  $course->addUser($uid);
 
   echo '<h3>Success!</h3><a href="?view=course&cid='.$cid.'"><button class="btn btn-success">Go back</button></a>';
 }

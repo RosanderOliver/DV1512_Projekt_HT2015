@@ -28,11 +28,7 @@ echo '<h2>Your projects in '.$course->name.'</h2>';
 $list = array();
 foreach ($course->getProject() as $key => $value) {
   $project = $course->getProject($value);
-  if(in_array($user->id, $project->examinators)){ // TODO use permissions instead..
-    $list[] = array($project->subject, '?view=projectoverview&pid='.$project->id.'&cid='.$cid);
-  } else if(in_array($user->id,$project->reviewers)){
-    $list[] = array($project->subject, '?view=projectoverview&pid='.$project->id.'&cid='.$cid);
-  }
+  $list[] = array($project->subject, '?view=projectoverview&pid='.$project->id.'&cid='.$cid);
 }
 printULLink($list);
 echo '</div>';

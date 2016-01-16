@@ -37,4 +37,17 @@ if (empty($course->getAdmin())) {
   }
 }
 echo '</ul>';
+
+echo '<h4>Users</h4>';
+echo '<ul>';
+if (empty($course->getUser())) {
+  echo '<li>No user is assignd to this course!</li>';
+} else {
+  foreach ($course->getUser() as $key => $value) {
+    $courseUser = $course->getUser($value);
+    echo '<li>'.$courseUser->real_name.'</li>';
+  }
+}
+echo '</ul>';
+
 echo '<a href="?view=course&cid='.$cid.'"><button class="btn btn-default">Go back</button></a>';

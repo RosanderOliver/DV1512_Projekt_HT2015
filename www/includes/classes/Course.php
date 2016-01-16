@@ -37,6 +37,14 @@ class Course
   */
   private $admins = Array();
   /**
+  * @var array $examinators Examinators assigned to this course
+  */
+  private $examinators = Array();
+  /**
+  * @var array $users Users assigned to this course
+  */
+  private $users = Array();
+  /**
   * @var int $active To see if course is active
   */
   public $active = null;
@@ -69,6 +77,8 @@ class Course
     $this->projects = unserialize($result->projects);
     $this->select_project = intval($result->select_project);
     $this->admins = unserialize($result->admins);
+    $this->examinators = unserialize($result->examinators);
+    $this->users = unserialize($result->users);
     $this->active = intval($result->active);
   }
 
@@ -143,6 +153,79 @@ class Course
 
   /**
   * @author Jim Ahlstrand
+  * @param int $id id of the user to add
+  * @return void
+  */
+  function addUser( $id )
+  {
+    $id = intval($id);
+    // Check for invalid id
+    if ($id <= 0) {
+      throw new Exception("Invalid parameter");
+    }
+
+    // Check if user is already assigned to the course
+    if ($this->userIsAssigned()) {
+      throw new Exception("User already assigned to course");
+    }
+
+    // Add user to users array
+    $this->users[] = $id;
+    $users = serialize($this->users);
+
+    // Update database
+    $sth = $this->dbh->prepare(SQL_UPDATE_COURSE_USERS_WHERE_ID);
+    $sth->bindParam(":users", $users, PDO::PARAM_STR);
+    $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+    $sth->execute();
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param int $id id of the user to get
+  * @return array|User
+  */
+  function getUser( $id = null )
+  {
+    // If no user requested return whole array
+    if ($id === null)
+      return $this->users;
+
+    $id = intval($id);
+    // Check for invalid id
+    if ($id <= 0 || !in_array($id, $this->users)) {
+      throw new Exception("Invalid parameter");
+    }
+
+    return new User($id);
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param int $id id of the user to add
+  * @return void
+  */
+  function addExaminator( $id )
+  {
+    $id = intval($id);
+    // Check for invalid id
+    if ($id <= 0) {
+      throw new Exception("Invalid parameter");
+    }
+
+    // Add user to examinators array
+    $this->examinators[] = $id;
+    $examinators = serialize($this->examinators);
+
+    // Update database
+    $sth = $this->dbh->prepare(SQL_UPDATE_COURSE_EXAMINATORS_WHERE_ID);
+    $sth->bindParam(":examinators", $examinators, PDO::PARAM_STR);
+    $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+    $sth->execute();
+  }
+
+  /**
+  * @author Jim Ahlstrand
   * @param int $id id of the project to add
   * @return void
   */
@@ -183,6 +266,7 @@ class Course
 
     return new Course($GLOBALS['dbh']->lastInsertId());
   }
+
   /**
   * @author Annika Hansson
   * @param
@@ -221,6 +305,16 @@ class Course
     $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
     $sth->bindParam(":active", $this->active ,PDO::PARAM_INT);
     $sth->execute();
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param int $id id of the user to check
+  * @return Bool true if user is assigned to this course
+  */
+  public function userIsAssigned($id)
+  {
+    return in_array($id, $this->users);
   }
 
 }

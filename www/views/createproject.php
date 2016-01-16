@@ -39,14 +39,12 @@ if (!empty($_POST) && Form::isValid('createProject')) {
       Form::clearValues('createProject');
     }*/
 
-    // TODO here we assume the examinator is the current user...
-    $examinators = array(intval($_SESSION['user_id']));
     $subject = $_POST['subject'];
     $deadline = new DateTime($_POST['deadline'].' '.$_POST['deadlineTime']);
     $stage = intval($_POST['stage']);
 
     // Create Project
-    $project = Project::createProject($subject, $examinators, $deadline, $stage);
+    $project = Project::createProject($subject, $deadline, $stage);
 
     // Add the project to the course
     $course->addProject($project->id);
