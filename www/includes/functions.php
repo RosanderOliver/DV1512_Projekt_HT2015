@@ -443,3 +443,40 @@
       return $result->user_id;
     }
   }
+
+  /**
+  * Gets the current CID
+  * @author Jim Ahlstrand
+  * @param bool $checkPerm Check for access rights or not
+  * @param bool $giveRole Auto adds roles
+  * @return int course id
+  */
+  function getCID( $checkPerm = true, $giveRole = true )
+  {
+    if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
+      $cid = intval($_GET['cid']);
+      // Check if user has access to this course
+      if ($checkPerm) {
+        if (!in_array($cid, $GLOBALS['user']->getCourse())) {
+          header("Location: ?view=accessdenied");
+          exit();
+        }
+      }
+      // Auto add role if user is examinator
+      if ($giveRole) {
+        // TODO Can be optimized by getting the arrays directly from db instead
+        $course = new Course($cid);
+        // Give user examinator role if user is assigned as examinator
+        if (in_array($GLOBALS['user']->id, $course->getExaminator())) {
+          $GLOBALS['user']->addRole(PrivilegedUser::EXAMINATOR);
+        }
+        if (in_array($GLOBALS['user']->id, $course->getAdmin())) {
+          $GLOBALS['user']->addRole(PrivilegedUser::COURSEADMIN);
+        }
+      }
+    } else {
+      throw new Exception("Invalid CID");
+    }
+
+    return $cid;
+  }

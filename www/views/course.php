@@ -5,17 +5,7 @@ if (!defined("IN_EXM")) exit(1);
 if ($login->isUserLoggedIn() === false) exit(1);
 
 // Get course id
-if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
-  $cid = intval($_GET['cid']);
-} else {
-  exit("Invalid id!");
-}
-
-// Check if user has access to this course
-if (!in_array($cid, $user->getCourse())) {
-  header("Location: ?view=accessdenied");
-  exit();
-}
+$cid = getCID();
 
 // Get current Course
 $course = $user->getCourse($cid);
@@ -47,7 +37,10 @@ if ($user->hasPrivilege("canAddUserToCourse")) {
 if ($user->hasPrivilege("canAssignCourseAdmin")) {
   $list[] = array('Assign admin', '?view=assigncourseadmin&cid='.$cid);
 }
-if ($user->hasPrivilege("canAssignReviewers")) {
+if ($user->hasPrivilege("canAssignExaminator")) {
+  $list[] = array('Assign examinator', '?view=assignexaminator&cid='.$cid);
+}
+if ($user->hasPrivilege("canAssignReviewer")) {
   $list[] = array('Assign reviewers', '?view=assignreviewers&cid='.$cid);
 }
 if($user->hasPrivilege("canToggleReviewSelection")) {
@@ -65,7 +58,7 @@ if($user->hasPrivilege("canToggleCourseActive")) {
   }
 }
 if ($user->hasPrivilege("canViewParticipants")) {
-  $list[] = array('Participants','?view=participants&cid='.$cid);
+  $list[] = array('View participants','?view=participants&cid='.$cid);
 }
 
 printULLink($list);

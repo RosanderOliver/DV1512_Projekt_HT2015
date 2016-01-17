@@ -165,7 +165,7 @@ class Course
     }
 
     // Check if user is already assigned to the course
-    if ($this->userIsAssigned()) {
+    if ($this->userIsAssigned($id)) {
       throw new Exception("User already assigned to course");
     }
 
@@ -222,6 +222,26 @@ class Course
     $sth->bindParam(":examinators", $examinators, PDO::PARAM_STR);
     $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
     $sth->execute();
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param int $id id of the user to get
+  * @return array|User
+  */
+  function getExaminator( $id = null )
+  {
+    // If no user requested return whole array
+    if ($id === null)
+      return $this->examinators;
+
+    $id = intval($id);
+    // Check for invalid id
+    if ($id <= 0 || !in_array($id, $this->examinators)) {
+      throw new Exception("Invalid parameter");
+    }
+
+    return new User($id);
   }
 
   /**

@@ -1,5 +1,8 @@
 <?php
 
+// TODO Test permissions..
+// TODO Plz comment..
+
 if(isset($_POST['submit'])){
 
   $pid = $_POST['project'];

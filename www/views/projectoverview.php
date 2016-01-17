@@ -1,11 +1,7 @@
 <?php
 
 // Get course id
-if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
-  $cid = intval($_GET['cid']);
-} else {
-  exit("Invalid course!");
-}
+$cid = getCID();
 
 // Get project id
 if (isset($_GET['pid']) && intval($_GET['pid']) > 0) {
@@ -44,9 +40,9 @@ foreach (array_reverse($project->getSubmission()) as $key => $value) {
     if ($submission->userHasReviewed()) {
       echo '<br><a href="?view=projectreviews&sid='.$submission->id.'">View reviews</a>';
     }
-    if ($stages[$submission->stage] == STAGE_PLAN && $user->hasPrivilege("canSelectProjectsToReview")) {
+    if ($stages[$submission->stage] == STAGE_PLAN && $user->hasPrivilege("canReview")) {
       echo '<br><a href="?view=reviewplan&sid='.$submission->id.'">Review this submission</a>';
-    } else if ($stages[$submission->stage] == STAGE_REPORT && $user->hasPrivilege("canSelectProjectsToReview")) {
+    } else if ($stages[$submission->stage] == STAGE_REPORT && $user->hasPrivilege("canReview")) {
       echo '<br><a href="?view=reviewthesis&sid='.$submission->id.'">Review this submission</a>';
     }
   }

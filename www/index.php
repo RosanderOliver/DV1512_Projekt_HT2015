@@ -116,6 +116,7 @@ $views = [
   'createproject',
   'permissions',
   'assigncourseadmin',
+  'assignexaminator',
   'assignreviewers',
   'assignedreviewers',
   'selectprojects',

@@ -131,6 +131,7 @@ INSERT INTO `users` (`user_real_name`, `user_name`, `user_courses`, `user_passwo
 	VALUES ('Administrator', 'admin', 'a:0:{}', '\$2y\$15\$cDNpzTbhPCVVESl6NrvR4eBZPuqZRg9VxoS8Y4qy1D2hHemnT4e8O', 'administrator@localhost', '1');
 
 /* Set default roles */
+/* These are also defined in PrivilegedUser, they must match */
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'admin');
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('2', 'examinator');
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('3', 'reviewer');
@@ -144,14 +145,16 @@ INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('2', 'ca
 INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('3', 'canEditPermissions', 'Can edit permissions');
 INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('4', 'canCreateCourse', 'Can create new courses');
 INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('5', 'canCreateProject', 'Can create a new project in a course');
-INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('6', 'canAssignCourseAdmin', 'Can assign a admin to a course');
-INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('7', 'canAssignReviewers', 'Can assign reviewers to a project');
+INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('6', 'canAssignCourseAdmin', 'Can assign an admin to a course');
+INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('7', 'canAssignReviewer', 'Can assign reviewers to a project');
 INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('8', 'canSelectProjectsToReview', 'Can select projects to review');
 INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('9', 'canGradeProjects', 'Can grade projects');
 INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('10', 'canAddUserToCourse', 'Can add users to a course');
 INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('11', 'canViewParticipants', 'Can view who is assignd to the course');
 INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('12', 'canToggleReviewSelection', 'Can allow/deny reviewers to select projects');
 INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('13', 'canToggleCourseActive', 'Can activate/deactivate the course');
+INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('14', 'canAssignExaminator', 'Can assign an examinator to a course');
+INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('15', 'canReview', 'Can review projects');
 
 /* Set default role permissions */
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '1');
@@ -167,11 +170,13 @@ INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '10');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '11');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '12');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '13');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '14');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '15');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('2', '1');
-INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('2', '7');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('2', '9');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('2', '11');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('3', '8');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('3', '15');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '1');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '5');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '6');
@@ -180,6 +185,7 @@ INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '10');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '11');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '12');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '13');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '14');
 
 /* Set default roles for users */
 INSERT INTO `user_role` (`user_id`, `role_id`) VALUES ('1', '1');

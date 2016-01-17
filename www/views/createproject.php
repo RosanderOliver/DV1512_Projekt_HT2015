@@ -11,11 +11,7 @@ if (!$user->hasPrivilege("canCreateProject")) {
 }
 
 // Get course id
-if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
-  $cid = intval($_GET['cid']);
-} else {
-  exit('Invalid id!');
-}
+$cid = getCID();
 
 // Namespaces to use
 use PFBC\Form;

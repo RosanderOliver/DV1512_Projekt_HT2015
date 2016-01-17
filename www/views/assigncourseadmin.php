@@ -11,11 +11,7 @@ if (!$user->hasPrivilege("canAssignCourseAdmin")) {
 }
 
 // Get course id
-if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
-  $cid = intval($_GET['cid']);
-} else {
-  exit('Invalid id!');
-}
+$cid = getCID();
 
 // Namespaces to use
 use PFBC\Form;
@@ -48,7 +44,7 @@ else {
   $form->configure(array(
       "action" => "?view=assigncourseadmin&cid=$cid"
   ));
-  $form->addElement(new Element\HTML('<legend>Assign new courseadministrator</legend>'));
+  $form->addElement(new Element\HTML('<legend>Assign new course administrator</legend>'));
   $form->addElement(new Element\Hidden("form", "assignCourseAdmin"));
   $form->addElement(new Element\Textbox('Username:', 'username', array(
     //TODO The regex should use defined constants to more easily adapt

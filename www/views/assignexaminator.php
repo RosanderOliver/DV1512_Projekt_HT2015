@@ -8,7 +8,7 @@ if ($login->isUserLoggedIn() === false) exit(1);
 $cid = getCID();
 
 // Test permissions
-if (!$user->hasPrivilege("canAddUserToCourse")) {
+if (!$user->hasPrivilege("canAssignExaminator")) {
   header("Location: ?view=accessdenied");
   exit();
 }
@@ -19,7 +19,7 @@ use PFBC\Element;
 use PFBC\Validation;
 
 // If form is submitted and correct
-if (!empty($_POST) && Form::isValid("addUser", false)) {
+if (!empty($_POST) && Form::isValid("assignExaminator", false)) {
 
   $uid = findUser($_POST['username']);
 
@@ -27,40 +27,32 @@ if (!empty($_POST) && Form::isValid("addUser", false)) {
   $course = $user->getCourse($cid);
 
   if( $uid == -1 ) {
-    Form::setError('addUser', 'Error: Unable to find that user.');
-    header("Location: ?view=addusertocourse&cid=$cid");
-    exit();
-  } else if ($course->userIsAssigned($uid)) {
-    Form::setError('addUser', 'Error: That user is already assigned to this course.');
-    header("Location: ?view=addusertocourse&cid=$cid");
+    Form::setError('assignExaminator', 'Error: Unable to find that user.');
+    header("Location: ?view=assignexaminator&cid=$cid");
     exit();
   } else {
-    Form::clearValues('addUser');
+    Form::clearValues('assignExaminator');
   }
 
-  // Add course to user
-  $newUser = new User($uid);
-  $newUser->addCourse($course->id);
-
-  // Add user to course
-  $course->addUser($uid);
+  // Add user to examinators
+  $course->addExaminator($uid);
 
   echo '<h3>Success!</h3><a href="?view=course&cid='.$cid.'"><button class="btn btn-success">Go back</button></a>';
 }
 // Else print the form
 else {
-  $form = new Form("addUser");
+  $form = new Form("assignExaminator");
   $form->configure(array(
-      "action" => "?view=addusertocourse&cid=$cid"
+      "action" => "?view=assignexaminator&cid=$cid"
   ));
-  $form->addElement(new Element\HTML('<legend>Add user to course</legend>'));
-  $form->addElement(new Element\Hidden("form", "addUser"));
+  $form->addElement(new Element\HTML('<legend>Assign new examinator</legend>'));
+  $form->addElement(new Element\Hidden("form", "assignExaminator"));
   $form->addElement(new Element\Textbox('Username:', 'username', array(
     //TODO The regex should use defined constants to more easily adapt
     //TODO a better regex should be implemented depending on acronym
     'validation' => new Validation\RegExp('/^[a-z\d]{2,64}$/', 'Error: The %element% field must contain a username.'),
     'required' => 1,
-    'longDesc' => 'This user will be added to the course'
+    'longDesc' => 'This user will be added as an examinator to the course'
   )));
   $form->addElement(new Element\Button("Add user"));
   $form->addElement(new Element\Button("Cancel", "button", array(
