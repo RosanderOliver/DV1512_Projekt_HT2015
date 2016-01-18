@@ -3,17 +3,17 @@
   if (!defined("IN_EXM")) exit(1);
   if ($login->isUserLoggedIn() === false) exit(1);
 
-  // Test permissions
-  if (!$user->hasPrivilege("canSelectProjectsToReview")) {
-    header("Location: ?view=accessdenied");
-    exit();
-  }
-
   if (isset($_GET['sid'])) {
     $sid = intval($_GET['sid']);
   } else {
     exit("Invalid submission");
   }
+
+  // Test permissions
+  /*if (!$user->hasPrivilege("canSelectProjectsToReview")) {
+    header("Location: ?view=accessdenied");
+    exit();
+  }*/
 
   $submission = new Submission($sid);
 
