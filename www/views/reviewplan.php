@@ -3,22 +3,25 @@
   if (!defined("IN_EXM")) exit(1);
   if ($login->isUserLoggedIn() === false) exit(1);
 
-  // Test permissions
-  if (!$user->hasPrivilege("canSelectProjectsToReview")) {
-    header("Location: ?view=accessdenied");
-    exit();
-  }
-
+  // Get sid
   if (isset($_GET['sid']) && intval($_GET['sid']) > 0) {
     $sid = intval($_GET['sid']);
   } else {
     exit("Invalid submission");
   }
+
+  // Get uid
   if (isset($_GET['uid']) && intval($_GET['uid']) > 0) {
     $uid = intval($_GET['uid']);
   }
 
-
+  // Test permissions
+  // TODO Check if user can view this review by checking permission for view all reviews or user owns this review
+  // TODO Check if user can write to this review, or if it's view only
+  /*if (!$user->hasPrivilege("canReview")) {
+    header("Location: ?view=accessdenied");
+    exit();
+  }*/
 
   $submission = new Submission($sid);
 

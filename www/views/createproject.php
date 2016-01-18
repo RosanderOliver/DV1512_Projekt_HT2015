@@ -38,7 +38,6 @@ if (!empty($_POST) && Form::isValid('createProject')) {
     $subject = $_POST['subject'];
     $deadline = new DateTime($_POST['deadline'].' '.$_POST['deadlineTime']);
     $stage = intval($_POST['stage']);
-    $course = $cid;
 
     // Create Project
     $project = Project::createProject($subject, $deadline, $stage, $cid);
