@@ -4,11 +4,7 @@
 $cid = getCID();
 
 // Get project id
-if (isset($_GET['pid']) && intval($_GET['pid']) > 0) {
-  $pid = intval($_GET['pid']);
-} else {
-  exit("Invalid project!");
-}
+$pid = getPID();
 
 // Get the course
 $course = $GLOBALS['user']->getCourse($cid);

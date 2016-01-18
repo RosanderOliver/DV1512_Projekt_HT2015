@@ -27,7 +27,7 @@ define("SQL_UPDATE_PROJECT_STAGE_WHERE_ID", "UPDATE `site`.`projects` SET `stage
 define("SQL_UPDATE_PROJECT_SUBMISSION_WHERE_ID", "UPDATE `site`.`projects` SET `submissions`=:submissions WHERE `id`=:id");
 define("SQL_UPDATE_PROJECT_STUDENTS_WHERE_ID", "UPDATE `site`.`projects` SET `students`=:students WHERE `id`=:id");
 define("SQL_UPDATE_PROJECT_STAGESUBMISSION_WHERE_ID", "UPDATE `site`.`projects` SET `stage`=:stage, `submissions`=:submissions WHERE `id`=:id");
-define("SQL_INSERT_PROJECT", "INSERT INTO `site`.`projects` (`subject`, `stage`, `deadline`) VALUES (:subject, :stage, :deadline)");
+define("SQL_INSERT_PROJECT", "INSERT INTO `site`.`projects` (`subject`, `stage`, `deadline`, `course_id`) VALUES (:subject, :stage, :deadline, :course_id)");
 define("SQL_DELETE_PROJECT_WHERE_ID", "DELETE FROM `site`.`projects` WHERE `id`=:id");
 
 // Files

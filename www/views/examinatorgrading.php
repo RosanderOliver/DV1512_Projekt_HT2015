@@ -1,7 +1,30 @@
 <?php
 
 	if (!defined("IN_EXM")) exit(1);
+
 	if ($login->isUserLoggedIn() === false) exit(1);
+
+	// Get project id
+	$pid = getPID();
+
+	// Get submission id
+	if (isset($_GET['sid']) && intval($_GET['sid']) > 0) {
+		$sid = intval($_GET['sid']);
+	} else {
+		exit('Invalid id!');
+	}
+
+	// Get the project
+	$project = new Project($pid);
+
+	// Get the submission
+	$submission = $project->getSubmission($sid);
+
+	// Test permissions
+	if (!$GLOBALS['user']->hasPrivilege("canGradeProjects")) {
+	  header("Location: ?view=accessdenied");
+	  exit();
+	}
 
 	$tableTE = array(
 	  1 => 'Reviewer',
@@ -20,22 +43,6 @@
 
 	$dataSent = 0;
 
-	// Get project id
-	if (isset($_GET['pid']) && intval($_GET['pid']) > 0) {
-	  $pid = intval($_GET['pid']);
-	} else {
-	  exit('Invalid id!');
-	}
-
-	// Get submission id
-	if (isset($_GET['sid']) && intval($_GET['sid']) > 0) {
-		$sid = intval($_GET['sid']);
-	} else {
-		exit('Invalid id!');
-	}
-
-	$project = new Project($pid);
-	$submission = $project->getSubmission($sid);
 	$reviews = array();
 	foreach ($submission->getReview() as $key => $value) {
 		$id = $submission->getLatestReview($key);

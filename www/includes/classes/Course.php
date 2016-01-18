@@ -92,8 +92,23 @@ class Course
   function getProject( $id = null )
   {
     // If id is null return a list of all projects listed for the course
-    if ($id === null)
-      return $this->projects;
+    if ($id === null) {
+      // If user can view all submissions
+      if ($GLOBALS['user']->hasPrivilege('canViewAllProjects')) {
+        return $this->projects;
+      }
+      // Else check so the user is listed as owner
+      else {
+        $canView = Array();
+        foreach ($this->projects as $key => $value) {
+          $project = new Project($value);
+          if ($project->userIsAssigned($GLOBALS['user']->id)) {
+            $canView[] = $value;
+          }
+        }
+        return $canView;
+      }
+    }
 
     $id = intval($id);
     // Check for invalid id
@@ -104,7 +119,7 @@ class Course
     if (!in_array($id, $this->projects))
       throw new Exception("Invalid project request");
 
-    return new Project($id, $this->dbh);
+    return new Project($id);
   }
 
   /**
@@ -335,6 +350,22 @@ class Course
   public function userIsAssigned($id)
   {
     return in_array($id, $this->users);
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @return void
+  */
+  public function assignRoles()
+  {
+    // Give user examinator role if user is assigned as examinator
+    if (in_array($GLOBALS['user']->id, $this->getExaminator())) {
+      $GLOBALS['user']->addRole(PrivilegedUser::EXAMINATOR);
+    }
+    // Give user course admin role if user is assigned as course admin
+    if (in_array($GLOBALS['user']->id, $this->getAdmin())) {
+      $GLOBALS['user']->addRole(PrivilegedUser::COURSEADMIN);
+    }
   }
 
 }

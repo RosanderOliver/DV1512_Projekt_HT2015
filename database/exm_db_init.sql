@@ -47,8 +47,11 @@ CREATE TABLE IF NOT EXISTS `projects` (
     `managers` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'managers linked to the project',
     `reviewers` VARCHAR(512) DEFAULT 'a:0:{}' COMMENT 'reviewers linked to the project',
     `feasible_reviewers` VARCHAR(1024) DEFAULT 'a:0:{}' COMMENT 'feasible reviewers who can be linked to the project',
-    PRIMARY KEY (`id`)
-)  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='data about all uploaded files';
+    `course_id` INT UNSIGNED NOT NULL,
+
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`course_id`) REFERENCES `courses`(`id`)
+)  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='data about projects';
 
 CREATE TABLE IF NOT EXISTS `submissions` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',

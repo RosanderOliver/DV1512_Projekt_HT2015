@@ -54,6 +54,10 @@ class Project
   * @var array $feasible_reviewers array with id of the reviewers related to the project
   */
   public $feasible_reviewers = Array();
+  /**
+  * @var int $course id of the course this project belongs to
+  */
+  public $course = null;
 
   /**
   * Constructor
@@ -90,6 +94,7 @@ class Project
     $this->managers = unserialize($result->managers);
     $this->reviewers = unserialize($result->reviewers);
     $this->feasible_reviewers = unserialize($result->feasible_reviewers);
+    $this->course = intval($result->course_id);
   }
 
   /**
@@ -102,8 +107,9 @@ class Project
   public function getSubmission( $id = null )
   {
     // If id is null return a list of all submissions listed for the project
-    if ($id === null)
+    if ($id === null) {
       return $this->submissions;
+    }
 
     $id = intval($id);
     // Check for invalid id
@@ -228,9 +234,10 @@ class Project
   * @param string $subject subject of the project
   * @param DateTime $deadline deadline of the project
   * @param int $stage starting stage of the project
+  * @param int $course id of course this project belongs to
   * @return Project
   */
-  public static function createProject($subject, $deadline, $stage)
+  public static function createProject($subject, $deadline, $stage, $course)
   {
     // Check input
     if (empty($subject) || strlen($subject) > MAX_PROJECT_SUBJECT_LENGTH) {
@@ -245,9 +252,24 @@ class Project
     $sth->bindParam(':subject', $subject, PDO::PARAM_STR);
     $sth->bindParam(':stage', $stage, PDO::PARAM_INT);
     $sth->bindParam(':deadline', $deadline, PDO::PARAM_STR);
+    $sth->bindParam(':course_id', $course, PDO::PARAM_INT);
     $sth->execute();
 
     return new Project($GLOBALS['dbh']->lastInsertId());
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param int $user id of the user to check
+  * @return bool true if user is either a student, reviewer or manager in the project
+  */
+  public function userIsAssigned($user)
+  {
+    if (in_array($user, $this->students) || in_array($user, $this->managers) || in_array($user, $this->reviewers) ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }

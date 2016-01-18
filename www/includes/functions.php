@@ -447,14 +447,16 @@
   /**
   * Gets the current CID
   * @author Jim Ahlstrand
-  * @param bool $checkPerm Check for access rights or not
+  * @param bool $checkPerm Check for access rights
   * @param bool $assignRole Auto adds roles
   * @return int course id
   */
   function getCID( $checkPerm = true, $assignRole = true )
   {
     if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
+
       $cid = intval($_GET['cid']);
+
       // Check if user has access to this course
       if ($checkPerm) {
         if (!in_array($cid, $GLOBALS['user']->getCourse())) {
@@ -462,21 +464,57 @@
           exit();
         }
       }
-      // Auto add role if user is examinator
+
+      // Auto add roles
       if ($assignRole) {
-        // TODO Can be optimized by getting the arrays directly from db instead
         $course = new Course($cid);
-        // Give user examinator role if user is assigned as examinator
-        if (in_array($GLOBALS['user']->id, $course->getExaminator())) {
-          $GLOBALS['user']->addRole(PrivilegedUser::EXAMINATOR);
-        }
-        if (in_array($GLOBALS['user']->id, $course->getAdmin())) {
-          $GLOBALS['user']->addRole(PrivilegedUser::COURSEADMIN);
-        }
+        $course->assignRoles();
       }
+
     } else {
       throw new Exception("Invalid CID");
     }
 
     return $cid;
+  }
+
+  /**
+  * Gets the current PID
+  * @author Jim Ahlstrand
+  * @param bool $checkPerm Check for access rights
+  * @return int course id
+  */
+  function getPID( $checkPerm = true, $assignRoles = true )
+  {
+    if (isset($_GET['pid']) && intval($_GET['pid']) > 0) {
+
+      $pid = intval($_GET['pid']);
+
+      // Get the project, if it does not exist exit
+      try {
+        $project = new Project($pid);
+      } catch (Exception $e) {
+        header("Location: ?view=accessdenied");
+        exit();
+      }
+
+      // Auto add roles
+      if ($assignRoles) {
+      	$course = new Course($project->course);
+      	$course->assignRoles();
+      }
+
+      // Check if user has access to this course
+      if ($checkPerm && !$GLOBALS['user']->hasPrivilege('canViewAllProjects')) {
+        if (!$project->userIsAssigned($GLOBALS['user']->id)) {
+          header("Location: ?view=accessdenied");
+          exit();
+        }
+      }
+
+    } else {
+      throw new Exception("Invalid PID");
+    }
+
+    return $pid;
   }
