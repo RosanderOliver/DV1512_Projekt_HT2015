@@ -8,7 +8,7 @@ if ($login->isUserLoggedIn() === false) exit(1);
 $cid = getCID();
 
 // Test permissions
-if (!$user->hasPrivilege("canAssignReviewers")) {
+if (!$user->hasPrivilege("canAssignReviewer")) {
   header("Location: ?view=accessdenied");
   exit();
 }
