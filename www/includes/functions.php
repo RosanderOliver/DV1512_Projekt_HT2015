@@ -448,10 +448,10 @@
   * Gets the current CID
   * @author Jim Ahlstrand
   * @param bool $checkPerm Check for access rights or not
-  * @param bool $giveRole Auto adds roles
+  * @param bool $assignRole Auto adds roles
   * @return int course id
   */
-  function getCID( $checkPerm = true, $giveRole = true )
+  function getCID( $checkPerm = true, $assignRole = true )
   {
     if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
       $cid = intval($_GET['cid']);
@@ -463,7 +463,7 @@
         }
       }
       // Auto add role if user is examinator
-      if ($giveRole) {
+      if ($assignRole) {
         // TODO Can be optimized by getting the arrays directly from db instead
         $course = new Course($cid);
         // Give user examinator role if user is assigned as examinator

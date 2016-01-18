@@ -81,12 +81,12 @@ class PrivilegedUser extends User
 
     // Get the role
     $sth = $this->dbh->prepare(SQL_SELECT_ROLES_WHERE_ID);
-    $sth->bindParam(':role_id', $this->id, PDO::PARAM_INT);
+    $sth->bindParam(':role_id', $role, PDO::PARAM_INT);
     $sth->execute();
     $result = $sth->fetch(PDO::FETCH_OBJ);
 
     // Build the object
-    $role = new Role($role);
+    $role = new Role($result->role_id);
     $this->roles[$result->role_name] = $role;
 
     return false;

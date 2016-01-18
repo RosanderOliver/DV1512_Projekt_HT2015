@@ -4,21 +4,18 @@ if (!defined("IN_EXM")) exit(1);
 
 if ($login->isUserLoggedIn() === false) exit(1);
 
+// Get course id
+$cid = getCID();
+
 // Test permissions
 if (!$user->hasPrivilege("canAssignReviewers")) {
   header("Location: ?view=accessdenied");
   exit();
 }
 
-// Get course id
-if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
-  $cid = intval($_GET['cid']);
-} else {
-  exit("Invalid id!");
-}
-
 // Get current Course
 $course = $user->getCourse($cid);
+
 echo $course->name . "</br>";
 echo '<form action="index.php?view=assignedreviewers" method="POST">';
 echo '<ul>';
