@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'Smtpapi' => array($vendorDir . '/sendgrid/smtpapi/lib'),
     'SendGrid' => array($vendorDir . '/sendgrid/sendgrid/lib'),
+    'PFBC' => array($vendorDir . '/pfbc/pfbc'),
     'Guzzle\\Tests' => array($vendorDir . '/guzzle/guzzle/tests'),
     'Guzzle' => array($vendorDir . '/guzzle/guzzle/src'),
 );

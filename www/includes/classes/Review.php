@@ -25,7 +25,7 @@ class Review
   /**
   * @var array $comments array with comment id
   */
-  public $comments = array();
+  private $comments = array();
   /**
   * @var PP|TE $data review data object
   */
@@ -38,13 +38,7 @@ class Review
   public function __construct($id)
   {
     // Setup database handle
-    try {
-      // Generate a database connection, using the PDO connector
-      $this->dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
-    } catch (PDOException $e) {
-      // If shit hits the fan
-      throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
-    }
+    $this->dbh = $GLOBALS['dbh'];
 
     // Get the review id
     $review = intval($id);
@@ -77,5 +71,97 @@ class Review
       $comments[] = new Comment($value);
     }
     return $comments;
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param string $comment content of comment to be stored
+  * @return void
+  */
+  function addComment($comment) {
+    try {
+      // Create the comment
+      $comment = Comment::createComment($comment);
+
+      // Update the database
+      $this->comments[] = intval($comment->id);
+      $comments = serialize($this->comments); // TODO Check so this actually fits in database
+
+      $sth = $this->dbh->prepare(SQL_UPDATE_REVIEW_COMMENTS_WHERE_ID);
+      $sth->bindParam(":comments", $comments, PDO::PARAM_STR);
+      $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+      $sth->execute();
+
+    } catch (Exception $e) {
+      echo $e->getMessage();
+    }
+  }
+
+  /**
+  * Recursively prints comments tree
+  * @author Jim Ahlstrand
+  * @param array $comments array with id of comments
+  * @return void
+  */
+  function printComments($comments = null, $depth = 1) {
+    // If we are at maximum comments depth or subcomments are empty
+    if ($depth > MAX_COMMENT_DEPTH || $comments === array())
+      return;
+
+    // If comments array is null get the current array associated with this review
+    if ($comments === null) {
+      $comments = $this->getComments();
+    }
+    // Else construct the array
+    else {
+      $tmp = $comments;
+      $comments = array();
+      foreach ($tmp as $key => $value) {
+        $comments[] = new Comment($value);
+      }
+    }
+
+    // Loop through all comments
+    foreach ($comments as $key => $comment) {
+
+      $author = new User($comment->user);
+
+      // main comment
+      echo '<div class="comment">
+        <p class="content">'.$comment->data.'</p>
+        <p class="author">'.$author->real_name.' - '.$comment->date->format('Y-m-d H:i:s').'</p>';
+
+      // subcomments
+      $this->printComments($comment->getSubComments(), $depth + 1);
+
+      echo '</div>';
+    }
+  }
+
+  /**
+  * Creates a review and saves it in the DATABASE
+  * @author Jim Ahlstrand
+  * @param PP|TE $data object with data to serialize
+  * @return Review an object with the created review
+  */
+  public static function createReview($data)
+  {
+    // Get the current user
+    $user = $_SESSION['user_id'];
+    // Get the current date
+    $date = date("Y-m-d H:i:s");
+    // Serialize the data
+    //TODO Check so it's not too long
+    $data = serialize($data);
+
+    // Add it to the database
+    $sth = $GLOBALS['dbh']->prepare(SQL_INSERT_REVIEW);
+    $sth->bindParam(':user', $user, PDO::PARAM_INT);
+    $sth->bindParam(':date', $date, PDO::PARAM_STR);
+    $sth->bindParam(':data', $data, PDO::PARAM_STR);
+    $sth->execute();
+
+    // Return the newly created review
+    return new Review($GLOBALS['dbh']->lastInsertId());
   }
 }

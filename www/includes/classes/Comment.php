@@ -34,48 +34,74 @@ class Comment
 
   /**
   * Constructor
-  * @param  int    $id    id of the comment to load
-  * @param  string $data  data to be stored
+  * @param int $id id of the comment to load
   */
   public function __construct($id = null, $data = null)
   {
     // Setup database handle
-    try {
-      // Generate a database connection, using the PDO connector
-      $this->dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
-    } catch (PDOException $e) {
-      // If shit hits the fan
-      throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
+    $this->dbh = $GLOBALS['dbh'];
+
+    // Get the comment id
+    $comment = intval($id);
+    if ($comment <= 0) {
+      throw new Exception("Invalid comment id");
     }
 
-    // Get comment
-    if ($id != null) {
+    $sth = $this->dbh->prepare(SQL_SELECT_COMMENT_WHERE_ID);
+    $sth->bindParam(':id', $comment, PDO::PARAM_INT);
+    $sth->execute();
+    $result = $sth->fetch(PDO::FETCH_OBJ);
 
-      // Get the comment id
-      $comment = intval($id);
-      if ($comment <= 0) {
-        throw new Exception("Invalid comment id");
-      }
+    // If the project does not exists
+    if (!$result) throw new Exception("Could not find requested comment");
 
-      $sth = $this->dbh->prepare(SQL_SELECT_COMMENT_WHERE_ID);
-      $sth->bindParam(':id', $comment, PDO::PARAM_INT);
-      $sth->execute();
-      $result = $sth->fetch(PDO::FETCH_OBJ);
+    $this->id = $result->id;
+    $this->user = $result->user;
+    $this->date = new DateTime($result->date);
+    $this->data = $result->data;
+    $this->subcomments = unserialize($result->subcomments);
+  }
 
-      // If the project does not exists
-      if (!$result) throw new Exception("Could not find requested comment");
+  /**
+  * Insert data in database with currentdate and time
+  * @author Jim Ahlstrand
+  * @return int Id of inserted row
+  */
+  private function insertComment()
+  {
+    // Prepare variables
+    $date = $this->date->format("Y-m-d H:i:s");
+    $subcomments = serialize($this->subcomments);
 
-      $this->id = $result->id;
-      $this->user = $result->user;
-      $this->date = new DateTime($result->date);
-      $this->data = $result->data;
-      $this->subcomments = unserialize($result->subcomments);
+    $sth = $this->dbh->prepare(SQL_INSERT_COMMENT);
+    $sth->bindParam(":user", $this->user, PDO::PARAM_INT);
+    $sth->bindParam(':date', $date, PDO::PARAM_STR);
+    $sth->bindParam(":data", $this->data, PDO::PARAM_STR);
+    $sth->bindParam(":subcomments", $subcomments, PDO::PARAM_STR);
+    $sth->execute();
 
-    }
-    // Set Comment
-    else if ($data != null) {
+    return $this->dbh->lastInsertId();
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @return array id's of subcomments
+  */
+  function getSubComments() {
+    return $this->subcomments;
+  }
+
+  /**
+  * Insert data in database with currentdate and time
+  * @author Jim Ahlstrand
+  * @param string $comment content of the comment
+  * @return Comment object with the created comment
+  */
+  public static function createComment($comment)
+  {
+    if (!empty($comment)) {
       // Check data
-      $data = htmlspecialchars(trim($data));
+      $data = htmlspecialchars(trim($comment));
       if (empty($data) || !isset($data)) {
         throw new Exception("No comment data given");
       }
@@ -84,44 +110,25 @@ class Comment
       }
 
       // Set date to current date
-      $this->date = new DateTime();
-
+      $date = date("Y-m-d H:i:s");
       // Set user to current user
-      $this->user = $_SESSION['user_id'];
-
-      // Set data
-      $this->data = $data;
-
+      $user = $_SESSION['user_id'];
       // Set subcomments to empty
-      $this->subcomments = Array();
+      $subcomments = serialize(array());
 
-      // Insert comment and save the id
-      $this->id = $this->insertComment();
+      $sth = $GLOBALS['dbh']->prepare(SQL_INSERT_COMMENT);
+      $sth->bindParam(":user", $user, PDO::PARAM_INT);
+      $sth->bindParam(':date', $date, PDO::PARAM_STR);
+      $sth->bindParam(":data", $data, PDO::PARAM_STR);
+      $sth->bindParam(":subcomments", $subcomments, PDO::PARAM_STR);
+      $sth->execute();
+
+      return new Comment($GLOBALS['dbh']->lastInsertId());
     }
     // Invalid request
     else {
-      throw new Exception("Invalid construct");
+      throw new Exception("Invalid comment");
     }
-  }
-
-  /**
-  * Insert data in database with currentdate and time
-  * @author Jim Ahlstrand
-  * @return int Id of inserted row
-  */
-  private function insertComment() {
-    // Prepare variables
-    $date = $this->date->format("Y-m-d H:i:s");
-    $subcomments = serialize($this->subcomments);
-
-    $ssth = $this->dbh->prepare(SQL_INSERT_COMMENT);
-    $ssth->bindParam(":user", $this->user, PDO::PARAM_INT);
-    $ssth->bindParam(':date', $date, PDO::PARAM_STR);
-    $ssth->bindParam(":data", $this->data, PDO::PARAM_STR);
-    $ssth->bindParam(":subcomments", $subcomments, PDO::PARAM_STR);
-    $ssth->execute();
-
-    return $this->dbh->lastInsertId();
   }
 
 }

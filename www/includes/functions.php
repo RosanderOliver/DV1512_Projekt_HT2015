@@ -10,12 +10,43 @@
   * Prints a html menu
   * @author Jim Ahlstrand
   * @param  array  $navigation  An array containing the items and subitems
+  * @param  bool   $isDropdown  used internaly to indicate it's a drop down menu
   * @return void
   */
-  function printMenu($navigation) {
-    echo '<nav>';
-    printULLink( $navigation );
-    echo '</nav>';
+  function printMenu($navigation, $isDropdown = false) {
+    if ($navigation == null || $navigation == array()) {
+      return;
+    }
+
+    if ($isDropdown) {
+      echo '<ul class="dropdown-menu">';
+    } else {
+      echo '<ul class="nav navbar-nav">';
+    }
+    foreach ($navigation as $key => $set) {
+
+      $label = $set[0];
+      if (isset($set[1])) {
+        $value = $set[1];
+      }
+      else {
+        $value = null;
+      }
+
+      if (is_array($value)) {
+        echo '<li class="dropdown">';
+      } else {
+        echo '<li>';
+      }
+      if (is_array($value)) {
+        echo '<a href=\"#\" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">'.$label.'<span class="caret"></span></a>';
+        printMenu($value, true);
+      } else {
+        echo "<a href=\"$value\">$label</a>";
+      }
+      echo '</li>';
+    }
+    echo '</ul>';
   }
 
   /**
@@ -26,14 +57,59 @@
   * @return void
   */
   function printULLink( $list ) {
+    if ($list == null || $list == array()) {
+      return;
+    }
+
     echo '<ul>';
-    foreach ($list as list($label, $value)) {
+    foreach ($list as $key => $set) {
+
+      $label = $set[0];
+      if (isset($set[1])) {
+        $value = $set[1];
+      }
+      else {
+        $value = null;
+      }
+
       echo '<li>';
       if (is_array($value)) {
         echo "<a href=\"#\">$label</a>";
         printULLink($value);
       } else {
         echo "<a href=\"$value\">$label</a>";
+      }
+      echo '</li>';
+    }
+    echo '</ul>';
+  }
+
+  /**
+  * Print Unordered list
+  * @author Jim Ahlstrand
+  * @param  array  $list   An array containing the list items and optional sublist
+  * @return void
+  */
+  function printUL( $list ) {
+    if ($list == null || $list == array()) {
+      return;
+    }
+
+    echo '<ul>';
+    foreach ($list as $key => $set) {
+
+      $label = $set[0];
+      if (isset($set[1])) {
+        $value = $set[1];
+      }
+      else {
+        $value = null;
+      }
+
+      echo '<li>';
+      echo $label;
+      if (is_array($value)) {
+        printULLink($value);
       }
       echo '</li>';
     }
@@ -98,7 +174,7 @@
     }
   }
 
-/**
+ /**
  * getComment Retrives comments given a submission id
  * @author Oliver Rosander
  * @param PDO $dbh
@@ -146,7 +222,6 @@
   }
 
   /**
-  * @author Annika Hansson
   * @var
   * @param int, $data, raw data from form
   * @return int, returned as valid number
@@ -309,21 +384,22 @@
     return intval($dbh->lastInsertId());
   }
 
-  /** CreateTable
+  /**
+  * CreateTable
   * @author Oliver Rosander, Jim Ahlstrand
-  * @param string array containing the column names
-  * @param string array containing the table data
+  * @param array $head array containing the table header
+  * @param array $data array containing the table data
   */
   function printTable( $head = null, $data )
   {
-    echo '<table width=700px>';
+    echo '<table class="table">';
     // If head
     if($head != null)
     {
       echo '<thead>';
       echo '<tr>';
       foreach ($head as $key => $value) {
-        echo '<td>'.$value.'</td>';
+        echo '<th>'.$value.'</th>';
       }
       echo '</tr>';
       echo '</thead>';
@@ -340,4 +416,105 @@
     }
     echo '</tdata>';
     echo '</table>';
+  }
+
+  /**
+  * Find users from thier username
+  * @author Jim Ahlstrand
+  * @param string $uname User name of the user to search form
+  * @return int id of user or -1 if not found
+  */
+  function findUser( $uname )
+  {
+    if (empty($uname)) {
+      return -1;
+    }
+
+    // Get the user from database
+    $sth = $GLOBALS['dbh']->prepare(SQL_SELECT_USER_WHERE_USER_NAME);
+    $sth->bindParam(":user_name", $uname, PDO::PARAM_STR);
+    $sth->execute();
+    $result = $sth->fetch(PDO::FETCH_OBJ);
+
+    // Check if user was found
+    if (!$result) {
+      return -1;
+    } else {
+      return $result->user_id;
+    }
+  }
+
+  /**
+  * Gets the current CID
+  * @author Jim Ahlstrand
+  * @param bool $checkPerm Check for access rights
+  * @param bool $assignRole Auto adds roles
+  * @return int course id
+  */
+  function getCID( $checkPerm = true, $assignRole = true )
+  {
+    if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
+
+      $cid = intval($_GET['cid']);
+
+      // Check if user has access to this course
+      if ($checkPerm) {
+        if (!in_array($cid, $GLOBALS['user']->getCourse())) {
+          header("Location: ?view=accessdenied");
+          exit();
+        }
+      }
+
+      // Auto add roles
+      if ($assignRole) {
+        $course = new Course($cid);
+        $course->assignRoles();
+      }
+
+    } else {
+      throw new Exception("Invalid CID");
+    }
+
+    return $cid;
+  }
+
+  /**
+  * Gets the current PID
+  * @author Jim Ahlstrand
+  * @param bool $checkPerm Check for access rights
+  * @return int course id
+  */
+  function getPID( $checkPerm = true, $assignRoles = true )
+  {
+    if (isset($_GET['pid']) && intval($_GET['pid']) > 0) {
+
+      $pid = intval($_GET['pid']);
+
+      // Get the project, if it does not exist exit
+      try {
+        $project = new Project($pid);
+      } catch (Exception $e) {
+        header("Location: ?view=accessdenied");
+        exit();
+      }
+
+      // Auto add roles
+      if ($assignRoles) {
+      	$course = new Course($project->course);
+      	$course->assignRoles();
+      }
+
+      // Check if user has access to this course
+      if ($checkPerm && !$GLOBALS['user']->hasPrivilege('canViewAllProjects')) {
+        if (!$project->userIsAssigned($GLOBALS['user']->id)) {
+          header("Location: ?view=accessdenied");
+          exit();
+        }
+      }
+
+    } else {
+      throw new Exception("Invalid PID");
+    }
+
+    return $pid;
   }

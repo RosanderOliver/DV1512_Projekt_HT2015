@@ -11,6 +11,9 @@
  class ProjectOverviewTest extends PHPUnit_Framework_TestCase
  {
    protected static $dbh;
+
+   protected static $subid;
+
    protected static $proid;
    /**
     * Prepares each test
@@ -22,21 +25,39 @@
      include_once("www/includes/translations/en.php");
      // Include translations
      include_once("www/includes/functions.php");
+
      // Create new database handle
      try {
        // Generate a database connection, using the PDO connector
        self::$dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
+
      } catch (PDOException $e) {
        // If shit hits the fan
        throw new Exception($e->getMessage());
      }
+
+     $user = 0;
+     $date = date("Y-m-d H:i:s");
+     $files = serialize(array());
+     $reviews = serialize(array());
+     $comments = serialize(array());
+     $grade = 0;
+     $stage = 0;
+
+     // Insert the new submission
+     $sth = self::$dbh->prepare(SQL_INSERT_SUBMISSION);
+     $sth->bindParam(":user", $user, PDO::PARAM_INT);
+     $sth->bindParam(':date', $date, PDO::PARAM_STR);
+     $sth->bindParam(":files",$files, PDO::PARAM_STR);
+     $sth->bindParam(":reviews", $reviews, PDO::PARAM_STR);
+
      $subject = "Test Subject"; //asd
      $deadline = date("Y-m-d H:i:s");
      $students = serialize(array());
      $examinators = serialize(array());
      $submissions = serialize(array());
      $comments = serialize(array());
-     $grade = null;
+     $grade = 0;
      $stage = 2;
 
      // Insert the new submission
@@ -86,9 +107,14 @@
     */
    public function projectFunctions()
    {
+
+     // Create new user class
+     $sub = new Submission(self::$subid);
+
      //Project::
      // Create new project class
      $pro = new Project(self::$proid);
+
      // Check if the object was created
      $this->assertNotNull($pro);
      //Here we test if the updateStage() function works!

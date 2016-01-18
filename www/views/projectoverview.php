@@ -1,53 +1,50 @@
 <?php
 
 // Get course id
-$cid;
-if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
-  $cid = intval($_GET['cid']);
-} else {
-  exit("Invalid course!");
-}
+$cid = getCID();
 
 // Get project id
-$pid;
-if (isset($_GET['pid']) && intval($_GET['pid']) > 0) {
-  $pid = intval($_GET['pid']);
-} else {
-  exit("Invalid project!");
-}
+$pid = getPID();
 
 // Get the course
-$course = $user->getCourse($cid);
+$course = $GLOBALS['user']->getCourse($cid);
+
 // Get project
 $project = $course->getProject($pid);
 
-echo '<h1>  Project overview  </h1>';
-
+echo '<div class="row">';
+echo '<div class="col-md-3">';
+echo '<h2>  Project overview  </h2>';
 // List all submissions
 foreach (array_reverse($project->getSubmission()) as $key => $value) {
 
   // Get the submission
   $submission = new Submission($value);
 
-  if ($stages[$submission->stage] == STAGE_PLAN) {
-    echo '<h2> Project plan</h2>';
-  } elseif ($stages[$submission->stage] == STAGE_REPORT) {
-    echo '<h2> Project report</h2>';
-  }
-  echo 'Files: '.$submission->files;
+  echo '<h4>'.$stages[$submission->stage].'</h4>';
+  echo 'Date: '.$submission->date->format('Y-m-d H:i');
+
   foreach ($submission->getComments() as $key => $value) {
-    echo '<br>Comment: '.$value->data;
+    echo '</br>Comment: '.$value->data;
   }
   if ($submission->grade > 0 && $submission->grade < count($grades)) {
-    echo '<br>Grade: '.$grades[$submission->grade];
+    echo '</br>Grade: '.$grades[$submission->grade];
   } else if ($submission->grade == 0) {
-    echo '<br><a href="?view=examinatorgrading&pid='.$project->id.'&sid='.$submission->id.'">Grade this submission</a>';
+    if($GLOBALS['user']->hasPrivilege("canGradeProjects")) {
+      echo '<br><a href="?view=examinatorgrading&pid='.$project->id.'&sid='.$submission->id.'">Grade this submission</a>';
+    }
     if ($submission->userHasReviewed()) {
       echo '<br><a href="?view=projectreviews&sid='.$submission->id.'">View reviews</a>';
-    } else if ($stages[$submission->stage] == STAGE_PLAN) {
+    }
+    if ($stages[$submission->stage] == STAGE_PLAN && $GLOBALS['user']->hasPrivilege("canReview")) {
       echo '<br><a href="?view=reviewplan&sid='.$submission->id.'">Review this submission</a>';
-    } else if ($stages[$submission->stage] == STAGE_REPORT) {
+    } else if ($stages[$submission->stage] == STAGE_REPORT && $GLOBALS['user']->hasPrivilege("canReview")) {
       echo '<br><a href="?view=reviewthesis&sid='.$submission->id.'">Review this submission</a>';
     }
   }
+
+  echo '<hr/>';
 }
+
+echo '</div>';
+echo '</div>';
