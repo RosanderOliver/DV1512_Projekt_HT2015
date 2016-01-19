@@ -166,7 +166,7 @@
 
 <font color="#000000"><b>Final Grade Form</b></font>
 
-			Comment: (max 256 characters)<br /><?php  if ($dataSent == 1) : ?>
+			Comment: (max 2048 characters)<br /><?php  if ($dataSent == 1) : ?>
 				<p> Data Sent </p>
 				<?php
 				echo "Grade: $grade <br>";

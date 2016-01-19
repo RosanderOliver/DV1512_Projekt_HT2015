@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     `user_id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing user_id of each user, unique index',
     `user_real_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s real name',
     `user_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s name, unique',
-    `user_courses` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'serialized array with user\'s enlisted courses',
+    `user_courses` VARCHAR(512) DEFAULT 'a:0:{}' COMMENT 'serialized array with user\'s enlisted courses',
     `user_password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s password in salted and hashed format',
     `user_email` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s email, unique',
     `user_active` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'user\'s activation status',
@@ -24,28 +24,28 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 CREATE TABLE IF NOT EXISTS `courses` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
-    `name` VARCHAR(64) NOT NULL COMMENT 'name of the course',
+    `name` VARCHAR(128) NOT NULL COMMENT 'name of the course',
     `deadlines` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'array with the course\'s dates for dealines',
-    `projects` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'projects assosiated with the course',
+    `projects` VARCHAR(512) DEFAULT 'a:0:{}' COMMENT 'projects assosiated with the course',
     `select_project` INT NOT NULL COMMENT 'decides if reviewers can select projects from course',
-    `admins` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'admin users for this course',
-    `examinators` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'examinators linked to the course',
-    `users` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'users assigned to this course',
+    `admins` VARCHAR(512) DEFAULT 'a:0:{}' COMMENT 'admin users for this course',
+    `examinators` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'examinators linked to the course',
+    `users` VARCHAR(512) DEFAULT 'a:0:{}' COMMENT 'users assigned to this course',
     `active` INT NOT NULL DEFAULT '1' COMMENT 'decides if reviewers can select projects from course',
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='course projects and other data related to each course';
 
 CREATE TABLE IF NOT EXISTS `projects` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
-    `subject` VARCHAR(64) NOT NULL COMMENT 'subject of the project',
+    `subject` VARCHAR(512) NOT NULL COMMENT 'subject of the project',
     `stage` INT UNSIGNED DEFAULT '0' COMMENT 'stage of project ex start and finished',
     `grade` INT UNSIGNED DEFAULT '0' COMMENT 'grade of the project',
     `submissions` VARCHAR(1024) DEFAULT 'a:0:{}' COMMENT 'submissions linked to the project',
     `comments` VARCHAR(1024) DEFAULT 'a:0:{}' COMMENT 'array with id\'s of comments',
     `deadline` DATETIME NOT NULL COMMENT 'next deadline for the project',
-    `students` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'students linked to the project',
-    `managers` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'managers linked to the project',
-    `reviewers` VARCHAR(512) DEFAULT 'a:0:{}' COMMENT 'reviewers linked to the project',
+    `students` VARCHAR(512) DEFAULT 'a:0:{}' COMMENT 'students linked to the project',
+    `managers` VARCHAR(512) DEFAULT 'a:0:{}' COMMENT 'managers linked to the project',
+    `reviewers` VARCHAR(1024) DEFAULT 'a:0:{}' COMMENT 'reviewers linked to the project',
     `feasible_reviewers` VARCHAR(1024) DEFAULT 'a:0:{}' COMMENT 'feasible reviewers who can be linked to the project',
     `course_id` INT UNSIGNED NOT NULL,
 
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `files` (
     `name` VARCHAR(64) NOT NULL COMMENT 'name of the file',
     `user` INT UNSIGNED NOT NULL COMMENT 'user id of the uploader',
     `date` DATETIME DEFAULT '0000-00-00 00:00:00' COMMENT 'date and time of the upload',
-    `path` VARCHAR(64) NOT NULL COMMENT 'relative path to the file',
+    `path` VARCHAR(128) NOT NULL COMMENT 'relative path to the file',
     `can_read` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'array with users that have read permission',
     `virus_searched` TINYINT DEFAULT '0' COMMENT 'has the file been virus searched?',
     PRIMARY KEY (`id`)
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
     `user` INT UNSIGNED NOT NULL COMMENT 'id of user submitting the comment',
     `date` DATETIME DEFAULT '0000-00-00 00:00:00' COMMENT 'date and time of submission',
-    `data` VARCHAR(256) NOT NULL COMMENT 'content of comment',
+    `data` VARCHAR(2048) NOT NULL COMMENT 'content of comment',
     `subcomments` VARCHAR(64) NOT NULL DEFAULT 'a:0:{}' COMMENT 'array with id\'s of subcomments',
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='data about comments';
