@@ -41,6 +41,10 @@ class Course
   */
   private $examinators = Array();
   /**
+  * @var array $reviewers Reviewers assigned to this course
+  */
+  private $reviewers = Array();
+  /**
   * @var array $users Users assigned to this course
   */
   private $users = Array();
@@ -78,8 +82,33 @@ class Course
     $this->select_project = intval($result->select_project);
     $this->admins = unserialize($result->admins);
     $this->examinators = unserialize($result->examinators);
+    $this->reviewers = unserialize($result->reviewers);
     $this->users = unserialize($result->users);
     $this->active = intval($result->active);
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param int $id id of the project to add
+  * @return void
+  */
+  function addProject($id)
+  {
+    $id = intval($id);
+    // Check for invalid id
+    if ($id <= 0) {
+      throw new Exception("Invalid parameter");
+    }
+
+    // Add project to projects array
+    $this->projects[] = $id;
+    $projects = serialize($this->projects);
+
+    // Update database
+    $sth = $this->dbh->prepare(SQL_UPDATE_COURSE_PROJECTS_WHERE_ID);
+    $sth->bindParam(":projects", $projects, PDO::PARAM_STR);
+    $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
+    $sth->execute();
   }
 
   /**
@@ -261,10 +290,10 @@ class Course
 
   /**
   * @author Jim Ahlstrand
-  * @param int $id id of the project to add
+  * @param int $id id of the user to add
   * @return void
   */
-  function addProject($id)
+  function addReviewer( $id )
   {
     $id = intval($id);
     // Check for invalid id
@@ -272,15 +301,35 @@ class Course
       throw new Exception("Invalid parameter");
     }
 
-    // Add project to projects array
-    $this->projects[] = $id;
-    $projects = serialize($this->projects);
+    // Add user to examinators array
+    $this->reviewers[] = $id;
+    $reviewers = serialize($this->reviewers);
 
     // Update database
-    $sth = $this->dbh->prepare(SQL_UPDATE_COURSE_PROJECTS_WHERE_ID);
-    $sth->bindParam(":projects", $projects, PDO::PARAM_STR);
+    $sth = $this->dbh->prepare(SQL_UPDATE_COURSE_REVIEWERS_WHERE_ID);
+    $sth->bindParam(":reviewers", $reviewers, PDO::PARAM_STR);
     $sth->bindParam(":id", $this->id, PDO::PARAM_INT);
     $sth->execute();
+  }
+
+  /**
+  * @author Jim Ahlstrand
+  * @param int $id id of the user to get
+  * @return array|User
+  */
+  function getReviewer( $id = null )
+  {
+    // If no user requested return whole array
+    if ($id === null)
+      return $this->reviewers;
+
+    $id = intval($id);
+    // Check for invalid id
+    if ($id <= 0 || !in_array($id, $this->reviewers)) {
+      throw new Exception("Invalid parameter");
+    }
+
+    return new User($id);
   }
 
   /**
@@ -323,9 +372,9 @@ class Course
   }
 
   /**
+  * updates if course is active or not
   * @author Annika Hansson
-  * @param
-  * @return updates if course is active or not
+  * @return void
   */
   function setActiveCourse(){
     if($this->active == 0){
@@ -365,6 +414,10 @@ class Course
     // Give user course admin role if user is assigned as course admin
     if (in_array($GLOBALS['user']->id, $this->getAdmin())) {
       $GLOBALS['user']->addRole(PrivilegedUser::COURSEADMIN);
+    }
+    // Give user reviewer role if user is assigned as reviewer
+    if ( in_array($GLOBALS['user']->id, $this->getReviewer()) ) {
+      $GLOBALS['user']->addRole(PrivilegedUser::REVIEWER);
     }
   }
 

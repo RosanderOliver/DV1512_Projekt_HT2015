@@ -18,9 +18,6 @@ require_once('includes/functions.php');
 // include the config
 require_once('includes/config.php');
 
-// include functions
-require_once('includes/functions.php');
-
 // include the SQL-file
 require_once('includes/SQL.php');
 
@@ -117,7 +114,8 @@ $views = [
   'permissions',
   'assigncourseadmin',
   'assignexaminator',
-  'assignreviewers',
+  'assignreviewer',
+  'assignprojectstoreviewers',
   'assignedreviewers',
   'selectprojects',
   'selectedprojects',

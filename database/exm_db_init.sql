@@ -29,8 +29,9 @@ CREATE TABLE IF NOT EXISTS `courses` (
     `projects` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'projects assosiated with the course',
     `select_project` INT NOT NULL COMMENT 'decides if reviewers can select projects from course',
     `admins` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'admin users for this course',
-    `examinators` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'examinators linked to the course',
-    `users` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'users assigned to this course',
+    `examinators` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'examinators linked to the course',
+    `reviewers` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'reviewers linked to the course',
+    `users` VARCHAR(512) DEFAULT 'a:0:{}' COMMENT 'users assigned to this course',
     `active` INT NOT NULL DEFAULT '1' COMMENT 'decides if reviewers can select projects from course',
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='course projects and other data related to each course';
@@ -158,6 +159,7 @@ INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('12', 'c
 INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('13', 'canToggleCourseActive', 'Can activate/deactivate the course');
 INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('14', 'canAssignExaminator', 'Can assign an examinator to a course');
 INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('15', 'canReview', 'Can review projects');
+INSERT INTO `permissions` (`perm_id`, `perm_name`, `perm_desc`) VALUES ('16', 'canAssignProjectToReviewer', 'Can assign projects to reviewers');
 
 /* Set default role permissions */
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '1');
@@ -175,6 +177,7 @@ INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '12');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '13');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '14');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '15');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('1', '16');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('2', '1');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('2', '9');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('2', '11');
@@ -189,6 +192,7 @@ INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '11');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '12');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '13');
 INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '14');
+INSERT INTO `role_perm` (`role_id`, `perm_id`) VALUES ('6', '16');
 
 /* Set default roles for users */
 INSERT INTO `user_role` (`user_id`, `role_id`) VALUES ('1', '1');

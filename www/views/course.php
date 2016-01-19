@@ -41,7 +41,10 @@ if ($user->hasPrivilege("canAssignExaminator")) {
   $list[] = array('Assign examinator', '?view=assignexaminator&cid='.$cid);
 }
 if ($user->hasPrivilege("canAssignReviewer")) {
-  $list[] = array('Assign reviewers', '?view=assignreviewers&cid='.$cid);
+  $list[] = array('Assign reviewers', '?view=assignreviewer&cid='.$cid);
+}
+if ($user->hasPrivilege("canAssignProjectToReviewer")) {
+  $list[] = array('Assign projects to reviewers', '?view=assignprojectstoreviewers&cid='.$cid);
 }
 if($user->hasPrivilege("canToggleReviewSelection")) {
   if ( $course->select_project == 0 ){
@@ -55,7 +58,7 @@ if($user->hasPrivilege("canToggleCourseActive")) {
    $list[] = array('Reactivate course','?view=activate&cid='.$cid);
   } else {
    $list[] = array('Inactivate course','?view=activate&cid='.$cid);
-  }
+ }
 }
 if ($user->hasPrivilege("canViewParticipants")) {
   $list[] = array('View participants','?view=participants&cid='.$cid);
