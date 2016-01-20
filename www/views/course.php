@@ -49,6 +49,7 @@ if ($user->hasPrivilege("canAssignProjectToReviewer")) {
 if ($user->hasPrivilege("canSelectProjectsToReview")) {
   $list[] = array('Select projects that you can review', '?view=selectprojects&cid='.$cid);
 }
+// TODO This is accually quite pointless
 if($user->hasPrivilege("canToggleReviewSelection")) {
   if ( $course->select_project == 0 ){
    $list[] = array('Let reviewers selects projects','?view=openclose&cid='.$cid);

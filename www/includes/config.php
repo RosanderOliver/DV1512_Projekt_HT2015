@@ -145,6 +145,6 @@ define("HASH_COST_FACTOR", "12");
    */
    define("STAGE_DRAFT", "Draft");
    define("STAGE_PLAN", "Plan");
-   define("STAGE_REPORT", "Rapport");
+   define("STAGE_REPORT", "Report");
    define("STAGE_PEER_REVIEW", "Peer Review");
    define("STAGE_FINISHED", "Finished");

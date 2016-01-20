@@ -1,8 +1,7 @@
 <?php
 
-// TODO: Check if session data is correct before adding it to database
+// TODO: Check if session data is correct before adding it to database (IDM)
 // TODO: Create settings database and settings class directly liked to from this class
-// TODO: Be able to create object for any requested user ( if permitted )
 // TODO: Correctly fetch users instead of eppn, this is a work around for dual stacking IDM
 
 /**
@@ -12,13 +11,13 @@
 class User
 {
   /**
-  * @var srting $user The usersname
-  */
-  public $user = "";
-  /**
   * @var object $dbh The database handler
   */
   protected $dbh = null;
+  /**
+  * @var string $user The usersname
+  */
+  public $user = "";
   /**
   * @var int $id The user's database id
   */
@@ -47,13 +46,7 @@ class User
   public function __construct($id = null)
   {
     // Setup database handle
-    try {
-      // Generate a database connection, using the PDO connector
-      $this->dbh = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
-    } catch (PDOException $e) {
-      // If shit hits the fan
-      throw new Exception(MESSAGE_DATABASE_ERROR . $e->getMessage());
-    }
+    $this->dbh = $GLOBALS['dbh'];
 
     // Set the user id
     if ($id == null) {
@@ -78,11 +71,11 @@ class User
     }
 
     // Add data to parameters
-    $this->id = intval($result->user_id);
-    $this->name = $result->user_name;
-    $this->real_name = $result->user_real_name;
-    $this->email = $result->user_email;
-    $this->courses = unserialize($result->user_courses);
+    $this->id         = intval($result->user_id);
+    $this->name       = $result->user_name;
+    $this->real_name  = $result->user_real_name;
+    $this->email      = $result->user_email;
+    $this->courses    = unserialize($result->user_courses);
   }
 
   /**
@@ -103,7 +96,7 @@ class User
       throw new Exception("Invalid parameter");
 
     // Check so the course is listed for the user
-    if (!in_array($id, $this->courses))
+    if ( !in_array($id, $this->courses) )
       throw new Exception("Invalid course request");
 
     return new Course($id);

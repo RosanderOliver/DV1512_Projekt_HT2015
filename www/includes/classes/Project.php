@@ -124,37 +124,49 @@ class Project
   }
 
   /**
-  * @author Annika Hansson
-  * @param
+  * @author Annika Hansson, Jim Ahlstrand
+  * @param int, $id, Id of the  user to add default is current user logged in
   * @return void
-  * @TODO adds feasible reviewers to database
   */
+  function addFeasibleReviewer( $id = null ){
 
-  function addFeasibleReviewer(){
-    if(!in_array($_SESSION['user_id'],$this->feasible_reviewers)){
-      $this->feasible_reviewers[] = intval($_SESSION['user_id']);
-      $ssth = $this->dbh->prepare(SQL_UPDATE_PROJECT_FEASIBLE_REVIEWERS_WHERE_ID);
-      $ssth->bindParam(':id', $this->id, PDO::PARAM_INT);
-      $ssth->bindParam(':feasible_reviewers', serialize($this->feasible_reviewers), PDO::PARAM_STR);
-      $ssth->execute();
+    if ($id == null) {
+      $id = $GLOBALS['user']->id;
+    } else {
+      $id = intval($id);
     }
+    
+    // Check if user already is added
+    if(!in_array($id, $this->feasible_reviewers)){
+
+      $this->feasible_reviewers[] = $id;
+
+      $sth = $this->dbh->prepare(SQL_UPDATE_PROJECT_FEASIBLE_REVIEWERS_WHERE_ID);
+      $sth->bindParam(':id', $this->id, PDO::PARAM_INT);
+      $sth->bindParam(':feasible_reviewers', serialize($this->feasible_reviewers), PDO::PARAM_STR);
+      $sth->execute();
+    }
+
   }
 
   /**
-  * @author Annika Hansson
+  * @author Annika Hansson, Jim Ahlstrand
   * @param int $rid Reviewer ID
   * @return void
-  * @TODO adds reviewers to database
   */
+  function addReviewer( $rid ) {
 
-  function addReviewer($rid){
-    if(!in_array($rid,$this->reviewers)){
-      $this->reviewers[] = intval($rid);
-      $ssth = $this->dbh->prepare(SQL_UPDATE_PROJECT_REVIEWERS_WHERE_ID);
-      $ssth->bindParam(':id', $this->id, PDO::PARAM_INT);
-      $ssth->bindParam(':reviewers', serialize($this->reviewers), PDO::PARAM_STR);
-      $ssth->execute();
+    // Check if user already is added
+    if ( !in_array($rid, $this->reviewers))  {
+
+      $this->reviewers[] = $rid;
+
+      $sth = $this->dbh->prepare(SQL_UPDATE_PROJECT_REVIEWERS_WHERE_ID);
+      $sth->bindParam(':id', $this->id, PDO::PARAM_INT);
+      $sth->bindParam(':reviewers', serialize($this->reviewers), PDO::PARAM_STR);
+      $sth->execute();
     }
+
   }
 
   /**
@@ -171,7 +183,7 @@ class Project
     $grade = 0;
 
     // Insert the new submission
-    // TODO This should be a class
+    // TODO This should be using the submissions class
     $sth = $this->dbh->prepare(SQL_INSERT_SUBMISSION);
     $sth->bindParam(":user", $user, PDO::PARAM_INT);
     $sth->bindParam(':date', $date, PDO::PARAM_STR);

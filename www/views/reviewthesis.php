@@ -1,5 +1,7 @@
 <?php
 
+  // TODO Use pid and cid to autofill relevant info and permissions support
+
   if (!defined("IN_EXM")) exit(1);
   if ($login->isUserLoggedIn() === false) exit(1);
 

@@ -408,11 +408,11 @@ class Course
   public function assignRoles()
   {
     // Give user examinator role if user is assigned as examinator
-    if (in_array($GLOBALS['user']->id, $this->getExaminator())) {
+    if ( in_array($GLOBALS['user']->id, $this->getExaminator()) ) {
       $GLOBALS['user']->addRole(PrivilegedUser::EXAMINATOR);
     }
     // Give user course admin role if user is assigned as course admin
-    if (in_array($GLOBALS['user']->id, $this->getAdmin())) {
+    if ( in_array($GLOBALS['user']->id, $this->getAdmin()) ) {
       $GLOBALS['user']->addRole(PrivilegedUser::COURSEADMIN);
     }
     // Give user reviewer role if user is assigned as reviewer

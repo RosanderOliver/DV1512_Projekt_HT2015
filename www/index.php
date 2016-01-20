@@ -38,15 +38,6 @@ require_once('includes/autoloader.php');
 // so this single line handles the entire login process.
 $login = new Login();
 
-// Create a user object
-try {
- $user = new PrivilegedUser();
-} catch (Exception $e) {
- echo $e->getMessage(); // TODO Propper error handling
-}
-// Make it global
-$GLOBALS['user'] = $user;
-
 // Create new database handle
 try {
   // Generate a database connection, using the PDO connector
@@ -57,6 +48,15 @@ try {
 }
 // Add the database to GLOBALS
 $GLOBALS['dbh'] = $dbh;
+
+// Create a user object
+try {
+ $user = new PrivilegedUser();
+} catch (Exception $e) {
+ echo $e->getMessage(); // TODO Propper error handling
+}
+// Make it global
+$GLOBALS['user'] = $user;
 
 // graders definitions
 $grades = array(

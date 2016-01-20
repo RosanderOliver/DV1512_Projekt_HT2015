@@ -1,5 +1,9 @@
 
-<?php //TODO Onmouseover.......... no ?>
+<?php
+// TODO Onmouseover.......... no
+// TODO use the form class instead
+// TODO Correct input checking... or use form class
+?>
 <form action="index.php?view=reviewthesis&sid=<?php echo $sid?>" method="post" name="thesis"  onmouseover="tot(thesis.s1.value, thesis.s2.value, thesis.s3.value, thesis.s4.value)">
 <table class="form_table">
 
@@ -10,9 +14,9 @@
   </tr>
   <tr>
     <td>E-mail: </td>
-    <td colspan="2"><input type="text" name="s1email" class="form_input" maxlength="128" value="<?php if(isset($data)){echo $data->s1email;} ?>" required></td> <!-- required -->
-    <td >PNR:</td>
-    <td colspan="2"><input type="text" name="pnr1" class="form_input" maxlength="20" value="<?php if(isset($data)){echo $data->pnr1;} ?>" required></td> <!-- required -->
+    <td colspan="2"><input type="email" name="s1email" class="form_input" maxlength="128" value="<?php if(isset($data)){echo $data->s1email;} ?>" required></td> <!-- required -->
+    <td >Social sec nr (ÅÅMMDD-XXX): </td>
+    <td colspan="2"><input type="text" pattern="[0-9]{6}-[0-9]{4}" name="pnr1" class="form_input" maxlength="20" value="<?php if(isset($data)){echo $data->pnr1;} ?>" required></td> <!-- required -->
   </tr>
 
   <th>Student 2 (if applicable)</th>

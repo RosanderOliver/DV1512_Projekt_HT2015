@@ -36,7 +36,7 @@ class Comment
   * Constructor
   * @param int $id id of the comment to load
   */
-  public function __construct($id = null, $data = null)
+  public function __construct($id = null)
   {
     // Setup database handle
     $this->dbh = $GLOBALS['dbh'];

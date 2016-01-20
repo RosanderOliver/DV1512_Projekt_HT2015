@@ -15,7 +15,7 @@ class Review
   */
   public $id = 0;
   /**
-  * @var int $user id of the user
+  * @var int $user id of the user submitting the review
   */
   public $user = 0;
   /**
