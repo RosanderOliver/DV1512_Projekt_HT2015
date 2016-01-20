@@ -127,7 +127,7 @@ class Review
       $author = new User($comment->user);
 
       // main comment
-      echo '<div class="comment">
+      echo '<div class="well well-sm">
         <p class="content">'.$comment->data.'</p>
         <p class="author">'.$author->real_name.' - '.$comment->date->format('Y-m-d H:i:s').'</p>';
 

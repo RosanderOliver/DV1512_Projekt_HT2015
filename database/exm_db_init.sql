@@ -30,12 +30,8 @@ CREATE TABLE IF NOT EXISTS `courses` (
     `select_project` INT NOT NULL COMMENT 'decides if reviewers can select projects from course',
     `admins` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'admin users for this course',
     `examinators` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'examinators linked to the course',
-<<<<<<< HEAD
     `reviewers` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'reviewers linked to the course',
     `users` VARCHAR(512) DEFAULT 'a:0:{}' COMMENT 'users assigned to this course',
-=======
-    `users` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'users assigned to this course',
->>>>>>> 22e4624c2442c436162bff54f820c9a91221d459
     `active` INT NOT NULL DEFAULT '1' COMMENT 'decides if reviewers can select projects from course',
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='course projects and other data related to each course';
