@@ -39,7 +39,7 @@ if (!empty($_POST) && Form::isValid("assignProjectsToReviewers")) {
         // TODO else output error
       }
     }
-    // TODO add else to remove user from project
+    // TODO add else to remove users from project
   }
 
   echo '<h3>Success!</h3><a href="?view=course&cid='.$cid.'"><button class="btn btn-success">Go back</button></a>';
@@ -56,7 +56,7 @@ else {
 
   $form = new Form("assignProjectsToReviewers");
   $form->configure(array(
-      "action" => "?view=assignprojectstoreviewers&cid=$cid"
+      "action" => "?view=assignprojects&cid=$cid"
   ));
   $form->addElement(new Element\HTML('<legend>Assign reviewers</legend>'));
   $form->addElement(new Element\Hidden("form", "assignReviewer"));
@@ -64,7 +64,20 @@ else {
   // Print checkboxes here
   foreach ($course->getProject() as $key => $value) {
     $project = $course->getProject($value);
-    $form->addElement(new Element\Checkbox($project->subject.":", $project->id, $reviewers));
+
+    $tmp = $reviewers;
+    // Add feasible and selected
+    foreach ($tmp as $key => $value) {
+      // Add feasible reviewer
+      if ( in_array($key, $project->feasible_reviewers) ) {
+        $tmp[$key] .= '<b>*</b>';
+      }
+      if ( in_array($key, $project->reviewers) ) {
+        $tmp[$key] .= '<script>$(\'input[value="'.$key.'"][name="'.$project->id.'[]"]\').attr(\'checked\',true);</script>';
+      }
+    }
+
+    $form->addElement(new Element\Checkbox($project->subject.":", $project->id, $tmp));
   }
 
   $form->addElement(new Element\Button("Send"));

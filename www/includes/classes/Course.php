@@ -118,12 +118,12 @@ class Course
   * @return obj, stdClassObject
   * TODO return only projects that the user own or has permission to view
   */
-  function getProject( $id = null )
+  function getProject( $id = null, $checkPerm = true )
   {
     // If id is null return a list of all projects listed for the course
     if ($id === null) {
-      // If user can view all submissions
-      if ($GLOBALS['user']->hasPrivilege('canViewAllProjects')) {
+      // If user can view all submissions or listing is allowed
+      if ($GLOBALS['user']->hasPrivilege('canViewAllProjects') || !$checkPerm) {
         return $this->projects;
       }
       // Else check so the user is listed as owner

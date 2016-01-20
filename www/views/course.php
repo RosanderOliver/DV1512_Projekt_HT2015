@@ -44,7 +44,10 @@ if ($user->hasPrivilege("canAssignReviewer")) {
   $list[] = array('Assign reviewers', '?view=assignreviewer&cid='.$cid);
 }
 if ($user->hasPrivilege("canAssignProjectToReviewer")) {
-  $list[] = array('Assign projects to reviewers', '?view=assignprojectstoreviewers&cid='.$cid);
+  $list[] = array('Assign projects to reviewers', '?view=assignprojects&cid='.$cid);
+}
+if ($user->hasPrivilege("canSelectProjectsToReview")) {
+  $list[] = array('Select projects that you can review', '?view=selectprojects&cid='.$cid);
 }
 if($user->hasPrivilege("canToggleReviewSelection")) {
   if ( $course->select_project == 0 ){
