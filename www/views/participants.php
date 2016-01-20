@@ -60,6 +60,12 @@ if (empty($course->getReviewer())) {
 }
 echo '</ul>';
 
+echo '<a href="?view=course&cid='.$cid.'"><button class="btn btn-default">Go back</button></a>';
+
+echo '</div>';
+
+echo '<div class="col-md-6">';
+
 // All users
 echo '<ul class="list-group">';
 echo '<li class="list-group-item"><b>Users</b></li>';
@@ -72,7 +78,5 @@ if (empty($course->getUser())) {
   }
 }
 echo '</ul>';
-
-echo '<a href="?view=course&cid='.$cid.'"><button class="btn btn-default">Go back</button></a>';
 
 echo '</div>';

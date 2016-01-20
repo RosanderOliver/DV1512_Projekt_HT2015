@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     `user_id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing user_id of each user, unique index',
     `user_real_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s real name',
     `user_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s name, unique',
-    `user_courses` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'serialized array with user\'s enlisted courses',
+    `user_courses` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'serialized array with user\'s enlisted courses',
     `user_password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s password in salted and hashed format',
     `user_email` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user\'s email, unique',
     `user_active` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'user\'s activation status',
@@ -26,12 +26,16 @@ CREATE TABLE IF NOT EXISTS `courses` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
     `name` VARCHAR(64) NOT NULL COMMENT 'name of the course',
     `deadlines` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'array with the course\'s dates for dealines',
-    `projects` VARCHAR(128) DEFAULT 'a:0:{}' COMMENT 'projects assosiated with the course',
+    `projects` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'projects assosiated with the course',
     `select_project` INT NOT NULL COMMENT 'decides if reviewers can select projects from course',
     `admins` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'admin users for this course',
     `examinators` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'examinators linked to the course',
+<<<<<<< HEAD
     `reviewers` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'reviewers linked to the course',
     `users` VARCHAR(512) DEFAULT 'a:0:{}' COMMENT 'users assigned to this course',
+=======
+    `users` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'users assigned to this course',
+>>>>>>> 22e4624c2442c436162bff54f820c9a91221d459
     `active` INT NOT NULL DEFAULT '1' COMMENT 'decides if reviewers can select projects from course',
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='course projects and other data related to each course';
@@ -44,10 +48,10 @@ CREATE TABLE IF NOT EXISTS `projects` (
     `submissions` VARCHAR(1024) DEFAULT 'a:0:{}' COMMENT 'submissions linked to the project',
     `comments` VARCHAR(1024) DEFAULT 'a:0:{}' COMMENT 'array with id\'s of comments',
     `deadline` DATETIME NOT NULL COMMENT 'next deadline for the project',
-    `students` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'students linked to the project',
-    `managers` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'managers linked to the project',
-    `reviewers` VARCHAR(512) DEFAULT 'a:0:{}' COMMENT 'reviewers linked to the project',
-    `feasible_reviewers` VARCHAR(1024) DEFAULT 'a:0:{}' COMMENT 'feasible reviewers who can be linked to the project',
+    `students` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'students linked to the project',
+    `managers` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'managers linked to the project',
+    `reviewers` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'reviewers linked to the project',
+    `feasible_reviewers` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'feasible reviewers who can be linked to the project',
     `course_id` INT UNSIGNED NOT NULL,
 
     PRIMARY KEY (`id`),
@@ -58,8 +62,8 @@ CREATE TABLE IF NOT EXISTS `submissions` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
     `user` INT UNSIGNED NOT NULL COMMENT 'user id of the uploader',
     `date` DATETIME DEFAULT '0000-00-00 00:00:00' COMMENT 'date and time of the upload',
-    `files` VARCHAR(64) DEFAULT 'a:0:{}' COMMENT 'array with files associated with the submission',
-    `reviews` VARCHAR(1024) DEFAULT 'a:0:{}' COMMENT 'array with written reviews for the file',
+    `files` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'array with files associated with the submission',
+    `reviews` VARCHAR(256) DEFAULT 'a:0:{}' COMMENT 'array with written reviews for the file',
     `comments` VARCHAR(1024) DEFAULT 'a:0:{}' COMMENT 'array with id\'s of comments',
     `grade` INT UNSIGNED DEFAULT '0' COMMENT 'grade of the submission',
     `stage` INT UNSIGNED DEFAULT '0' COMMENT 'stage of the project when the submission was filed',
@@ -81,8 +85,8 @@ CREATE TABLE IF NOT EXISTS `comments` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing id',
     `user` INT UNSIGNED NOT NULL COMMENT 'id of user submitting the comment',
     `date` DATETIME DEFAULT '0000-00-00 00:00:00' COMMENT 'date and time of submission',
-    `data` VARCHAR(256) NOT NULL COMMENT 'content of comment',
-    `subcomments` VARCHAR(64) NOT NULL DEFAULT 'a:0:{}' COMMENT 'array with id\'s of subcomments',
+    `data` VARCHAR(2048) NOT NULL COMMENT 'content of comment',
+    `subcomments` VARCHAR(256) NOT NULL DEFAULT 'a:0:{}' COMMENT 'array with id\'s of subcomments',
     PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE = utf8_unicode_ci COMMENT='data about comments';
 
