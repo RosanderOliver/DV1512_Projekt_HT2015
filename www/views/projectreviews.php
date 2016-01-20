@@ -16,7 +16,7 @@ $submission = new Submission($sid);
 foreach ($submission->getReview() as $key => $value) {
 
   // Get the last id in the array
-  $id = $submission->getLatestReview($user->id);
+  $id = $submission->getLatestReview($key);
 
   if ($id > -1) {
     // Get review
@@ -39,7 +39,7 @@ foreach ($submission->getReview() as $key => $value) {
     }
 
     // Is it your review or someone elses?
-    if ($review->user == $_SESSION['user_id']) {
+    if ($review->user == $GLOBALS['user']->id) {
       echo '<h4 style="margin-bottom: 0em;">Your review</h4>';
     } else {
       echo '<h4 style="margin-bottom: 0em;">Read this review</h4>';

@@ -106,7 +106,7 @@ class User
     if (!in_array($id, $this->courses))
       throw new Exception("Invalid course request");
 
-    return new Course($id, $this->dbh);
+    return new Course($id);
   }
 
   /**

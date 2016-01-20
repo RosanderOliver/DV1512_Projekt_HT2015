@@ -18,6 +18,7 @@ $course = $user->getCourse($cid);
 
 echo '<div class="col-md-6">';
 
+// Admins
 echo '<ul class="list-group">';
 echo '<li class="list-group-item"><b>Course Admins</b></li>';
 // The admin user is an implicit admin for all courses and should therefor not be printed
@@ -33,6 +34,7 @@ if (empty($course->getAdmin()) || $course->getAdmin() == Array(1)) {
 }
 echo '</ul>';
 
+// Examinators
 echo '<ul class="list-group">';
 echo '<li class="list-group-item"><b>Examinators</b></li>';
 if (empty($course->getExaminator())) {
@@ -45,6 +47,26 @@ if (empty($course->getExaminator())) {
 }
 echo '</ul>';
 
+// Reviewers
+echo '<ul class="list-group">';
+echo '<li class="list-group-item"><b>Reviewers</b></li>';
+if (empty($course->getReviewer())) {
+  echo '<li class="list-group-item">No reviewer is assigned to this course!</li>';
+} else {
+  foreach ($course->getReviewer() as $key => $value) {
+    $reviewer = $course->getReviewer($value);
+    echo '<li class="list-group-item">'.$reviewer->real_name.'</li>';
+  }
+}
+echo '</ul>';
+
+echo '<a href="?view=course&cid='.$cid.'"><button class="btn btn-default">Go back</button></a>';
+
+echo '</div>';
+
+echo '<div class="col-md-6">';
+
+// All users
 echo '<ul class="list-group">';
 echo '<li class="list-group-item"><b>Users</b></li>';
 if (empty($course->getUser())) {
@@ -56,7 +78,5 @@ if (empty($course->getUser())) {
   }
 }
 echo '</ul>';
-
-echo '<a href="?view=course&cid='.$cid.'"><button class="btn btn-default">Go back</button></a>';
 
 echo '</div>';
