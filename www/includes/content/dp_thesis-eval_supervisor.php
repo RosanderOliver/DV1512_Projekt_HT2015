@@ -26,9 +26,9 @@
   </tr>
   <tr>
     <td>E-mail:</td>
-    <td colspan="2"><input type="text" name="s2email" maxlength="128" class="form_input" value="<?php if(isset($data)){echo $data->s2email;} ?>"></td>
-    <td >PNR: </td>
-    <td colspan="2"><input type="text" name="pnr2" maxlength="20" class="form_input" value="<?php if(isset($data)){echo $data->pnr2;} ?>"></td>
+    <td colspan="2"><input type="email" name="s2email" maxlength="128" class="form_input" value="<?php if(isset($data)){echo $data->s2email;} ?>"></td>
+    <td >Social sec nr (ÅÅMMDD-XXX): </td>
+    <td colspan="2"><input type="text" pattern="[0-9]{6}-[0-9]{4}" name="pnr2" maxlength="20" class="form_input" value="<?php if(isset($data)){echo $data->pnr2;} ?>"></td>
   </tr>
   <th>Project information</th>
   <tr>
@@ -42,7 +42,7 @@
   <tr>
     <td>Thesis type:</td>
     <!-- required -->
-    <td colspan="3"><input type="text" name="thesistype" maxlength="128" value="<?php if(isset($data)){echo $data->thesistype;} ?>" class="form_input" required></td><td colspan="2"><i>Thesis types: Bachelor of Science, 15hp, Master of Science, 15 hp, Master of Science, 30hp, Master of Science of Engeneering (civilingenj&ouml;r)</i></td>
+    <td colspan="3"><input type="text" name="thesistype" maxlength="128" value="<?php if(isset($data)){echo $data->thesistype;} ?>" class="form_input" required></td><td colspan="2"><i>Thesis types: Bachelor of Science, 15hp, Master of Science, 15 hp, Master of Science, 30hp, Master of Science of Engeneering</i></td>
   </tr>
 
   <th>Evaluation</th><th></th><th>Value (-,0-5)</th><th>AVG</th><th>TOT</th>

@@ -6,17 +6,13 @@ if (!defined("IN_EXM")) exit(1);
 
 if ($login->isUserLoggedIn() === false) exit(1);
 
+// Get course id
+$cid = getCID();
+
 // Test permissions
-if (!$user->hasPrivilege("canViewAllProjects")) {
+if (!$user->hasPrivilege("canToggleCourseActive")) {
   header("Location: ?view=accessdenied");
   exit();
-}
-
-// Get course id
-if (isset($_GET['cid']) && intval($_GET['cid']) > 0) {
-  $cid = intval($_GET['cid']);
-} else {
-  exit("Invalid id!");
 }
 
 $course = $user->getCourse($cid);
